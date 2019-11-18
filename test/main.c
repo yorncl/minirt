@@ -40,10 +40,10 @@ int f(void *raytracer)
 		{
 			if ((x - 150 < ptr->resx / 2 && x + 150 > ptr->resx / 2) && (y - 150 < ptr->resy / 2 && y + 150 > ptr->resy / 2))
 				ptr->img->imgdata[x + y * ptr->resx] =  val + cosf((x + ptr->frame)/15) * 10000;
+			else if ((x - 300 < ptr->resx / 2 && x + 300 > ptr->resx / 2) &&  y > -10 * x + ptr->resy / 2)
+				ptr->img->imgdata[x + y * ptr->resx] =  (x + ptr->frame) + (y + ptr->frame);
 			else
 				ptr->img->imgdata[x + y * ptr->resx] =  (x + ptr->frame) * 100 + (y + ptr->frame) * 100;
-
-
 		}
 	}
 	ptr->frame++;

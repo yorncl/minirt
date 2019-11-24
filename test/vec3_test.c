@@ -1,12 +1,23 @@
 #include <vec3.h>
 #include <stdio.h>
 #include <assert.h>
+#include <math.h>
 
 void	assertv3(vec3 *a,vec3 *b)
 {
 	assert(a->x == b->x);
 	assert(a->y == b->y);
 	assert(a->z == b->z);
+}
+
+void	print_vec(vec3 *v)
+{
+	printf(
+		"vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n",
+		v->x,
+		v->y,
+		v->z
+	);
 }
 
 int		main()
@@ -77,6 +88,29 @@ int		main()
 	v3set(a, 1,0,0);
 	v3set(b,0,1,0);
 	assert(v3dot(a, b) == 0);
+	printf("\e[32;1mDaijobu !\e[0m\n");
+	
+	printf("v3rotateX\n");
+	v3set(a, 1,0,1);
+	v3rotateX(a, M_PI / 2);
+	print_vec(a);
+
+	printf("v3rotateY\n");
+	v3set(a, 1,0,1);
+	v3rotateY(a, M_PI / 2);
+	print_vec(a);
+	
+	printf("v3rotateZ\n");
+	v3set(a, 1,0,1);
+	v3rotateZ(a, M_PI / 2);
+	print_vec(a);
+	
+	printf("v3rotate3\n");
+	v3set(a, 1,0,1);
+	v3rotate3(a, M_PI / 2,M_PI / 2,M_PI / 2);
+	print_vec(a);
+	
+	//assertv3(a, r);
 	printf("\e[32;1mDaijobu !\e[0m\n");
 
 	printf("\e[32;1m==== END ====\e[0m\n");

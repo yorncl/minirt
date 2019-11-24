@@ -31,7 +31,7 @@ void	v3rotateX(vec3 *v, double o)
 	s = sin(o);
 	tmp = v->y;
 	v->y = c * v->y - s * v->z;
-	v->z = s * tmp - c * v->z;
+	v->z = s * tmp + c * v->z;
 }
 
 void	v3rotateY(vec3 *v, double o)

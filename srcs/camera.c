@@ -37,7 +37,7 @@ void	camera_init_vectors(camera *c, double hfov, double vfov)
 	vfov /= 2;
 	c->px = v3new(1,0,0);
 	c->py = v3new(0,tan(hfov * (M_PI / 180)),0);
-	c->pz = v3new(0,0,tan(vfov * (M_PI / 180)));
+	c->pz = v3new(0,0,-tan(vfov * (M_PI / 180)));
 }
 
 void	camera_rot(camera *c, double x, double y, double z)

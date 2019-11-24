@@ -51,15 +51,36 @@ int main()
 		&raytracer.img->linesize,
 		&raytracer.img->edian);
 	//CHECK IF DIMENSIONS ARE RIGHT
-	printf("Image summary:\n\taddr: %p\n\tdepth: %d\n\tlinesize: %d\n\tedian: %d\n\t",raytracer.img->imgdata , raytracer.img->depth,raytracer.img->linesize,raytracer.img->edian);
+	printf("Image summary:\n\taddr: %p\n\tdepth: %d\n\tlinesize: %d\n\tedian: %d\n",raytracer.img->imgdata , raytracer.img->depth,raytracer.img->linesize,raytracer.img->edian);
 	raytracer.win = mlx_new_window(raytracer.mlx, raytracer.resx, raytracer.resy, "Ma window");
 
 	t_world w;
 	w.c = camera_create();
-	camera_init_pos(w.c,0,0,0);
+	camera_init_pos(w.c,0,2,0);
 	camera_init_vectors(w.c, 90,60);
-	camera_rot(w.c, 0, 0 ,0);
+	camera_rot(w.c, 0 ,0 , 0);
 	
+	printf(
+		"vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n\tmagnitude: %lf\n",
+		w.c->px->x,
+		w.c->px->y,
+		w.c->px->z,
+		v3magnitude(w.c->px)
+	);
+	printf(
+		"vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n\tmagnitude: %lf\n",
+		w.c->py->x,
+		w.c->py->y,
+		w.c->py->z,
+		v3magnitude(w.c->py)
+	);
+	printf(
+		"vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n\tmagnitude: %lf\n",
+		w.c->pz->x,
+		w.c->pz->y,
+		w.c->pz->z,
+		v3magnitude(w.c->pz)
+	);
 	
 	obj3d mysphere2;
 	mysphere2.pos = v3new(3,0,0);

@@ -54,54 +54,14 @@ int main()
 	printf("Image summary:\n\taddr: %p\n\tdepth: %d\n\tlinesize: %d\n\tedian: %d\n",raytracer.img->imgdata , raytracer.img->depth,raytracer.img->linesize,raytracer.img->edian);
 	raytracer.win = mlx_new_window(raytracer.mlx, raytracer.resx, raytracer.resy, "Ma window");
 
-	t_world w;
-	w.c = camera_create();
-	camera_init_pos(w.c,0,2,0);
-	camera_init_vectors(w.c, 90,60);
-	camera_rot(w.c, 0 ,0 , 0);
-	
-	printf(
-		"vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n\tmagnitude: %lf\n",
-		w.c->px.x,
-		w.c->px.y,
-		w.c->px.z,
-		v3magnitude(w.c->px)
-	);
-	printf(
-		"vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n\tmagnitude: %lf\n",
-		w.c->py.x,
-		w.c->py.y,
-		w.c->py.z,
-		v3magnitude(w.c->py)
-	);
-	printf(
-		"vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n\tmagnitude: %lf\n",
-		w.c->pz.x,
-		w.c->pz.y,
-		w.c->pz.z,
-		v3magnitude(w.c->pz)
-	);
-	
-	obj3d mysphere2;
-	mysphere2.pos = v3new(3,0,0);
-	mysphere2.type = SPHERE;
-	mysphere2.color = 0x00FF1493;
-	mysphere2.next = NULL;
-	mysphere2.w = 1;
+	t_world *w = world_init();
+	add_camera(w, v3new(0, 0, 0), v3new(0, 0, 0), v3new(90, 60, 0));
+	add_sphere(w, v3new(5,2,0), 1, 0x00C71585);
+	add_sphere(w, v3new(3,0,0), 1, 0x00FF1493);
+	add_sphere(w, v3new(15,-8,0), 1, 0x000000FF);
+	raytracer.world = w;
 
-	obj3d mysphere;
-	mysphere.pos = v3new(5,2,0);
-	mysphere.type = SPHERE;
-	mysphere.color = 0x00C71585;
-	mysphere.next = &mysphere2;
-	mysphere.w = 1;
-	w.obj = &mysphere;
-
-	
-	raytracer.world = &w;
-
-	camera_render(w.c, raytracer.img->imgdata, raytracer.world, &raytracer);
-	
+	camera_render(w->c, raytracer.img->imgdata, raytracer.world, &raytracer);
 	mlx_put_image_to_window(raytracer.mlx, raytracer.win, raytracer.img->img, 0, 0);
 	mlx_loop(raytracer.mlx);
 }

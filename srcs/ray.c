@@ -12,7 +12,19 @@
 
 #include <ray.h>
 
-int		ray_trace(camera *c, t_world *w, vec3 r)
+#include <stdio.h>
+typedef union  pixel
+{
+	unsigned int v;
+	struct {
+		unsigned int b : 8;
+		unsigned int g : 8; 
+		unsigned int r : 8;
+		unsigned int a : 8;
+	}	color;
+}				pixel;
+
+unsigned int	ray_trace(camera *c, t_world *w, vec3 r)
 {
 	double closest;
 	double tmp;
@@ -23,10 +35,9 @@ int		ray_trace(camera *c, t_world *w, vec3 r)
 	closest = -1;
 	while (ptr)
 	{
-		if (hit(ptr, r, c->pos))
+		if ((tmp = hit(ptr, r, c->pos)) != NOHIT)
 		{
-			tmp = ptr->pos.x * ptr->pos.x + ptr->pos.y * ptr->pos.y + ptr->pos.z * ptr->pos.z;
-			if (closest == -1 || tmp < closest)
+			if (closest == -1 ||( tmp < closest && tmp > 0))
 				{
 					closest = tmp;
 					closestobj = ptr;
@@ -34,28 +45,35 @@ int		ray_trace(camera *c, t_world *w, vec3 r)
 		}
 		ptr = ptr->next;
 	}
-	if(closest != -1)
+	if (closest != -1)
 		return (closestobj->color);
-	return (r.z > 0 ? 50000000 :  0);
+	pixel p;
+	p.v = 0;
+	p.color.r = (unsigned int)( (1 - (r.z + 1)/2) * 0xff);
+	p.color.g = (unsigned int)( (1 - (r.z + 1)/2) * 0xff + ((r.z + 1)/4) * 0xff);
+	p.color.b = (unsigned int)( (1 - (r.z + 1)/2) * 0xff + ((r.z + 1)/2) * 0xff);
+	return (p.v);
 }
 
-int		hit(obj3d *obj, vec3 r, vec3 p)
+double			hit(obj3d *obj, vec3 r, vec3 p)
 {
 	if (obj->type == SPHERE)
-		return (hit_sphere(obj, r, p));
+		return (hit_sphere((t_sphere *)obj->obj, r, p));
 	return (0);
 }
 
-int		hit_sphere(obj3d *obj, vec3 r, vec3 p)
+double			hit_sphere(t_sphere *obj, vec3 r, vec3 p)
 {
 	vec3 oc;
 	double a;
 	double b;
 	double c;
+	double delta;
 
 	v3set(&oc, p.x - obj->pos.x,p.y - obj->pos.y, p.z - obj->pos.z);
 	a = v3dot(r, r);
 	b = 2.0 * v3dot(oc, r);
-	c = v3dot(oc, oc) - obj->w*obj->w;
-	return (b*b - 4*a*c > 0);
+	c = v3dot(oc, oc) - obj->radius*obj->radius;
+	delta = b*b - 4*a*c;
+	return (delta > 0 ? (-b - sqrt(delta) ) / (2.0*a) : -1);
 }

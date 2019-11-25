@@ -14,7 +14,10 @@
 # define RAYTRACER_H
 
 #include <mlx.h>
+
+
 #include <stdio.h>
+
 #include <math.h>
 #include <stdlib.h>
 #include <limits.h>

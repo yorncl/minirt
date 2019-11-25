@@ -19,20 +19,20 @@ void	v3scale(vec3 *v, double s)
 	v->z *= s;
 }
 
-vec3	*v3cross(vec3 *a, vec3 *b)
+vec3	v3cross(vec3 a, vec3 b)
 {
 	return (
 		v3new(
-			a->y * b->z - a->z * b->y,
-			a->z * b->x - a->x * b->z,
-			a->x * b->y - a->y * b->x
+			a.y * b.z - a.z * b.y,
+			a.z * b.x - a.x * b.z,
+			a.x * b.y - a.y * b.x
 		)
 	);
 }
 
-double	v3dot(vec3 *a, vec3 *b)
+double	v3dot(vec3 a, vec3 b)
 {
-	return (a->x * b->x +
-			a->y * b->y +
-			a->z * b->z);
+	return (a.x * b.x +
+			a.y * b.y +
+			a.z * b.z);
 }

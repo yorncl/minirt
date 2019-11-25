@@ -42,7 +42,7 @@ void	camera_init_vectors(camera *c, double hfov, double vfov)
 
 void	camera_rot(camera *c, double x, double y, double z)
 {
-	v3rotate3(c->px, x, y, z);
-	v3rotate3(c->py, x, y, z);
-	v3rotate3(c->pz, x, y, z);
+	v3rotate3(&(c->px), x, y, z);
+	v3rotate3(&(c->py), x, y, z);
+	v3rotate3(&(c->pz), x, y, z);
 }

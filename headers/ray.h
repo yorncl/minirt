@@ -17,7 +17,7 @@
 # include <world.h>
 # include <camera.h>
 
-int		ray_trace(camera *c, t_world *w, vec3 *r);
-int		hit(obj3d *obj, vec3 *r, vec3 *p);
-int		hit_sphere(obj3d *obj, vec3 *r, vec3 *p);
+int		ray_trace(camera *c, t_world *w, vec3 r);
+int		hit(obj3d *obj, vec3 r, vec3 p);
+int		hit_sphere(obj3d *obj, vec3 r, vec3 p);
 #endif

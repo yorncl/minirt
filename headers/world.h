@@ -22,7 +22,7 @@ typedef enum 	obj_type{
 
 typedef struct	obj3d
 {
-	vec3			*pos;
+	vec3			pos;
 	obj_type		type;
 	int				w;
 	unsigned int	color;

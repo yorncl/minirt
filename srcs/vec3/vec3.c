@@ -12,15 +12,13 @@
 
 #include <vec3.h>
 
-vec3	*v3new(double x, double y, double z)
+vec3	v3new(double x, double y, double z)
 {
-	vec3 *v;
-	v = malloc(sizeof(vec3));
-	if (v == NULL)
-		return (NULL);
-	v->x = x;
-	v->y = y;
-	v->z = z;
+	vec3 v;
+
+	v.x = x;
+	v.y = y;
+	v.z = z;
 	return (v);
 }
 
@@ -31,7 +29,7 @@ void	v3set(vec3 *v, double x, double y, double z)
 	v->z = z;	
 }
 
-double	v3magnitude(vec3 *v)
+double	v3magnitude(vec3 v)
 {
-	return (sqrt(v->x*v->x + v->y*v->y + v->z*v->z));
+	return (sqrt(v.x*v.x + v.y*v.y + v.z*v.z));
 }

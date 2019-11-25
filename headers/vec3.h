@@ -23,23 +23,23 @@ typedef struct	s_vec3
 	double z;
 }				vec3;
 
-vec3	*v3new(double x, double y, double z);
+vec3	v3new(double x, double y, double z);
 void	v3set(vec3 *v, double x, double y, double z);
-double	v3magnitude(vec3 *v);
+double	v3magnitude(vec3 v);
 
 /*
 **	Operations
 */
-void	v3add(vec3 *a, vec3 *b);
-void	v3add3(vec3 *a, double x, double y, double z);
-void	v3sub(vec3 *a, vec3 *b);
-void	v3sub3(vec3 *a, double x, double y, double z);
+vec3	v3add(vec3 a, vec3 b);
+vec3	v3add3(vec3 a, double x, double y, double z);
+vec3	v3sub(vec3 a, vec3 b);
+vec3	v3sub3(vec3 a, double x, double y, double z);
 /*
 **	Multiplication
 */
 void	v3scale(vec3 *v, double s);
-vec3	*v3cross(vec3 *a, vec3 *b);
-double	v3dot(vec3 *a, vec3 *b);
+vec3	v3cross(vec3 a, vec3 b);
+double	v3dot(vec3 a, vec3 b);
 /*
 **	Rotation
 */

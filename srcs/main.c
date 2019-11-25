@@ -24,10 +24,10 @@ void	camera_render(camera *c, unsigned int *img, t_world *w, t_minirt *rt)
 		i = -1;
 		while (++i < rt->resx)
 		{
-			r.x = c->px->x - c->py->x - c->pz->x + (2 * i * c->py->x / rt->resx) + (2 * j * c->pz->x / rt->resy);
-			r.y = c->px->y - c->py->y - c->pz->y + (2 * i * c->py->y / rt->resx) + (2 * j * c->pz->y / rt->resy);
-			r.z = c->px->z - c->py->z - c->pz->z + (2 * i * c->py->z / rt->resx) + (2 * j * c->pz->z / rt->resy);
-			img[j * rt->resx + i] = ray_trace(c, w, &r);
+			r.x = c->px.x - c->py.x - c->pz.x + (2 * i * c->py.x / rt->resx) + (2 * j * c->pz.x / rt->resy);
+			r.y = c->px.y - c->py.y - c->pz.y + (2 * i * c->py.y / rt->resx) + (2 * j * c->pz.y / rt->resy);
+			r.z = c->px.z - c->py.z - c->pz.z + (2 * i * c->py.z / rt->resx) + (2 * j * c->pz.z / rt->resy);
+			img[j * rt->resx + i] = ray_trace(c, w, r);
 		}
 	}
 }
@@ -62,23 +62,23 @@ int main()
 	
 	printf(
 		"vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n\tmagnitude: %lf\n",
-		w.c->px->x,
-		w.c->px->y,
-		w.c->px->z,
+		w.c->px.x,
+		w.c->px.y,
+		w.c->px.z,
 		v3magnitude(w.c->px)
 	);
 	printf(
 		"vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n\tmagnitude: %lf\n",
-		w.c->py->x,
-		w.c->py->y,
-		w.c->py->z,
+		w.c->py.x,
+		w.c->py.y,
+		w.c->py.z,
 		v3magnitude(w.c->py)
 	);
 	printf(
 		"vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n\tmagnitude: %lf\n",
-		w.c->pz->x,
-		w.c->pz->y,
-		w.c->pz->z,
+		w.c->pz.x,
+		w.c->pz.y,
+		w.c->pz.z,
 		v3magnitude(w.c->pz)
 	);
 	

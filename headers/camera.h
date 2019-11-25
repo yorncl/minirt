@@ -17,10 +17,10 @@
 
 typedef struct 	s_camera
 {
-	vec3	*pos;
-	vec3	*px;
-	vec3	*py;
-	vec3	*pz;
+	vec3	pos;
+	vec3	px;
+	vec3	py;
+	vec3	pz;
 }				camera;
 
 camera	*camera_create();

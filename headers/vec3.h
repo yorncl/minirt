@@ -24,6 +24,7 @@ typedef struct	s_vec3
 }				vec3;
 
 vec3	v3new(double x, double y, double z);
+vec3	v3cpy(vec3 v);
 void	v3set(vec3 *v, double x, double y, double z);
 double	v3magnitude(vec3 v);
 

@@ -6,48 +6,32 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:27:41 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/23 23:27:41 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/28 16:53:25 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WORLD_H
 # define WORLD_H
 
-#include <vec3.h>
 #include <macro.h>
 #include <camera.h>
-#include <stdlib.h>
-
-typedef enum 	obj_type{
-	SPHERE,
-	PLANE
-}				obj_type;
-
-typedef struct	s_sphere
-{
-	vec3			pos;
-	int				radius;
-}				t_sphere;
-
-typedef struct	obj3d
-{
-	obj_type		type;
-	unsigned int	color;
-	void			*obj;
-	struct obj3d	*next;
-}				obj3d;
+#include <libft.h>
+#include <objs.h>
 
 typedef struct 	s_world
 {
 	camera	*c;
 	obj3d	*obj;
+	t_light	*light;
 }				t_world;
 
 /*
 **	world.c
 */
-t_world			*world_init();
+t_world			*world_init(void);
 int				add_camera(t_world *w, vec3 pos, vec3 rot, vec3 fov);
+int				add_ligth(t_world *w, vec3 pos, unsigned int color);
+
 /*
 **	obj3d.c
 */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 18:56:38 by marvin            #+#    #+#             */
-/*   Updated: 2019/11/23 18:56:38 by marvin           ###   ########.fr       */
+/*   Updated: 2019/11/28 16:32:04 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ vec3	v3sub3(vec3 a, double x, double y, double z);
 /*
 **	Multiplication
 */
-void	v3scale(vec3 *v, double s);
+vec3	v3scale(vec3 v, double s);
 vec3	v3cross(vec3 a, vec3 b);
 double	v3dot(vec3 a, vec3 b);
 /*

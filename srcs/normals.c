@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   multiply.c                                         :+:      :+:    :+:   */
+/*   normals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/23 19:20:26 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 16:34:33 by mclaudel         ###   ########.fr       */
+/*   Created: 2019/11/28 16:48:01 by mclaudel          #+#    #+#             */
+/*   Updated: 2019/11/28 18:51:40 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <vec3.h>
+#include <objs.h>
 
-vec3	v3scale(vec3 v, double s)
-{
-	return (
-		v3new(
-			v.x * s,
-			v.y * s,
-			v.z * s));
-}
+#include <stdio.h>
 
-vec3	v3cross(vec3 a, vec3 b)
+vec3	sphere_normal(obj3d *obj, vec3 p)
 {
-	return (
-		v3new(
-			a.y * b.z - a.z * b.y,
-			a.z * b.x - a.x * b.z,
-			a.x * b.y - a.y * b.x));
-}
+	t_sphere *ptr;
+	vec3 v;
+	double m;
 
-double	v3dot(vec3 a, vec3 b)
-{
-	return (a.x * b.x +
-			a.y * b.y +
-			a.z * b.z);
+	ptr = (t_sphere*)(obj->obj);
+	v =	v3sub(p, ptr->pos);
+	m = v3magnitude(v);
+	return (v3new(v.x / m, v.y / m, v.z / m));
 }

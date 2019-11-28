@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 21:35:45 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/23 21:35:45 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/28 15:37:06 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ camera	*camera_create()
 {
 	camera *c;
 
-	c = malloc(sizeof(camera));
+	c = ft_calloc(1, sizeof(camera));
 	if (c == NULL)
 		return (NULL);
 	return (c);

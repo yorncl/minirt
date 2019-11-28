@@ -1,32 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   objs.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/23 20:41:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 15:38:30 by mclaudel         ###   ########.fr       */
+/*   Created: 2019/11/28 16:51:38 by mclaudel          #+#    #+#             */
+/*   Updated: 2019/11/28 17:22:43 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAMERA_H
-# define CAMERA_H
+#ifndef OBJS_H
+# define OBJS_H
 
 # include <vec3.h>
-# include <libft.h>
 
-typedef struct 	s_camera
+typedef enum 	obj_type{
+	SPHERE,
+	PLANE
+}				obj_type;
+
+typedef struct	s_sphere
 {
-	vec3	pos;
-	vec3	px;
-	vec3	py;
-	vec3	pz;
-}				camera;
+	vec3			pos;
+	int				radius;
+}				t_sphere;
 
-camera	*camera_create();
-void	camera_init_pos(camera *c, double x, double y, double z);
-void	camera_init_vectors(camera *c, double hfov, double vfov);
-void	camera_rot(camera *c, double x, double y, double z);
+typedef struct	obj3d
+{
+	obj_type		type;
+	unsigned int	color;
+	void			*obj;
+	struct obj3d	*next;
+	vec3			(*normal)();
+}				obj3d;
 
-#endif 
+typedef struct	s_light
+{
+	vec3			pos;
+	unsigned int	color;
+}				t_light;
+
+/*
+**	Normals
+*/
+vec3	sphere_normal(obj3d *obj, vec3 p);
+#endif

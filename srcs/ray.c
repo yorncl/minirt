@@ -6,53 +6,66 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/23 23:59:37 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/28 18:54:40 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ray.h>
 
 #include <stdio.h>
-typedef union  pixel
+
+
+unsigned int		ray_shade(obj3d *obj, t_light *l, vec3 p, vec3 r)
 {
-	unsigned int v;
-	struct {
-		unsigned int b : 8;
-		unsigned int g : 8; 
-		unsigned int r : 8;
-		unsigned int a : 8;
-	}	color;
-}				pixel;
+	vec3 n;
+	(void) l;
+	(void) r;
+	n = obj->normal(obj, p);
+	return (
+		(unsigned int)(0xff * ((n.x + 1) * 0.5)) * 256 * 256 +
+		(unsigned int)(0xff * ((n.y + 1) * 0.5)) * 256 +
+		(unsigned int)(0xff * ((n.z + 1) * 0.5))
+	);
+}
 
 unsigned int	ray_trace(camera *c, t_world *w, vec3 r)
 {
-	double closest;
-	double tmp;
-	obj3d *ptr;
-	obj3d *closestobj;
+	double 	closest;
+	double 	t;
+	vec3	p;
+	obj3d	*ptr;
+	obj3d	*closestobj;
 
 	ptr = w->obj;
 	closest = -1;
 	while (ptr)
 	{
-		if ((tmp = hit(ptr, r, c->pos)) != NOHIT)
+		if ((t = hit(ptr, r, c->pos)) != NOHIT)
 		{
-			if (closest == -1 ||( tmp < closest && tmp > 0))
-				{
-					closest = tmp;
-					closestobj = ptr;
-				}
+			if (closest == -1 || (t < closest && t > 0))
+			{
+				closest = t;
+				closestobj = ptr;
+			}
 		}
 		ptr = ptr->next;
 	}
 	if (closest != -1)
-		return (closestobj->color);
-	pixel p;
-	p.v = 0;
-	p.color.r = (unsigned int)( (1 - (r.z + 1)/2) * 0xff);
-	p.color.g = (unsigned int)( (1 - (r.z + 1)/2) * 0xff + ((r.z + 1)/4) * 0xff);
-	p.color.b = (unsigned int)( (1 - (r.z + 1)/2) * 0xff + ((r.z + 1)/2) * 0xff);
-	return (p.v);
+	{
+		p = v3add(c->pos, v3scale(r, t));
+		// printf("%u\n",ray_shade(closestobj, w->light, p, r));
+		unsigned int a = ray_shade(closestobj, w->light, p, r);
+		if (r.y < 0)
+			printf("%x\n", a);
+		return (a);
+	}
+	pixel pix;
+	pix.v = 0;
+	// Gradient
+	// p.color.r = (unsigned int)( (1 - (r.z + 1)/2) * 0xff);
+	// p.color.g = (unsigned int)( (1 - (r.z + 1)/2) * 0xff + ((r.z + 1)/4) * 0xff);
+	// p.color.b = (unsigned int)( (1 - (r.z + 1)/2) * 0xff + ((r.z + 1)/2) * 0xff);
+	return (pix.v);
 }
 
 double			hit(obj3d *obj, vec3 r, vec3 p)
@@ -64,16 +77,16 @@ double			hit(obj3d *obj, vec3 r, vec3 p)
 
 double			hit_sphere(t_sphere *obj, vec3 r, vec3 p)
 {
-	vec3 oc;
-	double a;
-	double b;
-	double c;
-	double delta;
+	vec3	oc;
+	double	a;
+	double	b;
+	double	c;
+	double	delta;
 
-	v3set(&oc, p.x - obj->pos.x,p.y - obj->pos.y, p.z - obj->pos.z);
+	v3set(&oc, p.x - obj->pos.x, p.y - obj->pos.y, p.z - obj->pos.z);
 	a = v3dot(r, r);
 	b = 2.0 * v3dot(oc, r);
-	c = v3dot(oc, oc) - obj->radius*obj->radius;
-	delta = b*b - 4*a*c;
-	return (delta > 0 ? (-b - sqrt(delta) ) / (2.0*a) : -1);
+	c = v3dot(oc, oc) - obj->radius * obj->radius;
+	delta = b * b - 4 * a * c;
+	return (delta > 0 ? (-b - sqrt(delta)) / (2.0 * a) : -1);
 }

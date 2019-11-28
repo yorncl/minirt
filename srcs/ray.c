@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 18:54:40 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/28 20:05:47 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,8 @@ unsigned int	ray_trace(camera *c, t_world *w, vec3 r)
 	}
 	if (closest != -1)
 	{
-		p = v3add(c->pos, v3scale(r, t));
-		// printf("%u\n",ray_shade(closestobj, w->light, p, r));
+		p = v3add(c->pos, v3scale(r, closest));
 		unsigned int a = ray_shade(closestobj, w->light, p, r);
-		if (r.y < 0)
-			printf("%x\n", a);
 		return (a);
 	}
 	pixel pix;

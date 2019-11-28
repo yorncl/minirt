@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:51:38 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 17:22:43 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/28 19:33:35 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef enum 	obj_type{
 typedef struct	s_sphere
 {
 	vec3			pos;
-	int				radius;
+	double			radius;
 }				t_sphere;
 
 typedef struct	obj3d

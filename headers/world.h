@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:27:41 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 16:53:25 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/28 19:33:53 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ obj3d			*obj3dadd(obj3d **ptr, obj_type type);
 /*
 **	objtypes.c
 */
-int				add_sphere(t_world *w, vec3 pos, int radius, unsigned int color);
+int				add_sphere(t_world *w, vec3 pos, double radius, unsigned int color);
 
 #endif

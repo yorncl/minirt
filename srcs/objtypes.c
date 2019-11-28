@@ -6,13 +6,13 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 17:02:55 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/28 19:34:03 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <world.h>
 
-int			add_sphere(t_world *w, vec3 pos, int radius, unsigned int color)
+int			add_sphere(t_world *w, vec3 pos, double radius, unsigned int color)
 {
 	obj3d		*ptr;
 	t_sphere	*s;

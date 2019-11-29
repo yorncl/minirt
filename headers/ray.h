@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:56:51 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/29 10:19:03 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/29 13:52:25 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,6 @@
 # include <camera.h>
 # include <macro.h>
 # include <objs.h>
-typedef union  pixel
-{
-	unsigned int v;
-	struct {
-		unsigned int b : 8;
-		unsigned int g : 8; 
-		unsigned int r : 8;
-		unsigned int a : 8;
-	}	color;
-}				pixel;
 
 # define HIT 1
 # define NOHIT -1

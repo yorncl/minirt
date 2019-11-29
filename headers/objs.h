@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:51:38 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 19:33:35 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/29 14:24:45 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define OBJS_H
 
 # include <vec3.h>
+# include <color.h>
 
 typedef enum 	obj_type{
 	SPHERE,

@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   objtypes.c                                         :+:      :+:    :+:   */
+/*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/29 14:03:00 by mclaudel         ###   ########.fr       */
+/*   Created: 2019/11/29 14:24:25 by mclaudel          #+#    #+#             */
+/*   Updated: 2019/11/29 14:27:37 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <world.h>
+#ifndef COLOR_H
+# define COLOR_H
 
-int			add_sphere(t_world *w, vec3 pos, double radius, unsigned int color)
+typedef union	u_color
 {
-	obj3d		*ptr;
-	t_sphere	*s;
+	unsigned int 	v;
+	struct 			s_color{
+		unsigned int b : 8;
+		unsigned int g : 8; 
+		unsigned int r : 8;
+		unsigned int a : 8;
+	}				color;
+}				t_color;
 
-	s = malloc(sizeof(t_sphere));
-	if (s == NULL)
-		return (ERROR);
-	ptr = obj3dadd(&(w->obj), SPHERE);
-	if (ptr == NULL)
-	{
-		free(s);
-		return (ERROR);
-	}
-	s->radius = radius;
-	s->pos = pos;
-	ptr->color = color;
-	ptr->obj = s;
-	ptr->normal = &sphere_normal;
-	return (SUCCESS);
-}
+unsigned int	viewed_color(t_color surface, t_color light, double intensity);
+
+#endif
+

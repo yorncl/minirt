@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/29 13:27:02 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/29 16:15:46 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p)
 	// printf("%lf\n", i);
 
 	ratio = v3dot(n, v3normalize(v));
+	
 	if(ratio > 0)
 		return (
-			(unsigned int)(0x0000ff * ratio) * 256 * 256 +
-			(unsigned int)(0x0000ff * ratio) * 256 +
-			(unsigned int)(0x0000ff * ratio)
+			// ((unsigned int)(0xffffff * ratio)) - (sub)
+			viewed_color((t_color)obj->color, (t_color)w->light->color, ratio)
 		);
 	else
 		return (0);
@@ -87,7 +87,7 @@ unsigned int	ray_trace(camera *c, t_world *w, vec3 r)
 	// p.color.g = (unsigned int)( (1 - (r.z + 1)/2) * 0xff + ((r.z + 1)/4) * 0xff);
 	// p.color.b = (unsigned int)( (1 - (r.z + 1)/2) * 0xff + ((r.z + 1)/2) * 0xff);
 	// return (pix.v);
-	return (0xffffff);
+	return (0x0);
 }
 
 double			hit(obj3d *obj, vec3 r, vec3 p)

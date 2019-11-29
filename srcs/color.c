@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   objtypes.c                                         :+:      :+:    :+:   */
+/*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/29 14:03:00 by mclaudel         ###   ########.fr       */
+/*   Created: 2019/11/29 14:27:46 by mclaudel          #+#    #+#             */
+/*   Updated: 2019/11/29 15:32:56 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <world.h>
+#include <color.h>
 
-int			add_sphere(t_world *w, vec3 pos, double radius, unsigned int color)
+unsigned int	viewed_color(t_color surface, t_color light, double intensity)
 {
-	obj3d		*ptr;
-	t_sphere	*s;
-
-	s = malloc(sizeof(t_sphere));
-	if (s == NULL)
-		return (ERROR);
-	ptr = obj3dadd(&(w->obj), SPHERE);
-	if (ptr == NULL)
-	{
-		free(s);
-		return (ERROR);
-	}
-	s->radius = radius;
-	s->pos = pos;
-	ptr->color = color;
-	ptr->obj = s;
-	ptr->normal = &sphere_normal;
-	return (SUCCESS);
+	(void) light;
+	surface.color.r = (unsigned int)((surface.color.r) * intensity);
+	surface.color.g = (unsigned int)((surface.color.g) * intensity);
+	surface.color.b = (unsigned int)((surface.color.b) * intensity);
+	return (surface.v);
 }

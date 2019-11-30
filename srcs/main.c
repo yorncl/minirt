@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/29 18:01:46 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/30 16:05:55 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ int main(int ac, char **av)
 	// add_camera(w, v3new(-7, 0, 2.7), v3new(0, 0.4, 0), v3new(90, 60, 0));
 	add_camera(w, v3new(-7, 0, 0), v3new(0, 0, 0), v3new(90, 60, 0));
 	// add_sphere(w, v3new(-3,0,2),  1, 0x00C71585);
-	add_sphere(w, v3new(8,0,0), 1, 0x00FFFFFF);
+	add_sphere(w, v3new(8,0,0), 4, 0x00FFFFFF);
 	add_sphere(w, v3new(3,0,-2), 1, 0x000000FF);
-	add_sphere(w, v3new(-3,2,-1), 1, 0x00ff0000);
-	add_ligth(w, v3new(0,-5,0), 0x00ffffff);
+	add_sphere(w, v3new(0,3,0), 1, 0x00ff0000);
+	add_ligth(w, v3new(-100,0,0), 0x00ffffff);
 	raytracer.world = w;
 
 	if(ac == 1)

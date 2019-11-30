@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 18:56:38 by marvin            #+#    #+#             */
-/*   Updated: 2019/11/29 11:46:31 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/30 16:04:59 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ vec3	v3cpy(vec3 v);
 void	v3set(vec3 *v, double x, double y, double z);
 double	v3magnitude(vec3 v);
 vec3	v3normalize(vec3 v);
+vec3 v3minus(vec3 v);
 /*
 **	Operations
 */

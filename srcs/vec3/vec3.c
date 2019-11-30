@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 19:09:47 by marvin            #+#    #+#             */
-/*   Updated: 2019/11/29 11:45:28 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/11/30 16:04:50 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,12 @@ vec3	v3normalize(vec3 v)
 		v.x / m,
 		v.y / m,
 		v.z / m));
+}
+
+vec3	v3minus(vec3 v)
+{
+	return (v3new(
+		-v.x,
+		-v.y,
+		-v.z));
 }

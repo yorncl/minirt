@@ -27,4 +27,6 @@ double				ray_intersect(t_world *w, vec3 p, vec3 r, obj3d **closestobj);
 unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p);
 double				hit(obj3d *obj, vec3 r, vec3 p);
 double				hit_sphere(t_sphere *obj, vec3 r, vec3 p);
+double				hit_plane(t_plane *obj, vec3 r, vec3 p);
+
 #endif

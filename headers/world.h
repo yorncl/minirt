@@ -42,5 +42,6 @@ obj3d			*obj3dadd(obj3d **ptr, obj_type type);
 **	objtypes.c
 */
 int				add_sphere(t_world *w, vec3 pos, double radius, unsigned int color);
+int				add_plane(t_world *w, vec3 pos, vec3 rot, unsigned int color);
 
 #endif

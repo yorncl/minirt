@@ -27,6 +27,13 @@ typedef struct	s_sphere
 	double			radius;
 }				t_sphere;
 
+typedef struct	s_plane
+{
+	vec3			pos;
+	vec3			n;
+	vec3			(*normal)();
+}				t_plane;
+
 typedef struct	obj3d
 {
 	obj_type		type;
@@ -46,4 +53,5 @@ typedef struct	s_light
 **	Normals
 */
 vec3	sphere_normal(obj3d *obj, vec3 p);
+vec3	plane_normal(obj3d *obj);
 #endif

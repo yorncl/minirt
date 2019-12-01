@@ -12,6 +12,8 @@
 
 #include <world.h>
 
+#include <stdio.h>
+
 int			add_sphere(t_world *w, vec3 pos, double radius, unsigned int color)
 {
 	obj3d		*ptr;
@@ -31,5 +33,30 @@ int			add_sphere(t_world *w, vec3 pos, double radius, unsigned int color)
 	ptr->color = color;
 	ptr->obj = s;
 	ptr->normal = &sphere_normal;
+	return (SUCCESS);
+}
+
+int				add_plane(t_world *w, vec3 pos, vec3 rot, unsigned int color)
+{
+	obj3d		*ptr;
+	t_plane		*p;
+	vec3		normal;
+
+	p = malloc(sizeof(t_plane));
+	if (p == NULL)
+		return (ERROR);
+	ptr = obj3dadd(&(w->obj), PLANE);
+	if (ptr == NULL)
+	{
+		free(p);
+		return (ERROR);
+	}
+	p->pos = pos;
+	normal = v3new(0, 0, 1);
+	v3rotate3(&normal, rot.x, rot.y, rot.z);
+	p->n = normal;
+	ptr->color = color;
+	ptr->obj = p;
+	ptr->normal = &plane_normal;
 	return (SUCCESS);
 }

@@ -23,20 +23,17 @@ unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p)
 	double i;
 	double ratio;
 
-	n = obj->normal(obj, p);
 	v = v3sub(p, w->light->pos);
 	i = ray_intersect(w, w->light->pos, v, &ptr);
-	(void) ptr;
-
-
 	if (i > 0.95)
 	{
+		n = obj->normal(obj, p);
 		ratio = v3dot(n, v3normalize(v3minus(v)));
 		if (ratio > 0)
 			return (viewed_color((t_color)obj->color,
 				(t_color)w->light->color, ratio));
 	}
-	return (0);
+	return (0xff000000);
 	// return (
 	// 	(unsigned int)(0xff * ((n.x + 1) * 0.5)) * 256 * 256 +
 	// 	(unsigned int)(0xff * ((n.y + 1) * 0.5)) * 256 +
@@ -56,7 +53,7 @@ double			ray_intersect(t_world *w, vec3 p, vec3 r, obj3d **closestobj)
 	{
 		if ((t = hit(ptr, r, p)) > 0)
 		{
-			if (closest == -1 || (t < closest && t > 0))
+			if (closest == -1 || (t < closest))
 			{
 				closest = t;
 				*closestobj = ptr;
@@ -64,6 +61,7 @@ double			ray_intersect(t_world *w, vec3 p, vec3 r, obj3d **closestobj)
 		}
 		ptr = ptr->next;
 	}
+	// printf("%lf %lf %lf\n", r.x, r.y, r.z);
 	return (closest);
 }
 
@@ -77,6 +75,7 @@ unsigned int	ray_trace(camera *c, t_world *w, vec3 r)
 	if (closest != -1)
 	{
 		p = v3add(c->pos, v3scale(r, closest));
+		// printf("%lf %lf %lf\n", p.x, p.y, p.z);
 		return (ray_shade(closestobj, w, p));
 	}
 	// pixel pix;
@@ -93,6 +92,8 @@ double			hit(obj3d *obj, vec3 r, vec3 p)
 {
 	if (obj->type == SPHERE)
 		return (hit_sphere((t_sphere *)obj->obj, r, p));
+	if (obj->type == PLANE)
+		return (hit_plane((t_plane *)obj->obj, r, p));
 	return (0);
 }
 
@@ -109,5 +110,19 @@ double			hit_sphere(t_sphere *obj, vec3 r, vec3 p)
 	b = 2.0 * v3dot(oc, r);
 	c = v3dot(oc, oc) - obj->radius * obj->radius;
 	delta = b * b - 4 * a * c;
-	return (delta > 0 ? (-b - sqrt(delta)) / (2.0 * a) : -1);
+	return (delta > 0 ? (-b - sqrt(delta)) / (2.0 * a) : NOHIT);
+}
+
+double			hit_plane(t_plane *obj, vec3 r, vec3 p)
+{
+	double denom;
+	double t;
+
+	denom = v3dot(r, obj->n);
+	if (fabs(denom) > 0.000001)
+	{
+		t =  v3dot(v3sub(obj->pos, p), obj->n) / denom;
+		return (t > 0 ? t : NOHIT);
+	}
+	return (NOHIT);
 }

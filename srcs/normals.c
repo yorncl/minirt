@@ -25,3 +25,12 @@ vec3	sphere_normal(obj3d *obj, vec3 p)
 	m = v3magnitude(v);
 	return (v3new(v.x / m, v.y / m, v.z / m));
 }
+
+
+vec3	plane_normal(obj3d *obj)
+{
+	t_plane *ptr;
+
+	ptr = (t_plane*)(obj->obj);
+	return (ptr->n);
+}

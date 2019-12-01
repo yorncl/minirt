@@ -32,9 +32,7 @@ static void		*ft_memcpy_bis(void *dst, const void *src, size_t n)
 char			*ft_strdup(const char *s1)
 {
 	char	*cpy;
-	int		i;
 
-	i = 0;
 	if (!(cpy = malloc(sizeof(char) * (ft_strlen(s1) + 1))))
 		return (0);
 	return (ft_memcpy_bis(cpy, s1, ft_strlen(s1)));

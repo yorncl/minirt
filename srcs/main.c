@@ -65,8 +65,8 @@ int main(int ac, char **av)
 
 	t_minirt raytracer;
 	raytracer.mlx = mlx_init();
-	raytracer.resx = 1920/3;
-	raytracer.resy = 1080/3;
+	raytracer.resx = 1920/4;
+	raytracer.resy = 1080/4;
 	raytracer.frame = 0;
 	if (!(raytracer.img = malloc(sizeof(t_image))))
 		return (0);
@@ -83,13 +83,19 @@ int main(int ac, char **av)
 	raytracer.win = mlx_new_window(raytracer.mlx, raytracer.resx, raytracer.resy, "Ma window");
 
 	t_world *w = world_init();
-	// add_camera(w, v3new(-7, 0, 2.7), v3new(0, 0.4, 0), v3new(90, 60, 0));
-	add_camera(w, v3new(-7, 0, 0), v3new(0, 0, 0), v3new(90, 60, 0));
-	// add_sphere(w, v3new(-3,0,2),  1, 0x00C71585);
-	add_sphere(w, v3new(8,0,0), 4, 0x00FFFFFF);
-	add_sphere(w, v3new(3,0,-2), 1, 0x000000FF);
-	add_sphere(w, v3new(0,3,0), 1, 0x00ff0000);
-	add_ligth(w, v3new(-100,0,0), 0x00ffffff);
+
+	add_plane(w, v3new(0, 0, -1), v3new(0, 0, 0), 0x00ff0000);
+	add_plane(w, v3new(-6, 0, 0), v3new(0, M_PI / 2, 0), 0xFF0055);
+	
+	add_sphere(w, v3new(0,0, 0), 0.4, 0x00FFFFFF);
+	add_sphere(w, v3new(3,3,0), 0.4, 0x0000FF00);
+	add_sphere(w, v3new(-3,-3,0),  0.4, 0x00FF0000);
+	add_sphere(w, v3new(3,-3,0), 0.4, 0x000000FF);
+	add_sphere(w, v3new(-3,3,0), 0.4, 0x00FF00FF);
+
+	add_camera(w, v3new(-4, 0, 3), v3new(0,  M_PI / 6, 0), v3new(90, 60, 0));
+
+	add_ligth(w, v3new(8,0,1.2), 0x000000ff);
 	raytracer.world = w;
 
 	if(ac == 1)

@@ -84,18 +84,18 @@ int main(int ac, char **av)
 
 	t_world *w = world_init();
 
-	add_plane(w, v3new(0, 0, -1), v3new(0, 0, 0), 0x00ff0000);
-	add_plane(w, v3new(-6, 0, 0), v3new(0, M_PI / 2, 0), 0xFF0055);
+	add_plane(w, v3new(0, 0, 0), v3new(0, 0, 0), 0x00ffffff);
+	// add_plane(w, v3new(-6, 0, 0), v3new(0, M_PI / 2, 0), 0xFF0055);
 	
-	add_sphere(w, v3new(0,0, 0), 0.4, 0x00FFFFFF);
-	add_sphere(w, v3new(3,3,0), 0.4, 0x0000FF00);
-	add_sphere(w, v3new(-3,-3,0),  0.4, 0x00FF0000);
-	add_sphere(w, v3new(3,-3,0), 0.4, 0x000000FF);
-	add_sphere(w, v3new(-3,3,0), 0.4, 0x00FF00FF);
+	add_sphere(w, v3new(0,0, 0.5), 1, 0x00FF0000);
+	add_sphere(w, v3new(2,2,0.5), 1, 0x0000FF00);
+	add_sphere(w, v3new(2,-2,0.5), 1, 0x000000FF);
+	// add_sphere(w, v3new(-3,-3,0),  0.4, 0x00FF0000);
+	// add_sphere(w, v3new(-3,3,0), 0.4, 0x00FF00FF);
 
 	add_camera(w, v3new(-4, 0, 3), v3new(0,  M_PI / 6, 0), v3new(90, 60, 0));
 
-	add_ligth(w, v3new(8,0,1.2), 0x000000ff);
+	add_ligth(w, v3new(8,0,10), 0x000000ff);
 	raytracer.world = w;
 
 	if(ac == 1)

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:48:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 18:51:40 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/03 14:16:25 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ vec3	sphere_normal(obj3d *obj, vec3 p)
 }
 
 
-vec3	plane_normal(obj3d *obj)
+vec3	plane_normal(obj3d *obj, vec3 p)
 {
 	t_plane *ptr;
 
+	(void) p;
 	ptr = (t_plane*)(obj->obj);
 	return (ptr->n);
 }

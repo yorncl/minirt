@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:51:38 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/29 14:24:45 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/03 16:59:23 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <vec3.h>
 # include <color.h>
+# include <material.h>
 
 typedef enum 	obj_type{
 	SPHERE,
@@ -37,7 +38,7 @@ typedef struct	s_plane
 typedef struct	obj3d
 {
 	obj_type		type;
-	unsigned int	color;
+	t_material		*material;
 	void			*obj;
 	struct obj3d	*next;
 	vec3			(*normal)();
@@ -53,5 +54,5 @@ typedef struct	s_light
 **	Normals
 */
 vec3	sphere_normal(obj3d *obj, vec3 p);
-vec3	plane_normal(obj3d *obj);
+vec3	plane_normal(obj3d *obj, vec3 p);
 #endif

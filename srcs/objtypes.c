@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/29 14:03:00 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:00:52 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,13 @@ int			add_sphere(t_world *w, vec3 pos, double radius, unsigned int color)
 	}
 	s->radius = radius;
 	s->pos = pos;
-	ptr->color = color;
 	ptr->obj = s;
 	ptr->normal = &sphere_normal;
+	
+	
+	ptr->material = create_material(color, 1, 0);
+	
+	
 	return (SUCCESS);
 }
 
@@ -55,8 +59,12 @@ int				add_plane(t_world *w, vec3 pos, vec3 rot, unsigned int color)
 	normal = v3new(0, 0, 1);
 	v3rotate3(&normal, rot.x, rot.y, rot.z);
 	p->n = normal;
-	ptr->color = color;
 	ptr->obj = p;
 	ptr->normal = &plane_normal;
+
+
+	ptr->material = create_material(color, 1, 0);
+	
+	
 	return (SUCCESS);
 }

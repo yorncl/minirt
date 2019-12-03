@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/30 16:10:52 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/03 18:40:25 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 
 
-unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p)
+unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p, vec3 r)
 {
 	obj3d *ptr;
 	vec3 n;
@@ -23,22 +23,24 @@ unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p)
 	double i;
 	double ratio;
 
+	(void) r;
+	// if (obj->color == 0x00123456)
+	// {
+	// 	return (ray_trace(w, p, obj->normal(obj, p)));
+	// }
 	v = v3sub(p, w->light->pos);
 	i = ray_intersect(w, w->light->pos, v, &ptr);
 	if (i > 0.95)
 	{
 		n = obj->normal(obj, p);
-		ratio = v3dot(n, v3normalize(v3minus(v)));
+		ratio = fabs(v3dot(n, v3normalize(v3minus(v))));
 		if (ratio > 0)
-			return (viewed_color((t_color)obj->color,
-				(t_color)w->light->color, ratio));
+		{
+			unsigned int ptn = left_color(w->light->color, obj->material->albedo, ratio);
+			return (ptn);
+		}
 	}
 	return (0xff000000);
-	// return (
-	// 	(unsigned int)(0xff * ((n.x + 1) * 0.5)) * 256 * 256 +
-	// 	(unsigned int)(0xff * ((n.y + 1) * 0.5)) * 256 +
-	// 	(unsigned int)(0xff * ((n.z + 1) * 0.5))
-	// );
 }
 
 double			ray_intersect(t_world *w, vec3 p, vec3 r, obj3d **closestobj)
@@ -65,18 +67,18 @@ double			ray_intersect(t_world *w, vec3 p, vec3 r, obj3d **closestobj)
 	return (closest);
 }
 
-unsigned int	ray_trace(camera *c, t_world *w, vec3 r)
+unsigned int	ray_trace(t_world *w, vec3 origin, vec3 r)
 {
 	double 	closest;
 	vec3	p;
 	obj3d	*closestobj;
 
-	closest = ray_intersect(w, c->pos, r, &closestobj);
+	closest = ray_intersect(w, origin, r, &closestobj);
 	if (closest != -1)
 	{
-		p = v3add(c->pos, v3scale(r, closest));
+		p = v3add(origin, v3scale(r, closest));
 		// printf("%lf %lf %lf\n", p.x, p.y, p.z);
-		return (ray_shade(closestobj, w, p));
+		return (ray_shade(closestobj, w, p, r));
 	}
 	// pixel pix;
 	// pix.v = 0;
@@ -121,7 +123,8 @@ double			hit_plane(t_plane *obj, vec3 r, vec3 p)
 	denom = v3dot(r, obj->n);
 	if (fabs(denom) > 0.000001)
 	{
-		t =  v3dot(v3sub(obj->pos, p), obj->n) / denom;
+		t = v3dot(v3sub(obj->pos, p), obj->n) / denom;
+		// printf("%lf\n", t);
 		return (t > 0 ? t : NOHIT);
 	}
 	return (NOHIT);

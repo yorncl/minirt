@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/03 18:49:26 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/03 19:00:13 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ int main(int ac, char **av)
 
 	t_world *w = world_init();
 
-	// add_plane(w, v3new(0, 0, 0), v3new(0, 0, 0), 0x00ffffff);
-	// add_plane(w, v3new(0, 0, 4), v3new(0, 0, 0), 0x00ffffff);
-	// add_plane(w, v3new(-4, 0, 0), v3new(0, M_PI / 2, 0), 0xFF0055);
-	// add_plane(w, v3new(4, 0, 0), v3new(0, M_PI / 2, 0), 0x0000FF);
-	// add_plane(w, v3new(0, -4, 0), v3new(M_PI / 2, 0, 0), 0x00FF00);
+	add_plane(w, v3new(0, 0, 0), v3new(0, 0, 0), 0x00ffffff);
+	add_plane(w, v3new(0, 0, 4), v3new(0, 0, 0), 0x00ffffff);
+	add_plane(w, v3new(-4, 0, 0), v3new(0, M_PI / 2, 0), 0xFF0055);
+	add_plane(w, v3new(4, 0, 0), v3new(0, M_PI / 2, 0), 0x0000FF);
+	add_plane(w, v3new(0, -4, 0), v3new(M_PI / 2, 0, 0), 0x00FF00);
 	add_plane(w, v3new(0, 4, 0), v3new(M_PI / 2, 0, 0), 0xFF0000);
 	
 	// add_sphere(w, v3new(0,0, 2), 1, 0x00ff0000);
@@ -99,7 +99,7 @@ int main(int ac, char **av)
 
 	add_camera(w, v3new(-3.5, 0, 2), v3new(0, 0, 0), v3new(90, 60, 0));
 
-	add_ligth(w, v3new(-2,0, 1), 0x00FFFFFF);
+	add_ligth(w, v3new(-2,0, 1), 0x00FF0000);
 	raytracer.world = w;
 
 	if(ac == 1)

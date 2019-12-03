@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/03 18:40:25 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/03 19:06:34 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ double			hit_plane(t_plane *obj, vec3 r, vec3 p)
 	if (fabs(denom) > 0.000001)
 	{
 		t = v3dot(v3sub(obj->pos, p), obj->n) / denom;
-		// printf("%lf\n", t);
 		return (t > 0 ? t : NOHIT);
 	}
 	return (NOHIT);

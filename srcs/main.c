@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/03 19:00:13 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/05 15:24:57 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	camera_render(camera *c, unsigned int *img, t_world *w, t_minirt *rt)
 				(2 * i * c->py.y / rt->resx) + (2 * j * c->pz.y / rt->resy);
 			r.z = c->px.z - c->py.z - c->pz.z +
 				(2 * i * c->py.z / rt->resx) + (2 * j * c->pz.z / rt->resy);
-			img[j * rt->resx + i] = ray_trace(w, c->pos, r);
+			img[j * rt->resx + i] = ray_trace(w, c->pos, r, 2);
 		}
 	}
 }
@@ -65,8 +65,8 @@ int main(int ac, char **av)
 
 	t_minirt raytracer;
 	raytracer.mlx = mlx_init();
-	raytracer.resx = 1920/4;
-	raytracer.resy = 1080/4;
+	raytracer.resx = 1920/2;
+	raytracer.resy = 1080/2;
 	raytracer.frame = 0;
 	if (!(raytracer.img = malloc(sizeof(t_image))))
 		return (0);
@@ -91,7 +91,7 @@ int main(int ac, char **av)
 	add_plane(w, v3new(0, -4, 0), v3new(M_PI / 2, 0, 0), 0x00FF00);
 	add_plane(w, v3new(0, 4, 0), v3new(M_PI / 2, 0, 0), 0xFF0000);
 	
-	// add_sphere(w, v3new(0,0, 2), 1, 0x00ff0000);
+	add_sphere(w, v3new(0,0, 2), 1, 0x00ff0000);
 	// add_sphere(w, v3new(-3,-3,1), 1, 0x0000FF00);
 	// add_sphere(w, v3new(-2,-2,0),  0.4, 0x00FF0000);
 	// add_sphere(w, v3new(3,-3,0), 0.4, 0x000000FF);
@@ -99,7 +99,7 @@ int main(int ac, char **av)
 
 	add_camera(w, v3new(-3.5, 0, 2), v3new(0, 0, 0), v3new(90, 60, 0));
 
-	add_ligth(w, v3new(-2,0, 1), 0x00FF0000);
+	add_ligth(w, v3new(-2,0, 1), 0x00FFFFFF);
 	raytracer.world = w;
 
 	if(ac == 1)

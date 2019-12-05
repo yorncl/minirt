@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/03 19:06:34 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/05 15:27:17 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 
 
-unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p, vec3 r)
+unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p, vec3 r, unsigned int depth)
 {
 	obj3d *ptr;
 	vec3 n;
@@ -36,8 +36,10 @@ unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p, vec3 r)
 		ratio = fabs(v3dot(n, v3normalize(v3minus(v))));
 		if (ratio > 0)
 		{
-			unsigned int ptn = left_color(w->light->color, obj->material->albedo, ratio);
-			return (ptn);
+			unsigned int ptn = (unsigned int)
+				(left_color(w->light->color, obj->material->albedo, ratio) * obj->material->diffuse);
+			return ((unsigned int)(ptn * obj->material->diffuse) + 
+					(unsigned int)(ray_trace(w, p, n, depth - 1) * obj->material->specular * 0.04));
 		}
 	}
 	return (0xff000000);
@@ -67,18 +69,20 @@ double			ray_intersect(t_world *w, vec3 p, vec3 r, obj3d **closestobj)
 	return (closest);
 }
 
-unsigned int	ray_trace(t_world *w, vec3 origin, vec3 r)
+unsigned int	ray_trace(t_world *w, vec3 origin, vec3 r, unsigned int depth)
 {
 	double 	closest;
 	vec3	p;
 	obj3d	*closestobj;
 
+	if (depth == 0)
+		return (0);
 	closest = ray_intersect(w, origin, r, &closestobj);
 	if (closest != -1)
 	{
 		p = v3add(origin, v3scale(r, closest));
 		// printf("%lf %lf %lf\n", p.x, p.y, p.z);
-		return (ray_shade(closestobj, w, p, r));
+		return (ray_shade(closestobj, w, p, r, depth));
 	}
 	// pixel pix;
 	// pix.v = 0;

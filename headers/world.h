@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:27:41 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 19:33:53 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/09 17:02:03 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <macro.h>
 #include <camera.h>
 #include <libft.h>
+#include <light.h>
 #include <objs.h>
 
 typedef struct 	s_world
@@ -30,7 +31,7 @@ typedef struct 	s_world
 */
 t_world			*world_init(void);
 int				add_camera(t_world *w, vec3 pos, vec3 rot, vec3 fov);
-int				add_ligth(t_world *w, vec3 pos, unsigned int color);
+int				add_ligth(t_world *w, vec3 pos, double intensity, unsigned int color);
 
 /*
 **	obj3d.c
@@ -43,5 +44,5 @@ obj3d			*obj3dadd(obj3d **ptr, obj_type type);
 */
 int				add_sphere(t_world *w, vec3 pos, double radius, unsigned int color);
 int				add_plane(t_world *w, vec3 pos, vec3 rot, unsigned int color);
-
+int				add_square(t_world *w, vec3 pos, vec3 rot, double side,unsigned int color); 
 #endif

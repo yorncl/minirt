@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/05 15:24:55 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/09 10:05:21 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			add_sphere(t_world *w, vec3 pos, double radius, unsigned int color)
 	ptr->normal = &sphere_normal;
 	
 	
-	ptr->material = create_material(color, 0.8, 0.2);
+	ptr->material = create_material(color, 0, 1);
 	
 	
 	return (SUCCESS);
@@ -65,6 +65,36 @@ int				add_plane(t_world *w, vec3 pos, vec3 rot, unsigned int color)
 
 	ptr->material = create_material(color, 1, 0);
 	
+	
+	return (SUCCESS);
+}
+
+int				add_square(t_world *w, vec3 pos, vec3 rot, double side,unsigned int color)
+{
+	obj3d		*ptr;
+	t_square	*p;
+	vec3		normal;
+
+	p = malloc(sizeof(t_square));
+	if (p == NULL)
+		return (ERROR);
+	ptr = obj3dadd(&(w->obj), SQUARE);
+	if (ptr == NULL)
+	{
+		free(p);
+		return (ERROR);
+	}
+	p->pos = pos;
+	p->side = side;
+	normal = v3new(0, 0, 1);
+	v3rotate3(&normal, rot.x, rot.y, rot.z);
+	p->n = normal;
+	ptr->obj = p;
+	ptr->normal = &square_normal;
+
+
+	ptr->material = create_material(color, 1, 0);
+
 	
 	return (SUCCESS);
 }

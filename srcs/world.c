@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:11:32 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/30 15:56:10 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/09 17:01:39 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ int				add_camera(t_world *w, vec3 pos, vec3 rot, vec3 fov)
 	return (SUCCESS);
 }
 
-int				add_ligth(t_world *w, vec3 pos, unsigned int color)
+int				add_ligth(t_world *w, vec3 pos, double intensity, unsigned int color)
 {
 	t_light *ptr;
 
 	ptr = ft_calloc(1, sizeof(t_light));
 	if (ptr == NULL)
 		return (ERROR);
-	ptr->color = color;
+	ptr->color.v = color;
 	ptr->pos = pos;
+	ptr->intensity = intensity;
 	w->light = ptr;
 	return (SUCCESS);
 }

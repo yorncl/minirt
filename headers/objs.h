@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:51:38 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/03 16:59:23 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/09 15:06:20 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 
 typedef enum 	obj_type{
 	SPHERE,
-	PLANE
+	PLANE,
+	SQUARE
 }				obj_type;
 
 typedef struct	s_sphere
@@ -35,6 +36,15 @@ typedef struct	s_plane
 	vec3			(*normal)();
 }				t_plane;
 
+typedef struct	s_square
+{
+	vec3			pos;
+	vec3			n;
+	vec3			(*normal)();
+	double			side;
+	vec3			rot;
+}				t_square;
+
 typedef struct	obj3d
 {
 	obj_type		type;
@@ -44,15 +54,11 @@ typedef struct	obj3d
 	vec3			(*normal)();
 }				obj3d;
 
-typedef struct	s_light
-{
-	vec3			pos;
-	unsigned int	color;
-}				t_light;
 
 /*
 **	Normals
 */
-vec3	sphere_normal(obj3d *obj, vec3 p);
-vec3	plane_normal(obj3d *obj, vec3 p);
+vec3	sphere_normal(obj3d *obj, vec3 p, vec3 o);
+vec3	plane_normal(obj3d *obj, vec3 p, vec3 o);
+vec3	square_normal(obj3d *obj, vec3 p, vec3 o);
 #endif

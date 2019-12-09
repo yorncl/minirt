@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 14:24:25 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/03 18:40:35 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/09 17:18:57 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef union	u_color
 
 unsigned int	viewed_color(t_color surface, t_color light, double intensity);
 unsigned int	left_color(unsigned intlight, vec3 albedo, double intensity);
-
+t_color			colormultiplyf(t_color c, double coef);
+t_color			colormultiplyv3(t_color c, vec3 v);
 #endif
 

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 17:30:24 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/09 23:59:45 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,25 @@ unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p, vec3 r, unsigned int dep
 	double i;
 	double ratio;
 
+	t_color color = 0;
 	(void) r;
 	(void) depth;
+
+	while ()
 	v = v3sub(p, w->light->pos);
 	i = ray_intersect(w, w->light->pos, v, &ptr);
-
-	unsigned int color = 0;
 	if (i > 0.95)
 	{
-		n = obj->normal(obj, p);
-		ratio = fabs(v3dot(n, v3normalize(v3minus(v))));
+		n = obj->normal(obj, p, r, v);
+		ratio = fabs(v3dot(n, v3normalize(v)));
 		if (ratio > 0)
-			color = direct_lightning(w->light, p, obj->material->albedo, ratio);
+			color = coloradd(color,direct_lightning(w->light, p, obj->material->albedo, ratio));
 	}
 	// color += light_diffuse(,) + light_specular() + light_(refracted);
-	return (color);
+	return (color.v);
 }
 
-unsigned int	direct_lightning(t_light *l, vec3 p, vec3 albedo, double ratio)
+t_color				direct_lightning(t_light *l, vec3 p, vec3 albedo, double ratio)
 {
 	double	r;
 	double	coeff;
@@ -70,7 +71,6 @@ double			ray_intersect(t_world *w, vec3 p, vec3 r, obj3d **closestobj)
 		}
 		ptr = ptr->next;
 	}
-	// printf("%lf %lf %lf\n", r.x, r.y, r.z);
 	return (closest);
 }
 
@@ -86,16 +86,8 @@ unsigned int	ray_trace(t_world *w, vec3 origin, vec3 r, unsigned int depth)
 	if (closest != -1)
 	{
 		p = v3add(origin, v3scale(r, closest));
-		// printf("%lf %lf %lf\n", p.x, p.y, p.z);
 		return (ray_shade(closestobj, w, p, r, depth));
 	}
-	// pixel pix;
-	// pix.v = 0;
-	// Gradient
-	// p.color.r = (unsigned int)( (1 - (r.z + 1)/2) * 0xff);
-	// p.color.g = (unsigned int)( (1 - (r.z + 1)/2) * 0xff + ((r.z + 1)/4) * 0xff);
-	// p.color.b = (unsigned int)( (1 - (r.z + 1)/2) * 0xff + ((r.z + 1)/2) * 0xff);
-	// return (pix.v);
 	return (0);
 }
 

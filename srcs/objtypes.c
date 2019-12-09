@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 10:05:21 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/09 17:56:07 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			add_sphere(t_world *w, vec3 pos, double radius, unsigned int color)
 	ptr->normal = &sphere_normal;
 	
 	
-	ptr->material = create_material(color, 0, 1);
+	ptr->material = create_material(color, 1, 0);
 	
 	
 	return (SUCCESS);

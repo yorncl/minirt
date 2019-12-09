@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:11:32 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 17:01:39 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/09 23:49:33 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_world			*world_init(void)
 	if (w == NULL)
 		return (NULL);
 	w->obj = NULL;
-	w->light = NULL;
+	w->lights = NULL;
 	w->c = NULL;
 	return (w);
 }
@@ -39,9 +39,11 @@ int				add_camera(t_world *w, vec3 pos, vec3 rot, vec3 fov)
 	return (SUCCESS);
 }
 
-int				add_ligth(t_world *w, vec3 pos, double intensity, unsigned int color)
+int				add_ligth(t_world *w, vec3 pos,
+	double intensity, unsigned int color)
 {
 	t_light *ptr;
+	t_list	*a;
 
 	ptr = ft_calloc(1, sizeof(t_light));
 	if (ptr == NULL)
@@ -49,6 +51,12 @@ int				add_ligth(t_world *w, vec3 pos, double intensity, unsigned int color)
 	ptr->color.v = color;
 	ptr->pos = pos;
 	ptr->intensity = intensity;
-	w->light = ptr;
+	a = ft_lstnew(ptr);
+	if (a == NULL)
+	{
+		free(ptr);
+		return (ERROR);
+	}
+	ft_lstadd_front(&(w->lights), a);
 	return (SUCCESS);
 }

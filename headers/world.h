@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:27:41 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 17:02:03 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/09 23:46:32 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct 	s_world
 {
 	camera	*c;
 	obj3d	*obj;
-	t_light	*light;
+	t_list	*lights;
 }				t_world;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 08:57:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 18:26:18 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/10 17:36:17 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,13 @@ double			hit_plane(t_plane *obj, vec3 r, vec3 p)
 
 double			hit_square(t_square *obj, vec3 r, vec3 p)
 {
-	double t;
+	double	t;
+	vec3	intersect;
 
 	if ((t = hit_plane((t_plane*)obj, r, p)) != NOHIT)
 	{
+		intersect = v3add(p, v3scale(r, t));
+		
 		return (t);
 	}
 	return (NOHIT);

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 14:27:46 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 23:59:08 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/10 14:56:39 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,12 @@ t_color		coloradd(t_color c1, t_color c2)
 	unsigned int	tmp;
 	t_color			new;
 
-	tmp = (unsigned int)(c1.color.r + c2.color.r);
+	new.v = 0;
+	tmp = c1.color.r + c2.color.r;
 	new.color.r = tmp > 255 ? 255 : tmp;
-	tmp = (unsigned int)(c1.color.g + c2.color.g);
+	tmp = c1.color.g + c2.color.g;
 	new.color.g = tmp > 255 ? 255 : tmp;
-	tmp = (unsigned int)(c1.color.b + c2.color.b);
+	tmp = c1.color.b + c2.color.b;
 	new.color.b = tmp > 255 ? 255 : tmp;
 	return (new);
 }

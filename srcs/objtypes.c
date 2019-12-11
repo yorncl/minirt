@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/29 14:03:00 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/09 17:56:07 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,13 @@ int			add_sphere(t_world *w, vec3 pos, double radius, unsigned int color)
 	}
 	s->radius = radius;
 	s->pos = pos;
-	ptr->color = color;
 	ptr->obj = s;
 	ptr->normal = &sphere_normal;
+	
+	
+	ptr->material = create_material(color, 1, 0);
+	
+	
 	return (SUCCESS);
 }
 
@@ -55,8 +59,42 @@ int				add_plane(t_world *w, vec3 pos, vec3 rot, unsigned int color)
 	normal = v3new(0, 0, 1);
 	v3rotate3(&normal, rot.x, rot.y, rot.z);
 	p->n = normal;
-	ptr->color = color;
 	ptr->obj = p;
 	ptr->normal = &plane_normal;
+
+
+	ptr->material = create_material(color, 1, 0);
+	
+	
+	return (SUCCESS);
+}
+
+int				add_square(t_world *w, vec3 pos, vec3 rot, double side,unsigned int color)
+{
+	obj3d		*ptr;
+	t_square	*p;
+	vec3		normal;
+
+	p = malloc(sizeof(t_square));
+	if (p == NULL)
+		return (ERROR);
+	ptr = obj3dadd(&(w->obj), SQUARE);
+	if (ptr == NULL)
+	{
+		free(p);
+		return (ERROR);
+	}
+	p->pos = pos;
+	p->side = side;
+	normal = v3new(0, 0, 1);
+	v3rotate3(&normal, rot.x, rot.y, rot.z);
+	p->n = normal;
+	ptr->obj = p;
+	ptr->normal = &square_normal;
+
+
+	ptr->material = create_material(color, 1, 0);
+
+	
 	return (SUCCESS);
 }

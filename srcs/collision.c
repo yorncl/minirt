@@ -50,7 +50,7 @@ double			hit_square(t_square *obj, vec3 r, vec3 p)
 	if ((t = hit_plane((t_plane*)obj, r, p)) != NOHIT)
 	{
 		intersect = v3add(p, v3scale(r, t));
-		
+		(void) intersect;
 		return (t);
 	}
 	return (NOHIT);

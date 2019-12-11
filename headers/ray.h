@@ -38,4 +38,8 @@ double				hit_sphere(t_sphere *obj, vec3 r, vec3 p);
 double				hit_plane(t_plane *obj, vec3 r, vec3 p);
 double				hit_square(t_square *obj, vec3 r, vec3 p);
 
+/*
+**	Special cases
+*/
+int isfacinglight(obj3d *obj, vec3 l, vec3 r);
 #endif

@@ -35,6 +35,12 @@ unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p, vec3 r, unsigned int dep
 	{
 		light = (t_light*)l->content;
 		v = v3sub(p, light->pos);
+		if (obj->type == PLANE || obj->type == SQUARE)
+			if (!isfacinglight(obj, v, r))
+			{
+				l = l->next;
+				continue;
+			}
 		ratio = ray_intersect(w, light->pos, v, &ptr);
 		if (ratio > 0.99)
 		{
@@ -59,6 +65,11 @@ t_color				direct_lightning(t_light *l, vec3 p, vec3 albedo, double ratio)
 	r = v3magnitude(v3sub(l->pos, p));
 	coeff = l->intensity * ratio / (4 * M_PI * r * r);
 	return (colormultiplyf(colormultiplyv3(l->color, albedo), coeff));
+}
+
+int isfacinglight(obj3d *obj, vec3 l, vec3 r)
+{
+	return (v3dot(obj->normal(obj), l) * v3dot(obj->normal(obj), r) > 0);
 }
 
 double			ray_intersect(t_world *w, vec3 p, vec3 r, obj3d **closestobj)

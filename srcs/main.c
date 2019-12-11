@@ -12,6 +12,9 @@
 
 #include <raytracer.h>
 
+
+#include <string.h>
+
 void	camera_render(camera *c, unsigned int *img, t_world *w, t_minirt *rt)
 {
 	int		i;
@@ -120,7 +123,14 @@ int main(int ac, char **av)
 	}
 	else
 	{
-		add_plane(w, v3new(0, 0, 1.5), v3new(M_PI / 2, 0, 0), 0xFF00FF);
+		if (strcmp(av[1],"plane") == 0)
+		{
+			add_plane(w, v3new(0, 0, 1.5), v3new(M_PI / 2, 0, 0), 0xFF00FF);
+		}
+		if (strcmp(av[1],"square") == 0)
+		{
+			add_square(w, v3new(0, 0, 1.5), v3new(M_PI / 2, 0, 0), 1,0xFF0000);
+		}
 		add_ligth(w, v3new(0, 3, 2.5), 80, 0x00FFFFFF);
 	}
 	add_camera(w, v3new(-3.5, 0, 2), v3new(0, 0, 0), v3new(90, 60, 0));

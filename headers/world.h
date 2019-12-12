@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:27:41 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 23:46:32 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/12 17:34:56 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,5 @@ obj3d			*obj3dadd(obj3d **ptr, obj_type type);
 int				add_sphere(t_world *w, vec3 pos, double radius, unsigned int color);
 int				add_plane(t_world *w, vec3 pos, vec3 rot, unsigned int color);
 int				add_square(t_world *w, vec3 pos, vec3 rot, double side,unsigned int color); 
+int				add_triangle(t_world *w, vec3 p1, vec3 p2, vec3 p3,unsigned int color);
 #endif

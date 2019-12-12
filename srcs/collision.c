@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 08:57:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/12 15:49:46 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/12 17:31:25 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,29 @@ double			hit_square(t_square *obj, vec3 r, vec3 p)
 		hitted += v3dot(
 			v3cross(v3sub(obj->p4, inter), v3sub(obj->p1, inter)), obj->n) > 0;
 		if (hitted == 4 || hitted == 0)
+			return (t);
+	}
+	return (NOHIT);
+}
+
+
+double			hit_triangle(t_triangle *obj, vec3 r, vec3 p)
+{
+	double	t;
+	vec3	inter;
+	int		hitted;
+
+	if ((t = hit_plane((t_plane*)obj, r, p)) != NOHIT)
+	{
+		hitted = 0;
+		inter = v3add(p, v3scale(r, t));
+		hitted += v3dot(
+			v3cross(v3sub(obj->p1, inter), v3sub(obj->p2, inter)), obj->n) > 0;
+		hitted += v3dot(
+			v3cross(v3sub(obj->p2, inter), v3sub(obj->p3, inter)), obj->n) > 0;
+		hitted += v3dot(
+			v3cross(v3sub(obj->p3, inter), v3sub(obj->p1, inter)), obj->n) > 0;
+		if (hitted == 3 || hitted == 0)
 			return (t);
 	}
 	return (NOHIT);

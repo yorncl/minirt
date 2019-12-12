@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/12 15:52:24 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/12 17:21:57 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,10 @@ int main(int ac, char **av)
 		if (strcmp(av[1],"square") == 0)
 		{
 			add_square(w, v3new(0, 0, 0), v3new(0, 0.8, 0), 10,0xFF0000);
+		}
+		if (strcmp(av[1],"triangle") == 0)
+		{
+			add_triangle(w, v3new(1,1, 0), v3new(1, 0, 0), v3new(0, 1, 0),0x00FF00);
 		}
 		add_ligth(w, v3new(0, 5, 2.5), 800, 0x00FFFFFF);
 		add_camera(w, v3new(-2, 0, 2), v3new(0, 0.8, 0), v3new(90, 60, 0));

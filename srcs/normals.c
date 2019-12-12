@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:48:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 23:18:02 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/12 17:23:08 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,16 @@ vec3	plane_normal(obj3d *obj, vec3 p, vec3 o)
 }
 
 vec3	square_normal(obj3d *obj, vec3 p, vec3 o)
+{
+	t_square *ptr;
+
+	(void)p;
+	(void)o;
+	ptr = (t_square*)(obj->obj);
+	return (ptr->n);
+}
+
+vec3	triangle_normal(obj3d *obj, vec3 p, vec3 o)
 {
 	t_square *ptr;
 

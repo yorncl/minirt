@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:51:38 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/12 15:02:40 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/12 17:33:45 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 typedef enum 	obj_type{
 	SPHERE,
 	PLANE,
-	SQUARE
+	SQUARE,
+	TRIANGLE
 }				obj_type;
 
 typedef struct	s_sphere
@@ -41,7 +42,6 @@ typedef struct	s_square
 	vec3			pos;
 	vec3			n;
 	vec3			(*normal)();
-	double			side;
 	vec3			p1;
 	vec3			p2;
 	vec3			p3;
@@ -76,4 +76,5 @@ typedef struct	obj3d
 vec3	sphere_normal(obj3d *obj, vec3 p, vec3 o);
 vec3	plane_normal(obj3d *obj, vec3 p, vec3 o);
 vec3	square_normal(obj3d *obj, vec3 p, vec3 o);
+vec3	triangle_normal(obj3d *obj, vec3 p, vec3 o);
 #endif

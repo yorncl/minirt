@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/12 17:33:49 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/12 17:38:02 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p, vec3 r, unsigned int dep
 	{
 		light = (t_light*)l->content;
 		v = v3sub(p, light->pos);
-		if (obj->type == PLANE || obj->type == SQUARE)
+		if (obj->type == PLANE || obj->type == SQUARE || obj->type == TRIANGLE)
 			if (!isfacinglight(obj, v, r))
 			{
 				l = l->next;

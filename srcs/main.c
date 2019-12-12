@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/12 17:36:25 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/12 18:05:46 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int main(int ac, char **av)
 	
 	if (ac == 1)
 	{
-		raytracer.resx = 1920/2;
-		raytracer.resy = 1080/2;
+		raytracer.resx = 1920;
+		raytracer.resy = 1080;
 	}
 	else
 	{
@@ -115,6 +115,10 @@ int main(int ac, char **av)
 		add_sphere(w, v3new(-1, -3, 0.8), 0.8, 0x00Fd00FF);
 		add_sphere(w, v3new(-2.2, -0.4, 0.2), 0.2, 0x00FF00FF);
 
+		add_triangle(w, v3new(3,1, 3), v3new(4, 0, 2), v3new(2, 1, 1),0x00FF00);
+
+		add_square(w, v3new(1, -1, 2.5), v3new(0.4, -0.8, 0), 1,0xFF0000);
+
 		add_ligth(w, v3new(0, 0, 3), 120, 0xFFFFFF);
 		add_ligth(w, v3new(3.8, 3.8, 3), 30, 0xFF00FF);
 		add_ligth(w, v3new(-3.8, 3.8, 3), 150, 0xFF0000);
@@ -136,7 +140,7 @@ int main(int ac, char **av)
 		{
 			add_triangle(w, v3new(1,1, 0), v3new(1, 0, 2), v3new(0, 1, 0),0x00FF00);
 		}
-		add_ligth(w, v3new(0, 5, 2.5), 800, 0x00FFFFFF);
+		add_ligth(w, v3new(0, 5, 2.5), 80, 0x00FFFFFF);
 		add_camera(w, v3new(-2, 0, 2), v3new(0, 0.8, 0), v3new(90, 60, 0));
 	}
 	raytracer.world = w;

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 17:56:07 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/12 15:27:15 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int				add_square(t_world *w, vec3 pos, vec3 rot, double side,unsigned int color
 	obj3d		*ptr;
 	t_square	*p;
 	vec3		normal;
+	vec3		i;
+	vec3		j;
 
 	p = malloc(sizeof(t_square));
 	if (p == NULL)
@@ -87,14 +89,24 @@ int				add_square(t_world *w, vec3 pos, vec3 rot, double side,unsigned int color
 	p->pos = pos;
 	p->side = side;
 	normal = v3new(0, 0, 1);
+	i = v3new(side/2, 0, 0);
+	j = v3new(0, side/2, 0);
 	v3rotate3(&normal, rot.x, rot.y, rot.z);
+	v3rotate3(&i, rot.x, rot.y, rot.z);
+	v3rotate3(&j, rot.x, rot.y, rot.z);
+	p->p1 = v3add(pos, v3add(j, v3scale(i, -1)));
+	p->p2 = v3add(pos, v3add(j, i));
+	p->p3 = v3add(pos, v3add(v3scale(j, -1), i));
+	p->p4 = v3add(pos, v3add(v3scale(j, -1), v3scale(i, -1)));
+	printf("p1 %lf %lf %lf\n", p->p1.x,	p->p1.y, p->p1.z);
+	printf("p2 %lf %lf %lf\n", p->p2.x,	p->p2.y, p->p2.z);
+	printf("p3 %lf %lf %lf\n", p->p3.x,	p->p3.y, p->p3.z);
+	printf("p4 %lf %lf %lf\n", p->p4.x,	p->p4.y, p->p4.z);
 	p->n = normal;
 	ptr->obj = p;
 	ptr->normal = &square_normal;
 
 
 	ptr->material = create_material(color, 1, 0);
-
-	
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:56:51 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 15:06:36 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/12 12:16:14 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,8 @@ double				hit_sphere(t_sphere *obj, vec3 r, vec3 p);
 double				hit_plane(t_plane *obj, vec3 r, vec3 p);
 double				hit_square(t_square *obj, vec3 r, vec3 p);
 
+/*
+**	Special cases
+*/
+int					isfacinglight(obj3d *obj, vec3 l, vec3 r);
 #endif

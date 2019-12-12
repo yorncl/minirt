@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:51:38 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 23:16:57 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/12 15:02:40 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,23 @@ typedef struct	s_square
 	vec3			n;
 	vec3			(*normal)();
 	double			side;
-	vec3			rot;
+	vec3			p1;
+	vec3			p2;
+	vec3			p3;
+	vec3			p4;
 }				t_square;
+
+
+typedef struct	s_triangle
+{
+	vec3			pos;
+	vec3			n;
+	vec3			(*normal)();
+	vec3			p1;
+	vec3			p2;
+	vec3			p3;
+}				t_triangle;
+
 
 typedef struct	obj3d
 {

@@ -6,11 +6,14 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/10 15:38:05 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/12 15:52:24 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <raytracer.h>
+
+
+#include <string.h>
 
 void	camera_render(camera *c, unsigned int *img, t_world *w, t_minirt *rt)
 {
@@ -37,7 +40,7 @@ void	camera_render(camera *c, unsigned int *img, t_world *w, t_minirt *rt)
 
 int		loop(t_minirt *rt)
 {
-	double	angle = 0.2;
+	double	angle = 0.1;
 	vec3	center = v3new(0, 0, 0);
 	vec3	dir = v3sub(rt->world->c->pos, center);
 	vec3	cp = v3cpy(dir);
@@ -117,13 +120,21 @@ int main(int ac, char **av)
 		add_ligth(w, v3new(-3.8, 3.8, 3), 150, 0xFF0000);
 		add_ligth(w, v3new(-3.8, -3.8, 3), 150, 0x00FF00);
 		// add_ligth(w, v3new(0, 3.8, 3), 250, 0x0000FF);
+		add_camera(w, v3new(-3.5, 0, 2), v3new(0, 0, 0), v3new(90, 60, 0));
 	}
 	else
 	{
-		add_plane(w, v3new(0, 0, 1.5), v3new(M_PI / 2, 0, 0), 0xFF00FF);
-		add_ligth(w, v3new(0, 3, 2.5), 80, 0x00FFFFFF);
+		if (strcmp(av[1],"plane") == 0)
+		{
+			add_plane(w, v3new(0, 0, 1.5), v3new(M_PI / 2, 0, 0), 0xFF00FF);
+		}
+		if (strcmp(av[1],"square") == 0)
+		{
+			add_square(w, v3new(0, 0, 0), v3new(0, 0.8, 0), 10,0xFF0000);
+		}
+		add_ligth(w, v3new(0, 5, 2.5), 800, 0x00FFFFFF);
+		add_camera(w, v3new(-2, 0, 2), v3new(0, 0.8, 0), v3new(90, 60, 0));
 	}
-	add_camera(w, v3new(-3.5, 0, 2), v3new(0, 0, 0), v3new(90, 60, 0));
 	raytracer.world = w;
 	if (ac == 1)
 	{

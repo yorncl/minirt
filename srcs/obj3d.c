@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   obj3d.c                                            :+:      :+:    :+:   */
+/*   t_obj3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,11 +12,11 @@
 
 #include <world.h>
 
-obj3d			*obj3dnew(obj_type type)
+t_obj3d			*t_obj3dnew(t_obj_type type)
 {
-	obj3d *o;
+	t_obj3d *o;
 
-	o = malloc(sizeof(obj3d));
+	o = malloc(sizeof(t_obj3d));
 	if (o == NULL)
 		return (NULL);
 	o->type = type;
@@ -24,7 +24,7 @@ obj3d			*obj3dnew(obj_type type)
 	return (o);
 }
 
-obj3d			*obj3dlast(obj3d *ptr)
+t_obj3d			*t_obj3dlast(t_obj3d *ptr)
 {
 	if (!ptr)
 		return (0);
@@ -33,18 +33,18 @@ obj3d			*obj3dlast(obj3d *ptr)
 	return (ptr);
 }
 
-obj3d			*obj3dadd(obj3d **ptr, obj_type type)
+t_obj3d			*t_obj3dadd(t_obj3d **ptr, t_obj_type type)
 {
-	obj3d	*o;
+	t_obj3d	*o;
 
 	if (!ptr)
 		return (0);
-	o = obj3dlast(*ptr);
+	o = t_obj3dlast(*ptr);
 	if(o == NULL)
 	{
-		*ptr = obj3dnew(type);
+		*ptr = t_obj3dnew(type);
 		return (*ptr);
 	}
-	o->next = obj3dnew(type);
+	o->next = t_obj3dnew(type);
 	return (o->next);
 }

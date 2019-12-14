@@ -3,17 +3,17 @@
 #include <assert.h>
 #include <math.h>
 
-void	assertv3(vec3 *a,vec3 *b)
+void	assertv3(t_vec3 *a,t_vec3 *b)
 {
 	assert(a->x == b->x);
 	assert(a->y == b->y);
 	assert(a->z == b->z);
 }
 
-void	print_vec(vec3 *v)
+void	print_vec(t_vec3 *v)
 {
 	printf(
-		"vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n",
+		"t_vec3:\n\tx: %lf\n\ty: %lf\n\tz: %lf\n",
 		v->x,
 		v->y,
 		v->z
@@ -25,14 +25,14 @@ int		main()
 	printf("LAUNCHING TESTS\n");
 	
 	printf("v3new\n");
-	vec3 *ptr = v3new(5,6,7);
-	vec3 *r = v3new(0,1,2);
+	t_vec3 *ptr = v3new(5,6,7);
+	t_vec3 *r = v3new(0,1,2);
 	free(ptr);
 	printf("\e[32;1mDaijobu !\e[0m\n");
 	
 	printf("v3add\n");
-	vec3 *a = v3new(1,1,1);
-	vec3 *b = v3new(-1,0,1);
+	t_vec3 *a = v3new(1,1,1);
+	t_vec3 *b = v3new(-1,0,1);
 	v3set(r,0,1,2);
 	v3add(a, b);
 	assertv3(a , r);
@@ -50,7 +50,7 @@ int		main()
 	v3set(a, 0,0,0);
 	v3set(b,0,0,0);
 	v3set(r,0,0,0);
-	vec3 *c = v3cross(a, b);
+	t_vec3 *c = v3cross(a, b);
 	assertv3(c, r);
 	free(c);
 	printf("v3cross 2\n");
@@ -90,19 +90,19 @@ int		main()
 	assert(v3dot(a, b) == 0);
 	printf("\e[32;1mDaijobu !\e[0m\n");
 	
-	printf("v3rotateX\n");
+	printf("v3rotatex\n");
 	v3set(a, 1,0,1);
-	v3rotateX(a, M_PI / 2);
+	v3rotatex(a, M_PI / 2);
 	print_vec(a);
 
-	printf("v3rotateY\n");
+	printf("v3rotatey\n");
 	v3set(a, 1,0,1);
-	v3rotateY(a, M_PI / 2);
+	v3rotatey(a, M_PI / 2);
 	print_vec(a);
 	
-	printf("v3rotateZ\n");
+	printf("v3rotatez\n");
 	v3set(a, 1,0,1);
-	v3rotateZ(a, M_PI / 2);
+	v3rotatez(a, M_PI / 2);
 	print_vec(a);
 	
 	printf("v3rotate3\n");

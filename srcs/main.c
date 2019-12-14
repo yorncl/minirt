@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/12 18:05:46 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:40:09 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 #include <string.h>
 
-void	camera_render(camera *c, unsigned int *img, t_world *w, t_minirt *rt)
+void	t_camera_render(t_camera *c, unsigned int *img, t_world *w, t_minirt *rt)
 {
 	int		i;
 	int		j;
-	vec3	r;
+	t_vec3	r;
 
 	j = -1;
 	while (++j < rt->resy)
@@ -33,7 +33,7 @@ void	camera_render(camera *c, unsigned int *img, t_world *w, t_minirt *rt)
 				(2 * i * c->py.y / rt->resx) + (2 * j * c->pz.y / rt->resy);
 			r.z = c->px.z - c->py.z - c->pz.z +
 				(2 * i * c->py.z / rt->resx) + (2 * j * c->pz.z / rt->resy);
-			img[j * rt->resx + i] = ray_trace(w, c->pos, r, 1);
+			img[j * rt->resx + i] = ray_trace(w, c->pos, r, 3);
 		}
 	}
 }
@@ -41,18 +41,18 @@ void	camera_render(camera *c, unsigned int *img, t_world *w, t_minirt *rt)
 int		loop(t_minirt *rt)
 {
 	double	angle = 0.1;
-	vec3	center = v3new(0, 0, 0);
-	vec3	dir = v3sub(rt->world->c->pos, center);
-	vec3	cp = v3cpy(dir);
-	v3rotateZ(&cp, -angle);
+	t_vec3	center = v3new(0, 0, 0);
+	t_vec3	dir = v3sub(rt->world->c->pos, center);
+	t_vec3	cp = v3cpy(dir);
+	v3rotatez(&cp, -angle);
 	rt->world->c->pos = v3add(rt->world->c->pos, v3sub(dir, cp));
-	camera_rot(rt->world->c, 0, 0, angle);
-	camera_render(rt->world->c, rt->img->imgdata, rt->world, rt);
+	t_camera_rot(rt->world->c, 0, 0, angle);
+	t_camera_render(rt->world->c, rt->img->imgdata, rt->world, rt);
 	mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
 	return (0);
 }
 
-int		move(int keycode, camera *c)
+int		move(int keycode, t_camera *c)
 {
 	if (keycode == 'd')
 		c->pos = v3add(c->pos, c->py);
@@ -124,7 +124,7 @@ int main(int ac, char **av)
 		add_ligth(w, v3new(-3.8, 3.8, 3), 150, 0xFF0000);
 		add_ligth(w, v3new(-3.8, -3.8, 3), 150, 0x00FF00);
 		// add_ligth(w, v3new(0, 3.8, 3), 250, 0x0000FF);
-		add_camera(w, v3new(-3.5, 0, 2), v3new(0, 0, 0), v3new(90, 60, 0));
+		add_t_camera(w, v3new(-3.5, 0, 2), v3new(0, 0, 0), v3new(90, 60, 0));
 	}
 	else
 	{
@@ -141,12 +141,12 @@ int main(int ac, char **av)
 			add_triangle(w, v3new(1,1, 0), v3new(1, 0, 2), v3new(0, 1, 0),0x00FF00);
 		}
 		add_ligth(w, v3new(0, 5, 2.5), 80, 0x00FFFFFF);
-		add_camera(w, v3new(-2, 0, 2), v3new(0, 0.8, 0), v3new(90, 60, 0));
+		add_t_camera(w, v3new(-2, 0, 2), v3new(0, 0.8, 0), v3new(90, 60, 0));
 	}
 	raytracer.world = w;
 	if (ac == 1)
 	{
-		camera_render(w->c, raytracer.img->imgdata, raytracer.world, &raytracer);
+		t_camera_render(w->c, raytracer.img->imgdata, raytracer.world, &raytracer);
 		mlx_put_image_to_window(raytracer.mlx, raytracer.win, raytracer.img->img, 0, 0);
 	}
 	else

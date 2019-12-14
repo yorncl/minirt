@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/12 17:38:02 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #include <stdio.h>
 
 
-unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p, vec3 r, unsigned int depth)
+unsigned int		ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r, unsigned int depth)
 {
-	obj3d *ptr;
-	vec3 n;
-	vec3 v;
+	t_obj3d *ptr;
+	t_vec3 n;
+	t_vec3 v;
 	double ratio;
 
 	t_color color;
@@ -57,7 +57,7 @@ unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p, vec3 r, unsigned int dep
 	return (color.v);
 }
 
-t_color				direct_lightning(t_light *l, vec3 p, vec3 albedo, double ratio)
+t_color				direct_lightning(t_light *l, t_vec3 p, t_vec3 albedo, double ratio)
 {
 	double	r;
 	double	coeff;
@@ -67,14 +67,14 @@ t_color				direct_lightning(t_light *l, vec3 p, vec3 albedo, double ratio)
 	return (colormultiplyf(colormultiplyv3(l->color, albedo), coeff));
 }
 
-int isfacinglight(obj3d *obj, vec3 l, vec3 r)
+int isfacinglight(t_obj3d *obj, t_vec3 l, t_vec3 r)
 {
 	return (v3dot(obj->normal(obj), l) * v3dot(obj->normal(obj), r) > 0);
 }
 
-double			ray_intersect(t_world *w, vec3 p, vec3 r, obj3d **closestobj)
+double			ray_intersect(t_world *w, t_vec3 p, t_vec3 r, t_obj3d **closestobj)
 {
-	obj3d	*ptr;
+	t_obj3d	*ptr;
 	double	closest;
 	double	t;
 
@@ -95,11 +95,11 @@ double			ray_intersect(t_world *w, vec3 p, vec3 r, obj3d **closestobj)
 	return (closest);
 }
 
-unsigned int	ray_trace(t_world *w, vec3 origin, vec3 r, unsigned int depth)
+unsigned int	ray_trace(t_world *w, t_vec3 origin, t_vec3 r, unsigned int depth)
 {
 	double	closest;
-	vec3	p;
-	obj3d	*closestobj;
+	t_vec3	p;
+	t_obj3d	*closestobj;
 
 	if (depth == 0)
 		return (0);
@@ -107,12 +107,17 @@ unsigned int	ray_trace(t_world *w, vec3 origin, vec3 r, unsigned int depth)
 	if (closest != -1)
 	{
 		p = v3add(origin, v3scale(r, closest));
-		return (ray_shade(closestobj, w, p, r, depth));
+		return (
+			coloradd(
+				colormultiplyf((t_color)ray_shade(closestobj, w, p, r, depth), closestobj->material->diffuse),
+				colormultiplyf((t_color)ray_trace(w, p, closestobj->normal(closestobj, p), depth - 1), closestobj->material->specular)
+			).v
+		);
 	}
 	return (0);
 }
 
-double			hit(obj3d *obj, vec3 r, vec3 p)
+double			hit(t_obj3d *obj, t_vec3 r, t_vec3 p)
 {
 	if (obj->type == SPHERE)
 		return (hit_sphere((t_sphere*)obj->obj, r, p));

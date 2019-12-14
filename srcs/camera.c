@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.c                                           :+:      :+:    :+:   */
+/*   t_camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,17 +12,17 @@
 
 #include <camera.h>
 
-camera	*camera_create()
+t_camera	*t_camera_create()
 {
-	camera *c;
+	t_camera *c;
 
-	c = ft_calloc(1, sizeof(camera));
+	c = ft_calloc(1, sizeof(t_camera));
 	if (c == NULL)
 		return (NULL);
 	return (c);
 }
 
-void	camera_init_pos(camera *c, double x, double y, double z)
+void	t_camera_init_pos(t_camera *c, double x, double y, double z)
 {
 	c->pos = v3new(
 		x,
@@ -31,7 +31,7 @@ void	camera_init_pos(camera *c, double x, double y, double z)
 	);
 }
 
-void	camera_init_vectors(camera *c, double hfov, double vfov)
+void	t_camera_init_vectors(t_camera *c, double hfov, double vfov)
 {
 	hfov /= 2;
 	vfov /= 2;
@@ -40,7 +40,7 @@ void	camera_init_vectors(camera *c, double hfov, double vfov)
 	c->pz = v3new(0,0,-tan(vfov * (M_PI / 180)));
 }
 
-void	camera_rot(camera *c, double x, double y, double z)
+void	t_camera_rot(t_camera *c, double x, double y, double z)
 {
 	v3rotate3(&(c->px), x, y, z);
 	v3rotate3(&(c->py), x, y, z);

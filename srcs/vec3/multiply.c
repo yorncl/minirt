@@ -6,13 +6,13 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 19:20:26 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 16:34:33 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <vec3.h>
 
-vec3	v3scale(vec3 v, double s)
+t_vec3	v3scale(t_vec3 v, double s)
 {
 	return (
 		v3new(
@@ -21,7 +21,7 @@ vec3	v3scale(vec3 v, double s)
 			v.z * s));
 }
 
-vec3	v3cross(vec3 a, vec3 b)
+t_vec3	v3cross(t_vec3 a, t_vec3 b)
 {
 	return (
 		v3new(
@@ -30,7 +30,7 @@ vec3	v3cross(vec3 a, vec3 b)
 			a.x * b.y - a.y * b.x));
 }
 
-double	v3dot(vec3 a, vec3 b)
+double	v3dot(t_vec3 a, t_vec3 b)
 {
 	return (a.x * b.x +
 			a.y * b.y +

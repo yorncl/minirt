@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 20:41:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 15:38:30 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@
 # include <vec3.h>
 # include <libft.h>
 
-typedef struct 	s_camera
+typedef struct	s_camera
 {
-	vec3	pos;
-	vec3	px;
-	vec3	py;
-	vec3	pz;
-}				camera;
+	t_vec3	pos;
+	t_vec3	px;
+	t_vec3	py;
+	t_vec3	pz;
+}				t_camera;
 
-camera	*camera_create();
-void	camera_init_pos(camera *c, double x, double y, double z);
-void	camera_init_vectors(camera *c, double hfov, double vfov);
-void	camera_rot(camera *c, double x, double y, double z);
-
-#endif 
+t_camera		*t_camera_create();
+void			t_camera_init_pos(t_camera *c, double x, double y, double z);
+void			t_camera_init_vectors(t_camera *c, double hfov, double vfov);
+void			t_camera_rot(t_camera *c, double x, double y, double z);
+#endif

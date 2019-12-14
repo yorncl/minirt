@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:48:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/12 17:23:08 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 #include <stdio.h>
 
-vec3	sphere_normal(obj3d *obj, vec3 p, vec3 o)
+t_vec3	sphere_normal(t_obj3d *obj, t_vec3 p, t_vec3 o)
 {
 	t_sphere	*ptr;
-	vec3		v;
+	t_vec3		v;
 	double		m;
 
 	(void)o;
@@ -27,7 +27,7 @@ vec3	sphere_normal(obj3d *obj, vec3 p, vec3 o)
 	return (v3new(v.x / m, v.y / m, v.z / m));
 }
 
-vec3	plane_normal(obj3d *obj, vec3 p, vec3 o)
+t_vec3	plane_normal(t_obj3d *obj, t_vec3 p, t_vec3 o)
 {
 	t_plane *ptr;
 
@@ -37,7 +37,7 @@ vec3	plane_normal(obj3d *obj, vec3 p, vec3 o)
 	return (ptr->n);
 }
 
-vec3	square_normal(obj3d *obj, vec3 p, vec3 o)
+t_vec3	square_normal(t_obj3d *obj, t_vec3 p, t_vec3 o)
 {
 	t_square *ptr;
 
@@ -47,7 +47,7 @@ vec3	square_normal(obj3d *obj, vec3 p, vec3 o)
 	return (ptr->n);
 }
 
-vec3	triangle_normal(obj3d *obj, vec3 p, vec3 o)
+t_vec3	triangle_normal(t_obj3d *obj, t_vec3 p, t_vec3 o)
 {
 	t_square *ptr;
 

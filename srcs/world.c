@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:11:32 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/09 23:49:33 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@ t_world			*world_init(void)
 	return (w);
 }
 
-int				add_camera(t_world *w, vec3 pos, vec3 rot, vec3 fov)
+int				add_t_camera(t_world *w, t_vec3 pos, t_vec3 rot, t_vec3 fov)
 {
-	camera	*c;
+	t_camera	*c;
 
-	c = camera_create();
+	c = t_camera_create();
 	if (c == NULL)
 		return (ERROR);
-	camera_init_pos(c, pos.x, pos.y, pos.z);
-	camera_init_vectors(c, fov.x, fov.y);
-	camera_rot(c, rot.x, rot.y, rot.z);
+	t_camera_init_pos(c, pos.x, pos.y, pos.z);
+	t_camera_init_vectors(c, fov.x, fov.y);
+	t_camera_rot(c, rot.x, rot.y, rot.z);
 	w->c = c;
 	return (SUCCESS);
 }
 
-int				add_ligth(t_world *w, vec3 pos,
+int				add_ligth(t_world *w, t_vec3 pos,
 	double intensity, unsigned int color)
 {
 	t_light *ptr;

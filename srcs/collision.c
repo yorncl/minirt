@@ -6,15 +6,15 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 08:57:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/12 17:31:25 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ray.h>
 
-double			hit_sphere(t_sphere *obj, vec3 r, vec3 p)
+double			hit_sphere(t_sphere *obj, t_vec3 r, t_vec3 p)
 {
-	vec3	oc;
+	t_vec3	oc;
 	double	a;
 	double	b;
 	double	c;
@@ -28,7 +28,7 @@ double			hit_sphere(t_sphere *obj, vec3 r, vec3 p)
 	return (delta > 0 ? (-b - sqrt(delta)) / (2.0 * a) : NOHIT);
 }
 
-double			hit_plane(t_plane *obj, vec3 r, vec3 p)
+double			hit_plane(t_plane *obj, t_vec3 r, t_vec3 p)
 {
 	double denom;
 	double t;
@@ -42,10 +42,10 @@ double			hit_plane(t_plane *obj, vec3 r, vec3 p)
 	return (NOHIT);
 }
 
-double			hit_square(t_square *obj, vec3 r, vec3 p)
+double			hit_square(t_square *obj, t_vec3 r, t_vec3 p)
 {
 	double	t;
-	vec3	inter;
+	t_vec3	inter;
 	int		hitted;
 
 	if ((t = hit_plane((t_plane*)obj, r, p)) != NOHIT)
@@ -66,11 +66,10 @@ double			hit_square(t_square *obj, vec3 r, vec3 p)
 	return (NOHIT);
 }
 
-
-double			hit_triangle(t_triangle *obj, vec3 r, vec3 p)
+double			hit_triangle(t_triangle *obj, t_vec3 r, t_vec3 p)
 {
 	double	t;
-	vec3	inter;
+	t_vec3	inter;
 	int		hitted;
 
 	if ((t = hit_plane((t_plane*)obj, r, p)) != NOHIT)

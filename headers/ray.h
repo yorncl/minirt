@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:56:51 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/12 17:35:26 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@
 /*
 **	Ray
 */
-unsigned int		ray_trace(t_world *w, vec3 origin, vec3 r, unsigned int depth);
-double				ray_intersect(t_world *w, vec3 p, vec3 r, obj3d **closestobj);
-unsigned int		ray_shade(obj3d *obj, t_world *w, vec3 p, vec3 r, unsigned int depth);
-double				hit(obj3d *obj, vec3 r, vec3 p);
+unsigned int		ray_trace(t_world *w, t_vec3 origin, t_vec3 r, unsigned int depth);
+double				ray_intersect(t_world *w, t_vec3 p, t_vec3 r, t_obj3d **closestobj);
+unsigned int		ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r, unsigned int depth);
+double				hit(t_obj3d *obj, t_vec3 r, t_vec3 p);
 
 /*
 **	Collisions
 */
-double				hit_sphere(t_sphere *obj, vec3 r, vec3 p);
-double				hit_plane(t_plane *obj, vec3 r, vec3 p);
-double				hit_square(t_square *obj, vec3 r, vec3 p);
-double				hit_triangle(t_triangle *obj, vec3 r, vec3 p);
+double				hit_sphere(t_sphere *obj, t_vec3 r, t_vec3 p);
+double				hit_plane(t_plane *obj, t_vec3 r, t_vec3 p);
+double				hit_square(t_square *obj, t_vec3 r, t_vec3 p);
+double				hit_triangle(t_triangle *obj, t_vec3 r, t_vec3 p);
 
 /*
 **	Special cases
 */
-int					isfacinglight(obj3d *obj, vec3 l, vec3 r);
+int					isfacinglight(t_obj3d *obj, t_vec3 l, t_vec3 r);
 #endif

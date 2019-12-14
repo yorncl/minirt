@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 14:27:46 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/12 12:14:30 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ unsigned int	viewed_color(t_color surface, t_color light, double intensity)
 }
 
 
-unsigned int	left_color(unsigned int l, vec3 albedo, double intensity)
+unsigned int	left_color(unsigned int l, t_vec3 albedo, double intensity)
 {
 	t_color c;
 
@@ -51,7 +51,7 @@ t_color		colormultiplyf(t_color c, double coef)
 	return (c);
 }
 
-t_color		colormultiplyv3(t_color c, vec3 v)
+t_color		colormultiplyv3(t_color c, t_vec3 v)
 {
 	unsigned int	tmp;
 

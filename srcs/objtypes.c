@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 15:03:13 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 15:11:45 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int			add_cylinder(t_world *w, t_vec3 pos, t_vec3 rot, double height, double rad
 	s->height = height;
 	s->pos = pos;
 	ptr->obj = s;
-	ptr->normal = &sphere_normal;
+	ptr->normal = &cylinder_normal;
 	
 	
 	ptr->material = create_material(color, 0.9, 0.1);

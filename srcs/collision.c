@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 08:57:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 16:12:25 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,20 @@ double			hit_triangle(t_triangle *obj, t_vec3 r, t_vec3 p)
 		if (hitted == 3 || hitted == 0)
 			return (t);
 	}
+	return (NOHIT);
+}
+
+double			hit_cylinder(t_cylinder *obj, t_vec3 r, t_vec3 p)
+{
+	(void)obj;
+	(void)r;
+	(void)p;
+
+	double a;
+	double b;
+	double c;
+	double delta;
+	r = v3sub(r, obj->pos);
+	a = 
 	return (NOHIT);
 }

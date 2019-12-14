@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:56:51 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 15:11:15 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ double				hit_sphere(t_sphere *obj, t_vec3 r, t_vec3 p);
 double				hit_plane(t_plane *obj, t_vec3 r, t_vec3 p);
 double				hit_square(t_square *obj, t_vec3 r, t_vec3 p);
 double				hit_triangle(t_triangle *obj, t_vec3 r, t_vec3 p);
-
+double				hit_cylinder(t_cylinder *obj, t_vec3 r, t_vec3 p);
 /*
 **	Special cases
 */

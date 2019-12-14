@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/14 15:15:05 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,7 @@ double			hit(t_obj3d *obj, t_vec3 r, t_vec3 p)
 		return (hit_square((t_square*)obj->obj, r, p));
 	if (obj->type == TRIANGLE)
 		return (hit_triangle((t_triangle*)obj->obj, r, p));
+	if (obj->type == CYLINDER)
+		return (hit_cylinder((t_cylinder*)obj->obj, r, p));
 	return (0);
 }

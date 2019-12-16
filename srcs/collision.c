@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 08:57:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 16:38:39 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/16 10:22:00 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ double			hit_cylinder(t_cylinder *obj, t_vec3 r, t_vec3 p)
 	(void)r;
 	(void)p;
 
-	double a;
-	double b;
-	double c;
-	double delta;
+	// double a;
+	// double b;
+	// double c;
+	// double delta;
 	r = v3sub(r, obj->pos);
 	// a = 
 	return (NOHIT);

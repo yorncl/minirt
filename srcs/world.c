@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:11:32 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/16 10:22:35 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,18 @@ int				add_ligth(t_world *w, t_vec3 pos,
 		return (ERROR);
 	}
 	ft_lstadd_front(&(w->lights), a);
+	return (SUCCESS);
+}
+
+int				add_ambient(t_world *w, double intensity, unsigned int color)
+{
+	t_light *ptr;
+
+	ptr = ft_calloc(1, sizeof(t_light));
+	if (ptr == NULL)
+		return (ERROR);
+	ptr->intensity = intensity;
+	ptr->color = (t_color)color;
+	w->ambient = ptr;
 	return (SUCCESS);
 }

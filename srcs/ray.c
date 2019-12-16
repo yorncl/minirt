@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 15:15:05 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/16 10:27:22 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ unsigned int		ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r, unsigned i
 	}
 
 	// color += light_diffuse(,) + light_specular() + light_(refracted);
-
+	color = coloradd(color, colormultiplyf(colormultiplyv3(w->ambient->color, obj->material->albedo), w->ambient->intensity));
 	return (color.v);
 }
 

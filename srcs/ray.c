@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/16 10:27:22 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/16 15:27:23 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ unsigned int		ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r, unsigned i
 				continue;
 			}
 		ratio = ray_intersect(w, light->pos, v, &ptr);
-		if (ratio > 0.99)
+		if (ratio > 0.999)
 		{
 			n = obj->normal(obj, p, r, v);
 			ratio = fabs(v3dot(n, v3normalize(v)));

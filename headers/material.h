@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 15:21:04 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/16 14:35:36 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 */
 typedef struct	s_material
 {
-	t_vec3   albedo;
+	t_vec3 albedo;
 	double refractive;
 	double refractionindex;
 	double specular;

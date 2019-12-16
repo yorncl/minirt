@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/16 10:47:04 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/16 15:29:04 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,13 @@ int main(int ac, char **av)
 		// add_plane(w, v3new(0, 4, 0), v3new(M_PI / 2, 0, 0), 0xFF0000);
 		
 		
+		add_sphere(w, v3new(0, 0, 1), 1, 0x00ffffff);
 		add_sphere(w, v3new(3, -3, 1), 1, 0x00ff0000);
 		add_sphere(w, v3new(0, 3, 1), 1, 0x0000FF00);
 		add_sphere(w, v3new(0.5, -2.5, 0.4), 0.4, 0x00FF00FF);
 		add_sphere(w, v3new(2, 3, 0.6), 0.6, 0x9922FF);
-		add_sphere(w, v3new(-2, 2.5, 0.6), 0.6, 0x0000bfFF);
-		add_sphere(w, v3new(0, 0, 0.7), 0.7, 0x00FFdfFF);
+		// add_sphere(w, v3new(-2, 2.5, 0.6), 0.6, 0x0000bfFF);
+		// add_sphere(w, v3new(0, 0, 0.7), 0.7, 0x00FFdfFF);
 		// add_sphere(w, v3new(-1, -3, 0.8), 0.8, 0x00Fd00FF);
 		// add_sphere(w, v3new(-2.2, -0.4, 0.2), 0.2, 0x00FF00FF);
 
@@ -120,12 +121,12 @@ int main(int ac, char **av)
 
 		// add_square(w, v3new(1, -1, 2.5), v3new(0.4, -0.8, 0), 1,0xFF0000);
 
-		add_ligth(w, v3new(0, 0, 3), 120, 0xFFFFFF);
+		//add_ligth(w, v3new(0, 0, 3), 120, 0xFFFFFF);
 		add_ligth(w, v3new(3.8, 3.8, 3), 30, 0xFF00FF);
 		add_ligth(w, v3new(-3.8, 3.8, 3), 150, 0xFF0000);
 		add_ligth(w, v3new(-3.8, -3.8, 3), 150, 0x00FF00);
-		// add_ligth(w, v3new(0, 3.8, 3), 250, 0x0000FF);
-		add_t_camera(w, v3new(-3.5, 0, 2), v3new(0, 0, 0), v3new(90, 60, 0));
+		add_ligth(w, v3new(0, 3.8, 3), 250, 0x0000FF);
+		add_t_camera(w, v3new(-5.5, 0, 3), v3new(0, 0.4, 0), v3new(90, 60, 0));
 	}
 	else
 	{

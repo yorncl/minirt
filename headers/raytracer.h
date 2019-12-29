@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 
+#include <parser.h>
 #include <math.h>
 #include <stdlib.h>
 #include <limits.h>

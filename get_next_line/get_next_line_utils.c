@@ -6,13 +6,13 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 14:58:25 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/10/30 08:24:50 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/29 16:52:05 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substrg(char const *s, unsigned int start, size_t len)
 {
 	char	*dest;
 	size_t	i;
@@ -43,11 +43,11 @@ int		endofline(char *str, int len)
 	return (-1);
 }
 
-t_list	*ft_lstnew(int fd)
+t_listg	*ft_lstnewg(int fd)
 {
-	t_list *el;
+	t_listg *el;
 
-	if (!(el = malloc(sizeof(t_list))))
+	if (!(el = malloc(sizeof(t_listg))))
 		return (NULL);
 	el->fd = fd;
 	el->charsleft = 0;
@@ -56,17 +56,17 @@ t_list	*ft_lstnew(int fd)
 	return (el);
 }
 
-t_list	*ft_lst_by_fd(int fd, t_list **list)
+t_listg	*ft_lst_by_fd(int fd, t_listg **listg)
 {
-	t_list *prev;
-	t_list *l;
+	t_listg *prev;
+	t_listg *l;
 
-	if (!*list)
+	if (!*listg)
 	{
-		*list = ft_lstnew(fd);
-		return (*list);
+		*listg = ft_lstnewg(fd);
+		return (*listg);
 	}
-	l = *list;
+	l = *listg;
 	while (l)
 		if (fd == l->fd)
 			return (l);
@@ -75,21 +75,21 @@ t_list	*ft_lst_by_fd(int fd, t_list **list)
 			prev = l;
 			l = l->next;
 		}
-	prev->next = ft_lstnew(fd);
+	prev->next = ft_lstnewg(fd);
 	return (prev->next);
 }
 
-void	ft_lst_remove(int fd, t_list **list)
+void	ft_lst_remove(int fd, t_listg **listg)
 {
-	t_list *prev;
-	t_list *curr;
+	t_listg *prev;
+	t_listg *curr;
 
-	curr = *list;
+	curr = *listg;
 	if (curr->fd == fd)
 	{
 		curr = curr->next;
-		free(*list);
-		*list = curr;
+		free(*listg);
+		*listg = curr;
 		return ;
 	}
 	prev = curr;

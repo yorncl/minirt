@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 10:58:05 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/10/31 17:42:55 by mclaudel         ###   ########.fr       */
+/*   Updated: 2019/12/29 16:52:23 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_memjoin(char const *s1, int l1, char const *s2, int l2)
 	return (str);
 }
 
-int		managecharsleft(t_list *l, t_line *s_line)
+int		managecharsleft(t_listg *l, t_line *s_line)
 {
 	char	*tmp;
 	int		e;
@@ -39,12 +39,12 @@ int		managecharsleft(t_list *l, t_line *s_line)
 		return (0);
 	if ((e = endofline(l->charsleft, l->size)) != -1)
 	{
-		if (!(*(s_line->line) = ft_substr(l->charsleft, 0, e)))
+		if (!(*(s_line->line) = ft_substrg(l->charsleft, 0, e)))
 			return (-1);
 		tmp = l->charsleft;
 		if (l->size == e + 1)
 			l->charsleft = 0;
-		else if (!(l->charsleft = ft_substr(l->charsleft, e + 1, l->size - e)))
+		else if (!(l->charsleft = ft_substrg(l->charsleft, e + 1, l->size - e)))
 			return (-1);
 		free(tmp);
 		l->size -= e + 1;
@@ -72,7 +72,7 @@ int		allocandconcat(t_line *s_line, char *buff, int tocpy)
 	return (0);
 }
 
-int		readloop(int fd, char *buff, t_line *s_line, t_list *current)
+int		readloop(int fd, char *buff, t_line *s_line, t_listg *current)
 {
 	int rd;
 	int eol;
@@ -95,7 +95,7 @@ int		readloop(int fd, char *buff, t_line *s_line, t_list *current)
 		return (-1);
 	if (eol + 1 == rd)
 		current->charsleft = 0;
-	else if (!(current->charsleft = ft_substr(buff, eol + 1, rd - eol - 1)))
+	else if (!(current->charsleft = ft_substrg(buff, eol + 1, rd - eol - 1)))
 		return (-1);
 	current->size = rd - eol - 1;
 	return (1);
@@ -103,8 +103,8 @@ int		readloop(int fd, char *buff, t_line *s_line, t_list *current)
 
 int		get_next_line(int fd, char **line)
 {
-	static t_list	*list;
-	t_list			*current;
+	static t_listg	*list;
+	t_listg			*current;
 	t_line			s_line;
 	char			*buff;
 	int				i;

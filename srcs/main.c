@@ -71,8 +71,8 @@ int main(int ac, char **av)
 	
 	if (ac == 1)
 	{
-		raytracer.resx = 1920;
-		raytracer.resy = 1080;
+		raytracer.resx = 1920/2;
+		raytracer.resy = 1080/2;
 	}
 	else
 	{
@@ -95,70 +95,21 @@ int main(int ac, char **av)
 	raytracer.win = mlx_new_window(raytracer.mlx, raytracer.resx, raytracer.resy, "Ma window");
 
 	t_world *w = world_init();
-
-	if (ac == 1)
-	{
-		add_ambient(w, 0.2, 0xffffff);
-		add_plane(w, v3new(0, 0, 0), v3new(0, 0, 0), 0x00ffffff);
-		// add_plane(w, v3new(0, 0, 4), v3new(0, 0, 0), 0x00ffffff);
-		// add_plane(w, v3new(-4, 0, 0), v3new(0, M_PI / 2, 0), 0xFF0055);
-		// add_plane(w, v3new(4, 0, 0), v3new(0, M_PI / 2, 0), 0x0000FF);
-		// add_plane(w, v3new(0, -4, 0), v3new(M_PI / 2, 0, 0), 0x00FF00);
-		// add_plane(w, v3new(0, 4, 0), v3new(M_PI / 2, 0, 0), 0xFF0000);
-		
-		
-		add_sphere(w, v3new(0, 0, 1), 1, 0x00ffffff);
-		add_sphere(w, v3new(3, -3, 1), 1, 0x00ff0000);
-		add_sphere(w, v3new(0, 3, 1), 1, 0x0000FF00);
-		add_sphere(w, v3new(0.5, -2.5, 0.4), 0.4, 0x00FF00FF);
-		add_sphere(w, v3new(2, 3, 0.6), 0.6, 0x9922FF);
-		// add_sphere(w, v3new(-2, 2.5, 0.6), 0.6, 0x0000bfFF);
-		// add_sphere(w, v3new(0, 0, 0.7), 0.7, 0x00FFdfFF);
-		// add_sphere(w, v3new(-1, -3, 0.8), 0.8, 0x00Fd00FF);
-		// add_sphere(w, v3new(-2.2, -0.4, 0.2), 0.2, 0x00FF00FF);
-
-		// add_triangle(w, v3new(3,1, 3), v3new(4, 0, 2), v3new(2, 1, 1),0x00FF00);
-
-		// add_square(w, v3new(1, -1, 2.5), v3new(0.4, -0.8, 0), 1,0xFF0000);
-
-		//add_ligth(w, v3new(0, 0, 3), 120, 0xFFFFFF);
-		add_ligth(w, v3new(3.8, 3.8, 3), 30, 0xFF00FF);
-		add_ligth(w, v3new(-3.8, 3.8, 3), 150, 0xFF0000);
-		add_ligth(w, v3new(-3.8, -3.8, 3), 150, 0x00FF00);
-		add_ligth(w, v3new(0, 3.8, 3), 250, 0x0000FF);
-		add_t_camera(w, v3new(-5.5, 0, 3), v3new(0, 0.4, 0), v3new(90, 60, 0));
-	}
-	else
-	{
-		if (strcmp(av[1],"plane") == 0)
-		{
-			add_plane(w, v3new(0, 0, 1.5), v3new(M_PI / 2, 0, 0), 0xFF00FF);
-		}
-		if (strcmp(av[1],"square") == 0)
-		{
-			add_square(w, v3new(0, 0, 0), v3new(0, 0.8, 0), 10,0xFF0000);
-		}
-		if (strcmp(av[1],"triangle") == 0)
-		{
-			add_triangle(w, v3new(1,1, 0), v3new(1, 0, 2), v3new(0, 1, 0),0x00FF00);
-		}
-		if (strcmp(av[1],"cylinder") == 0)
-		{
-			add_cylinder(w, v3new(0,0, 0), v3new(0, 0, 0), 1, 1,0x00bb00);
-		}
-		add_ligth(w, v3new(0, 5, 2.5), 80, 0x00FFFFFF);
-		add_t_camera(w, v3new(-2, 0, 2), v3new(0, 0.8, 0), v3new(90, 60, 0));
-	}
 	raytracer.world = w;
-	if (ac == 1)
-	{
-		t_camera_render(w->c, raytracer.img->imgdata, raytracer.world, &raytracer);
-		mlx_put_image_to_window(raytracer.mlx, raytracer.win, raytracer.img->img, 0, 0);
-	}
-	else
-	{
-		mlx_loop_hook(raytracer.mlx, &loop, &raytracer);
-	//	mlx_key_hook(raytracer.mlx, &move, w->c);
-	}
-	mlx_loop(raytracer.mlx);
+
+	double test;
+
+	parse_double(&test, "15 0.652");
+	printf("DOUBLE: %lf\n", test);
+	// // if (ac == 1)
+	// // {
+	// 	t_camera_render(w->c, raytracer.img->imgdata, raytracer.world, &raytracer);
+	// 	mlx_put_image_to_window(raytracer.mlx, raytracer.win, raytracer.img->img, 0, 0);
+	// // }
+	// // else
+	// // {
+	// // 	mlx_loop_hook(raytracer.mlx, &loop, &raytracer);
+	// // //	mlx_key_hook(raytracer.mlx, &move, w->c);
+	// // }
+	// mlx_loop(raytracer.mlx);
 }

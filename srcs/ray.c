@@ -31,6 +31,7 @@ unsigned int		ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r, unsigned i
 
 	l = w->lights;
 	color.v = 0;
+
 	while (l)
 	{
 		light = (t_light*)l->content;

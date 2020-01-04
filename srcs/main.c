@@ -101,15 +101,20 @@ int main(int ac, char **av)
 
 	parse_double(&test, "15 0.652");
 	printf("DOUBLE: %lf\n", test);
-	// // if (ac == 1)
-	// // {
-	// 	t_camera_render(w->c, raytracer.img->imgdata, raytracer.world, &raytracer);
-	// 	mlx_put_image_to_window(raytracer.mlx, raytracer.win, raytracer.img->img, 0, 0);
-	// // }
-	// // else
-	// // {
-	// // 	mlx_loop_hook(raytracer.mlx, &loop, &raytracer);
-	// // //	mlx_key_hook(raytracer.mlx, &move, w->c);
-	// // }
-	// mlx_loop(raytracer.mlx);
+	// if (ac == 1)
+	// {
+		// add_sphere(w, v3new(0, 0, 0), 0.5, 0xff0000);
+		add_cylinder(w, v3new(0, 0, 0), v3new(0, 0, 0), 0.5, 1, 0xffffff);
+		add_ligth(w, v3new(-5, 0, 5), 600, 0xff0000);
+		add_ambient(w, 0, 0xffffff);
+		add_t_camera(w, v3new(-5, 0, 0), v3new(0, 0, 0), v3new(90, 60, 0));
+		t_camera_render(w->c, raytracer.img->imgdata, raytracer.world, &raytracer);
+		mlx_put_image_to_window(raytracer.mlx, raytracer.win, raytracer.img->img, 0, 0);
+	// }
+	// else
+	// {
+	// 	mlx_loop_hook(raytracer.mlx, &loop, &raytracer);
+	// //	mlx_key_hook(raytracer.mlx, &move, w->c);
+	// }
+	mlx_loop(raytracer.mlx);
 }

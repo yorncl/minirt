@@ -12,6 +12,8 @@
 
 #include <ray.h>
 
+#include <stdio.h>
+
 double			hit_sphere(t_sphere *obj, t_vec3 r, t_vec3 p)
 {
 	t_vec3	oc;
@@ -95,10 +97,25 @@ double			hit_cylinder(t_cylinder *obj, t_vec3 r, t_vec3 p)
 	(void)p;
 
 	// double a;
-	// double b;
 	// double c;
+	// double d;
 	// double delta;
-	r = v3sub(r, obj->pos);
-	// a = 
+	// t_vec3 vd;
+	// t_vec3 x;
+	// t_vec3 y;
+
+	t_vec3 AB = obj->dir;
+	t_vec3 AO = v3sub(p, obj->pos);
+	t_vec3 AOxAB = v3cross(AO,AB);
+	t_vec3 VxAB  = v3cross(r, AB);
+	double ab2 = v3dot(AB,AB);
+	double a = v3dot(VxAB,VxAB);
+	double b = 2 * v3dot(VxAB, AOxAB);
+	double c = v3dot(AOxAB, AOxAB) - (obj->radius * obj->radius * ab2);
+	double d = b * b - 4 * a * c;
+	if (d < 0) return NOHIT;
+	double time = (-b - sqrt(d)) / (2 * a);
+	if (time > 0) return time;
+
 	return (NOHIT);
 }

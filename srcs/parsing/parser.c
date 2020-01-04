@@ -22,8 +22,7 @@
 // 			return (SUCCESS)
 // 	}
 // }
- q
-i nt		parse_double(double *v, char *line)
+int		parse_double(double *v, char *line)
 {
 	double a;
 	double coef;

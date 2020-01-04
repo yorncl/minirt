@@ -152,6 +152,7 @@ int			add_cylinder(t_world *w, t_vec3 pos, t_vec3 rot, double height, double rad
 	s->radius = radius;
 	s->height = height;
 	s->pos = pos;
+	s->dir = dir;
 	ptr->obj = s;
 	ptr->normal = &cylinder_normal;
 	

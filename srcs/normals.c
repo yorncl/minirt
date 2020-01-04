@@ -65,6 +65,6 @@ t_vec3	cylinder_normal(t_obj3d *obj, t_vec3 p, t_vec3 o)
 	(void)o;
 	ptr = (t_cylinder*)obj->obj;
 	v = v3sub(p, ptr->pos);
-	return (v3normalize(
-		v3sub(v, v3scale(ptr->dir, v3dot(ptr->dir, v)))));
+	v = v3cross(v, ptr->dir);
+	return (v3normalize(v3cross(v, ptr->dir)));
 }

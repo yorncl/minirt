@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/16 15:40:03 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/07 18:53:20 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int			add_cylinder(t_world *w, t_vec3 pos, t_vec3 rot, double height, double rad
 	s->radius = radius;
 	s->height = height;
 	s->pos = pos;
+	s->pos2 = v3add(pos, v3scale(dir, height));
 	s->dir = dir;
 	ptr->obj = s;
 	ptr->normal = &cylinder_normal;

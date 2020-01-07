@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 08:57:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/16 10:22:00 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/07 19:36:23 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,26 +96,40 @@ double			hit_cylinder(t_cylinder *obj, t_vec3 r, t_vec3 p)
 	(void)r;
 	(void)p;
 
-	// double a;
-	// double c;
-	// double d;
-	// double delta;
-	// t_vec3 vd;
-	// t_vec3 x;
-	// t_vec3 y;
 
-	t_vec3 AB = obj->dir;
-	t_vec3 AO = v3sub(p, obj->pos);
-	t_vec3 AOxAB = v3cross(AO,AB);
-	t_vec3 VxAB  = v3cross(r, AB);
-	double ab2 = v3dot(AB,AB);
-	double a = v3dot(VxAB,VxAB);
-	double b = 2 * v3dot(VxAB, AOxAB);
-	double c = v3dot(AOxAB, AOxAB) - (obj->radius * obj->radius * ab2);
-	double d = b * b - 4 * a * c;
-	if (d < 0) return NOHIT;
-	double time = (-b - sqrt(d)) / (2 * a);
-	if (time > 0) return time;
 
+	t_vec3 tmp;
+	t_vec3 tmp2;
+	t_vec3 tmp3;
+
+	tmp = v3sub(r, v3scale(obj->dir, v3dot(obj->dir, r)));
+	tmp2 = v3sub(p, obj->pos);
+	tmp3 = v3sub(tmp2, v3scale(obj->dir, v3dot(tmp2, obj->dir)));
+	double a = v3dot(tmp,tmp);
+	double b = 2 * v3dot(tmp, tmp3);
+	double c = v3dot(tmp3, tmp3) - obj->radius * obj->radius;
+
+	double delta = b * b - 4 * a * c;
+	if (delta >= 0)
+	{
+		double time = (- b - sqrt(delta)) / (2 * a);
+		tmp = v3add(p, v3scale(r, time));
+		tmp2 = v3sub(tmp, obj->pos);
+		tmp3 = v3sub(tmp, obj->pos2);
+		tmp = v3minus(obj->dir);
+		// printf("Hello everyone! %lf\n", time);
+		if(v3dot(obj->dir, tmp2) > 0 && v3dot(tmp, tmp3) > 0)
+			return time;
+		else if(delta > 0)
+		{
+			time = (- b + sqrt(delta)) / (2 * a);
+			tmp = v3add(p, v3scale(r, time));
+			tmp2 = v3sub(tmp, obj->pos);
+			tmp3 = v3sub(tmp, obj->pos2);
+			tmp = v3minus(obj->dir);
+			if(v3dot(obj->dir, tmp2) > 0 && v3dot(tmp, tmp3) > 0)
+				return time;
+		}
+	}
 	return (NOHIT);
 }

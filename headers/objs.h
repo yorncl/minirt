@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:51:38 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 14:53:38 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/07 18:52:18 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct	s_triangle
 typedef struct	s_cylinder
 {
 	t_vec3			pos;
+	t_vec3			pos2;
 	t_vec3			dir;
 	double			radius;
 	double			height;

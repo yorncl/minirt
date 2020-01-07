@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 15:52:20 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/03 17:50:09 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:41:39 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_material		*create_material(
 	double roughness,
 	double metallic)
 {
-	t_material *m;
+	t_material	*m;
 	t_color		c;
 
 	m = malloc(sizeof(t_material));

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:48:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 16:18:39 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:41:50 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ t_vec3	triangle_normal(t_obj3d *obj, t_vec3 p, t_vec3 o)
 
 t_vec3	cylinder_normal(t_obj3d *obj, t_vec3 p, t_vec3 o)
 {
-	t_vec3 v;
-	t_cylinder *ptr;
+	t_vec3		v;
+	t_cylinder	*ptr;
 
 	(void)o;
 	ptr = (t_cylinder*)obj->obj;

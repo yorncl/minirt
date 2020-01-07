@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/16 15:29:04 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/07 19:37:11 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,11 @@ int main(int ac, char **av)
 	printf("DOUBLE: %lf\n", test);
 	// if (ac == 1)
 	// {
-		// add_sphere(w, v3new(0, 0, 0), 0.5, 0xff0000);
-		add_cylinder(w, v3new(0, 0, 0), v3new(0, 0, 0), 0.5, 1, 0xffffff);
-		add_ligth(w, v3new(-5, 0, 5), 600, 0xff0000);
-		add_ambient(w, 0, 0xffffff);
+		add_sphere(w, v3new(0, 3, 0), 0.5, 0xff0000);
+		add_cylinder(w, v3new(0, 0, 0), v3new(0, M_PI_2, 0), 5, 0.5, 0xffffff);
+		add_ligth(w, v3new(0, 0, 5), 500, 0xff0000);
+		add_ligth(w, v3new(-2, 0, 0), 500, 0xff00);
+		add_ambient(w, 0.4, 0xffffff);
 		add_t_camera(w, v3new(-5, 0, 0), v3new(0, 0, 0), v3new(90, 60, 0));
 		t_camera_render(w->c, raytracer.img->imgdata, raytracer.world, &raytracer);
 		mlx_put_image_to_window(raytracer.mlx, raytracer.win, raytracer.img->img, 0, 0);

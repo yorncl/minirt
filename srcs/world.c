@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:11:32 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/16 10:22:35 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/08 15:49:08 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ t_world			*world_init(void)
 		return (NULL);
 	w->obj = NULL;
 	w->lights = NULL;
-	w->c = NULL;
+	w->cameras = NULL;
 	return (w);
 }
 
 int				add_t_camera(t_world *w, t_vec3 pos, t_vec3 rot, t_vec3 fov)
 {
 	t_camera	*c;
+	t_list		*el;
 
 	c = t_camera_create();
 	if (c == NULL)
@@ -35,7 +36,13 @@ int				add_t_camera(t_world *w, t_vec3 pos, t_vec3 rot, t_vec3 fov)
 	t_camera_init_pos(c, pos.x, pos.y, pos.z);
 	t_camera_init_vectors(c, fov.x, fov.y);
 	t_camera_rot(c, rot.x, rot.y, rot.z);
-	w->c = c;
+	el = ft_lstnew(c);
+	if (el == NULL)
+	{
+		free(c);
+		return (ERROR);
+	}
+	ft_lstadd_front(&w->cameras, el);
 	return (SUCCESS);
 }
 

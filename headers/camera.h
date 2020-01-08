@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 20:41:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/08 16:46:59 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@ t_camera		*t_camera_create();
 void			t_camera_init_pos(t_camera *c, double x, double y, double z);
 void			t_camera_init_vectors(t_camera *c, double hfov, double vfov);
 void			t_camera_rot(t_camera *c, double x, double y, double z);
+t_camera		*get_camera(t_list *cam, int i);
 #endif

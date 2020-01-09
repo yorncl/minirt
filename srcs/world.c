@@ -21,6 +21,7 @@ t_world			*world_init(void)
 		return (NULL);
 	w->obj = NULL;
 	w->lights = NULL;
+	w->ambient = NULL;
 	w->cameras = NULL;
 	return (w);
 }

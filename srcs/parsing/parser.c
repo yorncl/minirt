@@ -31,12 +31,17 @@ int		parse_world(t_minirt *rt, char *path)
 
 int		parse_line(t_minirt *rt, char *line, int n)
 {
+	if (line[ft_strlen(line)])
+		return (ERROR);
 	if (line[0] == 'R' && parse_resolution(rt, line + 1) == ERROR)
 		return ((parsing_error("resolution not good", n)));
 	else if (line[0] == 'c' && parse_camera(rt, line + 1) == ERROR)
 		return ((parsing_error("camera not good", n)));
-	else if (line[0] == 'l' && parse_light(rt, line + 1) == ERROR)
+	else if (line[0] == 'l' && parse_light(rt->world, line + 1) == ERROR)
 		return ((parsing_error("light not good", n)));
+	else if (line[0] == 's' && line[1] == 'p'
+		&& parse_sphere(rt->world, line + 2) == ERROR)
+		return ((parsing_error("sphere not good", n)));
 	
 	return (SUCCESS);
 }
@@ -109,6 +114,18 @@ int		parse_vec3(t_vec3 *v, char *line)
 	return (rd);
 }
 
+int		parse_color(t_color *c, char *line)
+{
+	t_vec3	v;
+	int		r;
+
+	if ((r = parse_vec3(&v, line)) == ERROR || !v3drange(v, 0, 255))
+		return (ERROR);
+	c->color.r = v.x;
+	c->color.g = v.y;
+	c->color.b = v.z;
+	return (r);
+}
 
 // Check for double size
 int		parse_double(double *v, char *line)

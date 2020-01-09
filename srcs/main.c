@@ -46,7 +46,12 @@ int main(int ac, char **av)
 
 	
 
-
+	if (!rt.world->ambient)
+	{
+		add_ambient(w, 0, 0xfffffff);
+	}
+	printf("%p\n", rt.world->ambient);
+	
 	w->nbcameras = ft_lstsize(w->cameras);
 	w->camindex = 0;
 	t_camera_render(get_camera(w->cameras, w->camindex), rt.img->imgdata, rt.world, &rt);

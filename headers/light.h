@@ -16,6 +16,7 @@
 # include <vec3.h>
 # include <color.h>
 
+# define MAX_LIGHT_INTENSITY 5000
 typedef struct	s_light
 {
 	t_vec3			pos;

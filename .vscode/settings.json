@@ -1,6 +1,8 @@
 {
 	"files.associations": {
 		"parser.h": "c",
-		"get_next_line.h": "c"
+		"get_next_line.h": "c",
+		"libft.h": "c",
+		"raytracer.h": "c"
 	}
 }

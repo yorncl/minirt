@@ -21,7 +21,7 @@ int		parse_camera(t_minirt *rt, char *line)
 	if (!v3drange(rot, -1, 1) || fovx < 0 || fovx > 180)
 		return (ERROR);
 	if (add_t_camera(rt->world, pos, v3scale(rot, 2 * M_PI),
-		v3new(fovx, 2 * atan(tan(fovx / 2) * rt->resy / rt->resx ), 0)) == ERROR)
+		v3new(120,90, 0)) == ERROR)
 		return (ERROR);
 	while (*line)
 		if (!ft_isspace(*line++))

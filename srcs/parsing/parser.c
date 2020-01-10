@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 15:32:14 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:33:49 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,18 @@ int		parse_world(t_minirt *rt, char *path)
 	int		r;
 	int		n;
 	char	*line;
+	int		flags;
 
 	n = 1;
 	fd = open(path, O_RDONLY);
 	line = 0;
+	flags = 0;
 	if (fd == -1)
 		return (ERROR);
 	while (1)
 	{
 		r = get_next_line(fd, &line);
-		if (r == -1 || parse_line(rt, line, n) == -1)
+		if (r == -1 || parse_line(rt, line, n, &flags) == -1)
 		{
 			free(line);
 			return (ERROR);

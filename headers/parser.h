@@ -20,7 +20,7 @@
 # define FLAG_AMBIENT 2
 
 int		parse_world(t_minirt *rt, char *path);
-int		parse_line(t_minirt *rt, char *line, int n);
+int		parse_line(t_minirt *rt, char *line, int n, int *flags);
 int		parse_identifier(
 			char *line,
 			int	(**parser)(t_minirt *rt, char *str),

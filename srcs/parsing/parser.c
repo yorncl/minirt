@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 14:09:42 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:12:28 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ int		parse_identifier(char *line,
 		*parser = &parse_plane;
 	else if (line[0] == 's' && line[1] == 'q' && ++*offset)
 		*parser = &parse_square;
-	// else if (line[0] == 'c' && line[1] == 'y' && ++*offset)
-	// 	*parser = &parse_cylinder;
-	// else if (line[0] == 'c' && line[1] == 'y' && ++*offset)
-	// 	parser = &parse_cylinder;
+	else if (line[0] == 'c' && line[1] == 'y' && ++*offset)
+		*parser = &parse_cylinder;
+	else if (line[0] == 't' && line[1] == 'r' && ++*offset)
+		*parser = &parse_triangle;
 	if (*parser == 0)
 		return (ERROR);
 	return (SUCCESS);
@@ -159,16 +159,18 @@ int		parse_vec3(t_vec3 *v, char *line)
 	return (rd);
 }
 
-int		parse_color(t_color *c, char *line)
+int		parse_color(unsigned int *c, char *line)
 {
 	t_vec3	v;
+	t_color color;
 	int		r;
 
 	if ((r = parse_vec3(&v, line)) == ERROR || !v3drange(v, 0, 255))
 		return (ERROR);
-	c->color.r = v.x;
-	c->color.g = v.y;
-	c->color.b = v.z;
+	color.color.r = v.x;
+	color.color.g = v.y;
+	color.color.b = v.z;
+	*c = color.v;
 	return (r);
 }
 

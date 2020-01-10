@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:33 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 14:12:07 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:11:44 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,25 @@
 
 int		parse_square(t_minirt *rt, char *line)
 {
-	t_vec3	pos;
-	t_vec3	rot;
-	double	side;
-	t_color	c;
-	int		rd;
+	t_objargs	args;
+	double		side;
+	int			rd;
 
-	if ((rd = parse_vec3(&pos, line)) == ERROR)
+	if ((rd = parse_vec3(&args.pos, line)) == ERROR)
 		return (ERROR);
 	line += rd;
-	if ((rd = parse_vec3(&rot, line)) == ERROR || !v3drange(rot, -1, 1))
+	if ((rd = parse_vec3(&args.rot, line)) == ERROR ||
+			!v3drange(args.rot, -1, 1))
 		return (ERROR);
 	line += rd;
 	if ((rd = parse_double(&side, line)) == ERROR)
 		return (ERROR);
 	line += rd;
-	if ((rd = parse_color(&c, line)) == ERROR)
+	if ((rd = parse_color(&args.color, line)) == ERROR)
 		return (ERROR);
 	line += rd;
-	if (add_square(rt->world, pos, v3scale(rot, 2 * M_PI),
-			side, c.v) == ERROR)
+	args.rot = v3scale(args.rot, 2 * M_PI);
+	if (add_square(rt->world, args, side) == ERROR)
 		return (ERROR);
 	while (*line)
 		if (!ft_isspace(*line++))
@@ -43,26 +42,56 @@ int		parse_square(t_minirt *rt, char *line)
 
 int		parse_cylinder(t_minirt *rt, char *line)
 {
-	t_vec3	pos;
-	t_vec3	rot;
-	double	side;
-	t_color	c;
-	int		rd;
+	t_objargs	args;
+	double		diameter;
+	double		height;
+	int			rd;
 
-	if ((rd = parse_vec3(&pos, line)) == ERROR)
+	if ((rd = parse_vec3(&args.pos, line)) == ERROR)
 		return (ERROR);
 	line += rd;
-	if ((rd = parse_vec3(&rot, line)) == ERROR || !v3drange(rot, -1, 1))
+	if ((rd = parse_vec3(&args.rot, line)) == ERROR ||
+			!v3drange(args.rot, -1, 1))
 		return (ERROR);
 	line += rd;
-	if ((rd = parse_double(&side, line)) == ERROR)
+	if ((rd = parse_double(&diameter, line)) == ERROR)
 		return (ERROR);
 	line += rd;
-	if ((rd = parse_color(&c, line)) == ERROR)
+	if ((rd = parse_double(&height, line)) == ERROR)
 		return (ERROR);
 	line += rd;
-	if (add_square(rt->world, pos, v3scale(rot, 2 * M_PI),
-			side, c.v) == ERROR)
+	if ((rd = parse_color(&args.color, line)) == ERROR)
+		return (ERROR);
+	line += rd;
+	args.rot = v3scale(args.rot, 2 * M_PI);
+	if (add_cylinder(rt->world, args, height, diameter / 2) == ERROR)
+		return (ERROR);
+	while (*line)
+		if (!ft_isspace(*line++))
+			return (ERROR);
+	return (SUCCESS);
+}
+
+int		parse_triangle(t_minirt *rt, char *line)
+{
+	t_objargs	args;
+	t_vec3		p2;
+	t_vec3		p3;
+	int			rd;
+
+	if ((rd = parse_vec3(&args.pos, line)) == ERROR)
+		return (ERROR);
+	line += rd;
+	if ((rd = parse_vec3(&p2, line)) == ERROR)
+		return (ERROR);
+	line += rd;
+	if ((rd = parse_vec3(&p3, line)) == ERROR)
+		return (ERROR);
+	line += rd;
+	if ((rd = parse_color(&args.color, line)) == ERROR)
+		return (ERROR);
+	line += rd;
+	if (add_triangle(rt->world, args, p2, p3) == ERROR)
 		return (ERROR);
 	while (*line)
 		if (!ft_isspace(*line++))

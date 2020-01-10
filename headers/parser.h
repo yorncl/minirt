@@ -24,7 +24,7 @@ int		parse_identifier(
 			int *offset);
 int		is_identifier_known(char *line);
 int		parse_vec3(t_vec3 *v, char *line);
-int		parse_color(t_color *v, char *line);
+int		parse_color(unsigned int *c, char *line);
 int		parse_double(double *v, char *line);
 
 int		parsing_error(char *msg, int n);

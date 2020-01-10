@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:36 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 14:08:31 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/10 14:51:12 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		parse_camera(t_minirt *rt, char *line)
 		return (ERROR);
 	//FOV TO FIX
 	if (add_t_camera(rt->world, pos, v3scale(rot, 2 * M_PI),
-		v3new(120,90, 0)) == ERROR)
+		v3new(120, 90, 0)) == ERROR)
 		return (ERROR);
 	while (*line)
 		if (!ft_isspace(*line++))
@@ -55,9 +55,10 @@ int		parse_light(t_minirt *rt, char *line)
 			|| intensity < 0 || intensity > 1)
 		return (ERROR);
 	line += rd;
-	if ((rd = parse_color(&c, line)) == ERROR)
+	if ((rd = parse_color(&c.v, line)) == ERROR)
 		return (ERROR);
-	if (add_ligth(rt->world, pos, intensity * MAX_LIGHT_INTENSITY, c.v) == ERROR)
+	if (add_ligth(rt->world, pos,
+			intensity * MAX_LIGHT_INTENSITY, c.v) == ERROR)
 		return (ERROR);
 	line += rd;
 	while (*line)
@@ -77,7 +78,7 @@ int		parse_ambient(t_minirt *rt, char *line)
 			|| intensity < 0 || intensity > 1)
 		return (ERROR);
 	line += rd;
-	if ((rd = parse_color(&c, line)) == ERROR)
+	if ((rd = parse_color(&c.v, line)) == ERROR)
 		return (ERROR);
 	if (add_ambient(rt->world, intensity, c.v) == ERROR)
 		return (ERROR);
@@ -90,21 +91,20 @@ int		parse_ambient(t_minirt *rt, char *line)
 
 int		parse_sphere(t_minirt *rt, char *line)
 {
-	t_vec3	pos;
-	double	radius;
-	t_color	c;
-	int		rd;
+	t_objargs	args;
+	double		radius;
+	int			rd;
 
-	if ((rd = parse_vec3(&pos, line)) == ERROR)
+	if ((rd = parse_vec3(&args.pos, line)) == ERROR)
 		return (ERROR);
 	line += rd;
 	if ((rd = parse_double(&radius, line)) == ERROR)
 		return (ERROR);
 	line += rd;
-	if ((rd = parse_color(&c, line)) == ERROR)
+	if ((rd = parse_color(&args.color, line)) == ERROR)
 		return (ERROR);
 	line += rd;
-	if (add_sphere(rt->world, pos, radius, c.v) == ERROR)
+	if (add_sphere(rt->world, args, radius) == ERROR)
 		return (ERROR);
 	while (*line)
 		if (!ft_isspace(*line++))
@@ -114,24 +114,22 @@ int		parse_sphere(t_minirt *rt, char *line)
 
 int		parse_plane(t_minirt *rt, char *line)
 {
-	t_vec3	pos;
-	t_vec3	rot;
-	t_color	c;
-	int		rd;
+	t_objargs	args;
+	int			rd;
 
-	if ((rd = parse_vec3(&pos, line)) == ERROR)
+	if ((rd = parse_vec3(&args.pos, line)) == ERROR)
 		return (ERROR);
 	line += rd;
-	if ((rd = parse_vec3(&rot, line)) == ERROR)
+	if ((rd = parse_vec3(&args.rot, line)) == ERROR)
 		return (ERROR);
 	line += rd;
-	if (!v3drange(rot, -1, 1))
+	if (!v3drange(args.rot, -1, 1))
 		return (ERROR);
-	if ((rd = parse_color(&c, line)) == ERROR)
+	if ((rd = parse_color(&args.color, line)) == ERROR)
 		return (ERROR);
 	line += rd;
-	if (add_plane(rt->world, pos, v3scale(rot, 2 * M_PI),
-		c.v) == ERROR)
+	args.rot = v3scale(args.rot, 2 * M_PI);
+	if (add_plane(rt->world, args) == ERROR)
 		return (ERROR);
 	while (*line)
 		if (!ft_isspace(*line++))

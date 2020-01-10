@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 15:15:45 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:32:14 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,32 @@ int		parse_world(t_minirt *rt, char *path)
 	return (SUCCESS);
 }
 
-int		parse_line(t_minirt *rt, char *line, int n)
+int		parse_line(t_minirt *rt, char *line, int n, int *flags)
 {
 	int offset;
 	int (*parser)(t_minirt *rt, char *str);
 
-	if (ft_strlen(line) == 0)
-		return (SUCCESS);
-	if (line[0] == '#')
+	if (ft_strlen(line) == 0 || line[0] == '#')
 		return (SUCCESS);
 	if (parse_identifier(line, &parser, &offset) == ERROR)
+		return (parsing_error("Identifier not known", n));
+	if (parser == &parse_resolution)
 	{
-		parsing_error("Identifier not known", n);
-		return (ERROR);
+		if (*flags & FLAG_RES)
+			return (parsing_error("You can't put two resolutions", n));
+		else
+			*flags |= FLAG_RES;
+	}
+	if (parser == &parse_ambient)
+	{
+		if (*flags & FLAG_AMBIENT)
+			return (parsing_error(
+				"You can't put two ambient lights you dummie", n));
+		else
+			*flags |= FLAG_AMBIENT;
 	}
 	if (parser(rt, line + offset) == ERROR)
-	{
-		parsing_error("Identifier correct but line is wrong", n);
-		return (ERROR);
-	}
+		return (parsing_error("Identifier correct but line is wrong", n));
 	return (SUCCESS);
 }
 

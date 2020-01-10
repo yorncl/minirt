@@ -16,6 +16,9 @@
 # include <vec3.h>
 # include <raytracerstruct.h>
 
+# define FLAG_RES 1
+# define FLAG_AMBIENT 2
+
 int		parse_world(t_minirt *rt, char *path);
 int		parse_line(t_minirt *rt, char *line, int n);
 int		parse_identifier(

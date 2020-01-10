@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:27:41 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/08 16:51:14 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/10 14:23:02 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ typedef struct 	s_world
 }				t_world;
 
 /*
+**	Arguments for norm
+*/
+typedef struct 	s_objargs
+{
+	t_vec3			pos;
+	t_vec3			rot;
+	unsigned int	color;
+}				t_objargs;
+
+/*
 **	world.c
 */
 t_world			*world_init(void);
@@ -45,9 +55,9 @@ t_obj3d			*t_obj3dadd(t_obj3d **ptr, t_obj_type type);
 /*
 **	objtypes.c
 */
-int				add_sphere(t_world *w, t_vec3 pos, double radius, unsigned int color);
-int				add_plane(t_world *w, t_vec3 pos, t_vec3 rot, unsigned int color);
-int				add_square(t_world *w, t_vec3 pos, t_vec3 rot, double side,unsigned int color); 
-int				add_triangle(t_world *w, t_vec3 p1, t_vec3 p2, t_vec3 p3,unsigned int color);
-int				add_cylinder(t_world *w, t_vec3 pos, t_vec3 rot, double height, double radius, unsigned int color);
+int				add_sphere(t_world *w, t_objargs args, double radius);
+int				add_plane(t_world *w, t_objargs args);
+int				add_square(t_world *w, t_objargs args, double side); 
+int				add_triangle(t_world *w, t_objargs args, t_vec3 p2, t_vec3 p3);
+int				add_cylinder(t_world *w, t_objargs args, double height, double radius);
 #endif

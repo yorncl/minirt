@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/08 17:43:34 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/10 12:42:51 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,20 @@ int main(int ac, char **av)
 		write(1, "\e[1;31mERROR while parsing\n\e[0m", 31);
 		return (-1);
 	}
+	if (!rt.world->ambient)
+		add_ambient(w, 0, 0xfffffff);
+	
 	rt.mlx = mlx_init();
-
 	rt.frame = 0;
 	if (!(rt.img = malloc(sizeof(t_image))))
 		return (0);
 	//check if null
 	rt.img->img = mlx_new_image(rt.mlx,	rt.resx, rt.resy);
-	
 	rt.img->imgdata = (unsigned int *)mlx_get_data_addr(
 		rt.img->img, &rt.img->depth, &rt.img->linesize,	&rt.img->edian);
 	rt.win = mlx_new_window(rt.mlx, rt.resx, rt.resy, "minirt");
 
-	
 
-	if (!rt.world->ambient)
-	{
-		add_ambient(w, 0, 0xfffffff);
-	}
-	printf("%p\n", rt.world->ambient);
-	
 	w->nbcameras = ft_lstsize(w->cameras);
 	w->camindex = 0;
 	t_camera_render(get_camera(w->cameras, w->camindex), rt.img->imgdata, rt.world, &rt);

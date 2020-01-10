@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/10 13:09:56 by mclaudel          #+#    #+#             */
+/*   Updated: 2020/01/10 14:09:42 by mclaudel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <parser.h>
 
 #include <stdio.h>
@@ -8,7 +20,7 @@ int		parse_world(t_minirt *rt, char *path)
 	int		r;
 	int		n;
 	char	*line;
-	
+
 	n = 1;
 	fd = open(path, O_RDONLY);
 	line = 0;
@@ -31,21 +43,54 @@ int		parse_world(t_minirt *rt, char *path)
 
 int		parse_line(t_minirt *rt, char *line, int n)
 {
-	if (line[ft_strlen(line)])
+	int offset;
+	int (*parser)(t_minirt *rt, char *str);
+
+	if (ft_strlen(line) == 0)
+		return (SUCCESS);
+	if (line[0] == '#')
+		return (SUCCESS);
+	if (parse_identifier(line, &parser, &offset) == ERROR)
+	{
+		parsing_error("Identifier not known", n);
 		return (ERROR);
-	if (line[0] == 'R' && parse_resolution(rt, line + 1) == ERROR)
-		return ((parsing_error("resolution not good", n)));
-	else if (line[0] == 'c' && parse_camera(rt, line + 1) == ERROR)
-		return ((parsing_error("camera not good", n)));
-	else if (line[0] == 'l' && parse_light(rt->world, line + 1) == ERROR)
-		return ((parsing_error("light not good", n)));
-	else if (line[0] == 's' && line[1] == 'p'
-		&& parse_sphere(rt->world, line + 2) == ERROR)
-		return ((parsing_error("sphere not good", n)));
-	
+	}
+	if (parser(rt, line + offset) == ERROR)
+	{
+		parsing_error("Identifier correct but line is wrong", n);
+		return (ERROR);
+	}
 	return (SUCCESS);
 }
 
+int		parse_identifier(char *line,
+			int (**parser)(t_minirt *rt, char *str),
+			int *offset)
+{
+	*parser = 0;
+	*offset = 1;
+	if (line[0] == 'R')
+		*parser = &parse_resolution;
+	else if (line[0] == 'A')
+		*parser = &parse_ambient;
+	else if (line[0] == 'l')
+		*parser = &parse_light;
+	else if (line[0] == 'c' && line[1] == ' ' && ++*offset)
+		*parser = &parse_camera;
+	else if (line[0] == 's' && line[1] == 'p' && ++*offset)
+		*parser = &parse_sphere;
+	else if (line[0] == 'p' && line[1] == 'l' && ++*offset)
+		*parser = &parse_plane;
+	else if (line[0] == 's' && line[1] == 'q' && ++*offset)
+		*parser = &parse_square;
+	// else if (line[0] == 'c' && line[1] == 'y' && ++*offset)
+	// 	*parser = &parse_cylinder;
+	// else if (line[0] == 'c' && line[1] == 'y' && ++*offset)
+	// 	parser = &parse_cylinder;
+	if (*parser == 0)
+		return (ERROR);
+	return (SUCCESS);
+}
 
 int		parse_resolution(t_minirt *rt, char *line)
 {

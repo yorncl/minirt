@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 15:20:33 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/10 16:02:09 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 
 
 #include <string.h>
+
+int	parse_filename(char *path)
+{
+	char *extension;
+
+	extension = strrchr(path, '.');
+	if (!extension ||
+		ft_strncmp(".rt", extension, ft_max(ft_strlen(extension), 3)) != 0)
+		return (ERROR);
+	return (SUCCESS);
+}
 
 int main(int ac, char **av)
 {
@@ -27,6 +38,11 @@ int main(int ac, char **av)
 		write(1, "\e[1;31mMissing an argument\n\e[0m", 31);
 		return (-1);
 	}
+	if (parse_filename(av[1]) == ERROR)
+	{
+		write(1, "\e[1;31mWrong filename\n\e[0m", 26);
+		return (-1);
+	}
 	if (parse_world(&rt, av[1]) == ERROR)
 	{
 		write(1, "\e[1;31mERROR while parsing\n\e[0m", 31);
@@ -34,7 +50,7 @@ int main(int ac, char **av)
 	}
 	if (!rt.world->ambient)
 		add_ambient(w, 0, 0xfffffff);
-	
+
 	rt.mlx = mlx_init();
 	rt.frame = 0;
 	if (!(rt.img = malloc(sizeof(t_image))))

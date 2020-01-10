@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 15:33:49 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:36:48 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		parse_line(t_minirt *rt, char *line, int n, int *flags)
 	if (parser == &parse_resolution)
 	{
 		if (*flags & FLAG_RES)
-			return (parsing_error("You can't put two resolutions", n));
+			return (parsing_error("You can only put one resolution", n));
 		else
 			*flags |= FLAG_RES;
 	}
@@ -61,7 +61,7 @@ int		parse_line(t_minirt *rt, char *line, int n, int *flags)
 	{
 		if (*flags & FLAG_AMBIENT)
 			return (parsing_error(
-				"You can't put two ambient lights you dummie", n));
+				"You can only put one ambient lights you dummie", n));
 		else
 			*flags |= FLAG_AMBIENT;
 	}

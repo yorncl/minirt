@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 08:57:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/07 19:36:23 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 11:47:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ double			hit_sphere(t_sphere *obj, t_vec3 r, t_vec3 p)
 	b = 2.0 * v3dot(oc, r);
 	c = v3dot(oc, oc) - obj->radius * obj->radius;
 	delta = b * b - 4 * a * c;
-	return (delta > 0 ? (-b - sqrt(delta)) / (2.0 * a) : NOHIT);
+	if (delta > 0)
+	{
+		oc.x = (-b - sqrt(delta)) / (2.0 * a);
+		return (oc.x > 0 ? oc.x : (-b + sqrt(delta)) / (2.0 * a));
+	}
+	return (NOHIT);
 }
 
 double			hit_plane(t_plane *obj, t_vec3 r, t_vec3 p)
@@ -92,12 +97,6 @@ double			hit_triangle(t_triangle *obj, t_vec3 r, t_vec3 p)
 
 double			hit_cylinder(t_cylinder *obj, t_vec3 r, t_vec3 p)
 {
-	(void)obj;
-	(void)r;
-	(void)p;
-
-
-
 	t_vec3 tmp;
 	t_vec3 tmp2;
 	t_vec3 tmp3;

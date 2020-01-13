@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/08 14:21:12 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 11:48:48 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,14 @@ unsigned int		ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r, unsigned i
 	{
 		light = (t_light*)l->content;
 		v = v3sub(p, light->pos);
-		if (obj->type == PLANE || obj->type == SQUARE || obj->type == TRIANGLE)
-			if (!isfacinglight(obj, v, r))
-			{
-				l = l->next;
-				continue;
-			}
 		ratio = ray_intersect(w, light->pos, v, &ptr);
 		if (ratio > 0.999)
 		{
-			ratio = fabs(v3dot(obj->normal(obj, p, r, v), v3normalize(v)));
+			if (isfacinglight(obj, v, r))
+				ratio = fabs(v3dot(obj->normal(obj, p, r, v), v3normalize(v)));
+			else
+				ratio = fabs(v3dot(v3minus(obj->normal(obj, p, r, v)),
+									v3normalize(v)));
 			if (ratio > 0)
 				color = coloradd(color, direct_lightning(light, p, obj->material->albedo, ratio));
 		}
@@ -79,6 +77,7 @@ double			ray_intersect(t_world *w, t_vec3 p, t_vec3 r, t_obj3d **cobj)
 	{
 		if ((t = hit(ptr, r, p)) > 0)
 		{
+
 			if (closest == -1 || (t < closest))
 			{
 				closest = t;

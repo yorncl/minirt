@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 08:57:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 14:29:45 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:47:58 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ double			hit_sphere(t_sphere *obj, t_vec3 r, t_vec3 p)
 	double	c;
 	double	delta;
 
-	v3set(&oc, p.x - obj->pos.x, p.y - obj->pos.y, p.z - obj->pos.z);
+	oc.x = p.x - obj->pos.x;
+	oc.y = p.y - obj->pos.y;
+	oc.z = p.z - obj->pos.z;
 	a = v3dot(r, r);
 	b = 2.0 * v3dot(oc, r);
 	c = v3dot(oc, oc) - obj->radius * obj->radius;

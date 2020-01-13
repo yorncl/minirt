@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:15:36 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 14:48:50 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:50:42 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,10 @@ int		parse_color(unsigned int *c, char *line)
 	return (r);
 }
 
-// Check for double size
 int		parse_double(double *v, char *line)
 {
 	double	a;
-	double 	coef;
+	double	coef;
 	int		read;
 	double	sign;
 
@@ -64,7 +63,7 @@ int		parse_double(double *v, char *line)
 	read = 0;
 	coef = 1;
 	sign = 1;
-	while ((ft_isspace (*line) || *line == '-' || *line == '+') && ++read)
+	while ((ft_isspace(*line) || *line == '-' || *line == '+') && ++read)
 		if (*line++ == '-')
 			sign *= -1;
 	if (!ft_isdigit(*line))
@@ -78,7 +77,6 @@ int		parse_double(double *v, char *line)
 			a += (double)((*(line++) - '0') * coef);
 			read++;
 		}
-	// if (*[line - 1] )
 	*v = a * sign;
 	return (read);
 }

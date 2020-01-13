@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:51:38 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 16:09:20 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 16:40:06 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,9 @@ t_vec3			plane_normal(t_obj3d *obj, t_vec3 p, t_vec3 o);
 t_vec3			square_normal(t_obj3d *obj, t_vec3 p, t_vec3 o);
 t_vec3			triangle_normal(t_obj3d *obj, t_vec3 p, t_vec3 o);
 t_vec3			cylinder_normal(t_obj3d *obj, t_vec3 p, t_vec3 o);
+/*
+**	Freeing
+*/
+void			free_oneobj3d(t_obj3d *obj);
+void			free_allobj3d(t_obj3d *obj);
 #endif

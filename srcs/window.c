@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 16:42:05 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 16:07:44 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 17:11:00 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,17 @@ int		key_events(int keycode, t_minirt *raytracer)
 	if (keycode == 124 || keycode == 123)
 		change_camera(keycode, raytracer);
 	if (keycode == 53)
-		quit_window(raytracer);
+		quit_window(raytracer, 0);
 	return (0);
 }
 
-int		quit_window(t_minirt *rt)
+int		quit_window(t_minirt *rt, int code)
 {
 	free_everything(rt);
 	write(1, "Exiting\n", 8);
-	exit(0);
-	return (0);
+	// system("MallocStackLoggingNoCompact=1 leaks run_tests");
+	exit(code);
+	return (code);
 }
 
 void	t_camera_render(t_camera *c, unsigned int *img,

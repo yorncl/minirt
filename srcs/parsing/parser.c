@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 15:36:48 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 17:04:53 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,20 @@ int		parse_world(t_minirt *rt, char *path)
 	while (1)
 	{
 		r = get_next_line(fd, &line);
-		if (r == -1 || parse_line(rt, line, n, &flags) == -1)
+		if (!line || r == -1 || parse_line(rt, line, n, &flags) == -1)
 		{
 			free(line);
 			return (ERROR);
 		}
+		free(line);
 		n++;
 		if (r == 0)
-			return (SUCCESS);
+			break ;
 	}
+	if (!(flags & FLAG_CAMERA))
+		return (parsing_error("Missing a camera !", -1));
+	if (!(flags & FLAG_RES))
+		return (parsing_error("Missing resolution !", -1));
 	return (SUCCESS);
 }
 
@@ -65,6 +70,8 @@ int		parse_line(t_minirt *rt, char *line, int n, int *flags)
 		else
 			*flags |= FLAG_AMBIENT;
 	}
+	if (parser == &parse_camera)
+		*flags |= FLAG_CAMERA;
 	if (parser(rt, line + offset) == ERROR)
 		return (parsing_error("Identifier correct but line is wrong", n));
 	return (SUCCESS);
@@ -132,7 +139,7 @@ int		parsing_error(char *msg, int n)
 	str = ft_itoa(n);
 	write(1, "\e[1;31m", 7);
 	write(1, msg, ft_strlen(msg));
-	if (str)
+	if (str && n != -1)
 	{
 		write(1, " at line: ", 10);
 		write(1, str, ft_strlen(str));

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 14:31:53 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 16:20:03 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 16:39:45 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_obj3d			*t_obj3dadd(t_obj3d **ptr, t_obj_type type)
 	return (o->next);
 }
 
-void			*free_oneobj3d(t_obj3d *obj)
+void			free_oneobj3d(t_obj3d *obj)
 {
 	size_t size;
 
@@ -71,10 +71,12 @@ void			*free_oneobj3d(t_obj3d *obj)
 	free(obj);
 }
 
-void			*free_allobj3d(t_obj3d *obj)
+void			free_allobj3d(t_obj3d *obj)
 {
 	t_obj3d *next;
 
+	if (obj == NULL)
+		return ;
 	while (obj)
 	{
 		next = obj->next;

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:33 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 15:11:44 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:52:52 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,16 @@ int		parse_cylinder(t_minirt *rt, char *line)
 	double		height;
 	int			rd;
 
-	if ((rd = parse_vec3(&args.pos, line)) == ERROR)
+	if ((rd = parse_vec3(&args.pos, line)) == ERROR || !(line += rd))
 		return (ERROR);
-	line += rd;
 	if ((rd = parse_vec3(&args.rot, line)) == ERROR ||
 			!v3drange(args.rot, -1, 1))
 		return (ERROR);
 	line += rd;
-	if ((rd = parse_double(&diameter, line)) == ERROR)
+	if ((rd = parse_double(&diameter, line)) == ERROR || !(line += rd))
 		return (ERROR);
-	line += rd;
-	if ((rd = parse_double(&height, line)) == ERROR)
+	if ((rd = parse_double(&height, line)) == ERROR || !(line += rd))
 		return (ERROR);
-	line += rd;
 	if ((rd = parse_color(&args.color, line)) == ERROR)
 		return (ERROR);
 	line += rd;

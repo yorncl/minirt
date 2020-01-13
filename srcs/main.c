@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 16:02:09 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 16:08:21 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <string.h>
 
-int	parse_filename(char *path)
+int		parse_filename(char *path)
 {
 	char *extension;
 
@@ -26,7 +26,22 @@ int	parse_filename(char *path)
 	return (SUCCESS);
 }
 
-int main(int ac, char **av)
+
+void	free_eveything(t_minirt *rt)
+{
+	t_world *w;
+
+	w = rt->world;
+	ft_lstclear(w->lights, ft_bzero);
+	ft_lstclear(w->cameras, ft_bzero);
+
+	mlx_destroy_image(rt->mlx, rt->img->img);
+	free(rt->img);
+	mlx_destroy_window(rt->mlx, rt->win);
+	free(w);
+}
+
+int		main(int ac, char **av)
 {
 	t_minirt rt;
 
@@ -54,7 +69,7 @@ int main(int ac, char **av)
 	rt.mlx = mlx_init();
 	rt.frame = 0;
 	if (!(rt.img = malloc(sizeof(t_image))))
-		return (0);
+		return (-1);
 	//check if null
 	rt.img->img = mlx_new_image(rt.mlx,	rt.resx, rt.resy);
 	rt.img->imgdata = (unsigned int *)mlx_get_data_addr(
@@ -71,5 +86,6 @@ int main(int ac, char **av)
 	mlx_loop(rt.mlx);
 
 	//FREE AS MUCH AS YOU CAN
+	return (0);
 }
  

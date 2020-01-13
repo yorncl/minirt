@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:22 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/08 17:32:15 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 16:08:47 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ int		change_camera(int keycode, t_minirt *raytracer);
 int		quit_window(t_minirt *rt);
 int		key_events(int keycode, t_minirt *raytracer);
 void	t_camera_render(t_camera *c, unsigned int *img, t_world *w, t_minirt *rt);
+void	free_eveything(t_minirt *rt);
 #endif

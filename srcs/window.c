@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 16:42:05 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 14:44:19 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 16:07:44 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int		key_events(int keycode, t_minirt *raytracer)
 
 int		quit_window(t_minirt *rt)
 {
-	mlx_destroy_window(rt->mlx, rt->win);
-	write(1, "Exiting\n", 12);
+	free_everything(rt);
+	write(1, "Exiting\n", 8);
 	exit(0);
 	return (0);
 }

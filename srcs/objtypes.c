@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 14:42:24 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:35:11 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,9 @@ int				add_square(t_world *w, t_objargs args, double side)
 	t_vec3		i;
 	t_vec3		j;
 
-	p = malloc(sizeof(t_square));
-	if (p == NULL)
+	if ((p = malloc(sizeof(t_square))) == NULL)
 		return (ERROR);
-	ptr = t_obj3dadd(&(w->obj), SQUARE);
-	if (ptr == NULL)
+	if ((ptr = t_obj3dadd(&(w->obj), SQUARE)) == NULL)
 	{
 		free(p);
 		return (ERROR);

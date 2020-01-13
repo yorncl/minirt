@@ -6,13 +6,11 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 14:27:46 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/07 16:41:07 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:31:13 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <color.h>
-
-#include <stdio.h>
 
 unsigned int	viewed_color(t_color surface, t_color light, double intensity)
 {
@@ -37,7 +35,7 @@ unsigned int	left_color(unsigned int l, t_vec3 albedo, double intensity)
 	return (c.v);
 }
 
-t_color		colormultiplyf(t_color c, double coef)
+t_color			colormultiplyf(t_color c, double coef)
 {
 	unsigned int	tmp;
 
@@ -50,7 +48,7 @@ t_color		colormultiplyf(t_color c, double coef)
 	return (c);
 }
 
-t_color		colormultiplyv3(t_color c, t_vec3 v)
+t_color			colormultiplyv3(t_color c, t_vec3 v)
 {
 	unsigned int	tmp;
 
@@ -63,7 +61,7 @@ t_color		colormultiplyv3(t_color c, t_vec3 v)
 	return (c);
 }
 
-t_color		coloradd(t_color c1, t_color c2)
+t_color			coloradd(t_color c1, t_color c2)
 {
 	unsigned int	tmp;
 	t_color			new;

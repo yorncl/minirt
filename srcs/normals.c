@@ -6,13 +6,11 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:48:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/08 14:31:14 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:31:44 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <objs.h>
-
-#include <stdio.h>
 
 t_vec3	sphere_normal(t_obj3d *obj, t_vec3 p, t_vec3 o)
 {

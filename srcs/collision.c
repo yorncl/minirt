@@ -6,13 +6,11 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 08:57:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 11:47:38 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:29:45 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ray.h>
-
-#include <stdio.h>
 
 double			hit_sphere(t_sphere *obj, t_vec3 r, t_vec3 p)
 {
@@ -100,35 +98,26 @@ double			hit_cylinder(t_cylinder *obj, t_vec3 r, t_vec3 p)
 	t_vec3 tmp;
 	t_vec3 tmp2;
 	t_vec3 tmp3;
+	t_vec3 abc;
+	t_vec3 delta;
 
 	tmp = v3sub(r, v3scale(obj->dir, v3dot(obj->dir, r)));
 	tmp2 = v3sub(p, obj->pos);
 	tmp3 = v3sub(tmp2, v3scale(obj->dir, v3dot(tmp2, obj->dir)));
-	double a = v3dot(tmp,tmp);
-	double b = 2 * v3dot(tmp, tmp3);
-	double c = v3dot(tmp3, tmp3) - obj->radius * obj->radius;
-
-	double delta = b * b - 4 * a * c;
-	if (delta >= 0)
-	{
-		double time = (- b - sqrt(delta)) / (2 * a);
-		tmp = v3add(p, v3scale(r, time));
-		tmp2 = v3sub(tmp, obj->pos);
-		tmp3 = v3sub(tmp, obj->pos2);
-		tmp = v3minus(obj->dir);
-		// printf("Hello everyone! %lf\n", time);
-		if(v3dot(obj->dir, tmp2) > 0 && v3dot(tmp, tmp3) > 0)
-			return time;
-		else if(delta > 0)
-		{
-			time = (- b + sqrt(delta)) / (2 * a);
-			tmp = v3add(p, v3scale(r, time));
-			tmp2 = v3sub(tmp, obj->pos);
-			tmp3 = v3sub(tmp, obj->pos2);
-			tmp = v3minus(obj->dir);
-			if(v3dot(obj->dir, tmp2) > 0 && v3dot(tmp, tmp3) > 0)
-				return time;
-		}
-	}
+	abc.x = v3dot(tmp, tmp);
+	abc.y = 2 * v3dot(tmp, tmp3);
+	abc.z = v3dot(tmp3, tmp3) - obj->radius * obj->radius;
+	if ((delta.x = abc.y * abc.y - 4 * abc.x * abc.z) < 0)
+		return (NOHIT);
+	delta.y = (-abc.y - sqrt(delta.x)) / (2 * abc.x);
+	delta.z = (-abc.y + sqrt(delta.x)) / (2 * abc.x);
+	tmp = v3add(p, v3scale(r, delta.y));
+	p = v3add(p, v3scale(r, delta.z));
+	if (v3dot(obj->dir, v3sub(tmp, obj->pos)) > 0 &&
+		v3dot(v3minus(obj->dir), v3sub(tmp, obj->pos2)) > 0)
+		return (delta.y);
+	if (v3dot(obj->dir, v3sub(p, obj->pos)) > 0 &&
+		v3dot(v3minus(obj->dir), v3sub(p, obj->pos2)) > 0)
+		return (delta.z);
 	return (NOHIT);
 }

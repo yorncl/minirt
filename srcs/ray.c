@@ -6,50 +6,42 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 11:48:48 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 13:31:16 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ray.h>
 
-#include <stdio.h>
-
-
-unsigned int		ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r, unsigned int depth)
+unsigned int	ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r)
 {
-	t_obj3d *ptr;
-	t_vec3 v;
-	double ratio;
-	(void) depth;
-	t_color color;
-	t_list *l;
-	t_light *light;
+	t_obj3d	*ptr;
+	t_vec3	v;
+	t_color c;
+	t_list	*l;
+	t_light	*light;
 
 	l = w->lights;
-	color.v = 0;
+	c.v = 0;
 	while (l)
 	{
 		light = (t_light*)l->content;
 		v = v3sub(p, light->pos);
-		ratio = ray_intersect(w, light->pos, v, &ptr);
-		if (ratio > 0.999)
+		if (ray_intersect(w, light->pos, v, &ptr) > 0.999)
 		{
-			if (isfacinglight(obj, v, r))
-				ratio = fabs(v3dot(obj->normal(obj, p, r, v), v3normalize(v)));
-			else
-				ratio = fabs(v3dot(v3minus(obj->normal(obj, p, r, v)),
-									v3normalize(v)));
-			if (ratio > 0)
-				color = coloradd(color, direct_lightning(light, p, obj->material->albedo, ratio));
+			v.x = (fabs(v3dot(v3dot(obj->normal(obj), v) *
+				v3dot(obj->normal(obj), r) > 0 ? obj->normal(obj, p, r, v) :
+					v3minus(obj->normal(obj, p, r, v)), v3normalize(v))));
+			if (v.x > 0)
+				c = coloradd(c, dir_l(light, p, obj->material->albedo, v.x));
 		}
 		l = l->next;
 	}
-	// color += light_diffuse(,) + light_specular() + light_(refracted);
-	color = coloradd(color, colormultiplyf(colormultiplyv3(w->ambient->color, obj->material->albedo), w->ambient->intensity));
-	return (color.v);
+	c = coloradd(c, colormultiplyf(colormultiplyv3(w->ambient->color,
+		obj->material->albedo), w->ambient->intensity));
+	return (c.v);
 }
 
-t_color				direct_lightning(t_light *l, t_vec3 p,
+t_color			dir_l(t_light *l, t_vec3 p,
 										t_vec3 albedo, double ratio)
 {
 	double	r;
@@ -58,11 +50,6 @@ t_color				direct_lightning(t_light *l, t_vec3 p,
 	r = v3magnitude(v3sub(l->pos, p));
 	coeff = l->intensity * ratio / (4 * M_PI * r * r);
 	return (colormultiplyf(colormultiplyv3(l->color, albedo), coeff));
-}
-
-int					isfacinglight(t_obj3d *obj, t_vec3 l, t_vec3 r)
-{
-	return (v3dot(obj->normal(obj), l) * v3dot(obj->normal(obj), r) > 0);
 }
 
 double			ray_intersect(t_world *w, t_vec3 p, t_vec3 r, t_obj3d **cobj)
@@ -77,7 +64,6 @@ double			ray_intersect(t_world *w, t_vec3 p, t_vec3 r, t_obj3d **cobj)
 	{
 		if ((t = hit(ptr, r, p)) > 0)
 		{
-
 			if (closest == -1 || (t < closest))
 			{
 				closest = t;
@@ -105,7 +91,7 @@ unsigned int	ray_trace(t_world *w, t_vec3 origin,
 		return (
 			coloradd(
 				colormultiplyf((t_color)
-					ray_shade(closestobj, w, p, r, depth),
+					ray_shade(closestobj, w, p, r),
 								closestobj->material->diffuse),
 				colormultiplyf((t_color)
 					ray_trace(w, p, closestobj->normal(closestobj, p),

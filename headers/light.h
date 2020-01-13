@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 15:04:24 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/16 10:19:09 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 13:28:17 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ typedef struct	s_light
 	double			intensity;
 }				t_light;
 
-t_color			direct_lightning(t_light *l, t_vec3 p, t_vec3 albedo, double ratio);
+t_color			dir_l(t_light *l, t_vec3 p, t_vec3 albedo, double ratio);
 #endif

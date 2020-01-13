@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_camera.c                                           :+:      :+:    :+:   */
+/*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/23 21:35:45 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/28 15:37:06 by mclaudel         ###   ########.fr       */
+/*   Created: 2020/01/13 14:30:17 by mclaudel          #+#    #+#             */
+/*   Updated: 2020/01/13 14:30:43 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_camera	*t_camera_create(void)
 	return (c);
 }
 
-void	t_camera_init_pos(t_camera *c, double x, double y, double z)
+void		t_camera_init_pos(t_camera *c, double x, double y, double z)
 {
 	c->pos = v3new(
 		x,
@@ -30,7 +30,7 @@ void	t_camera_init_pos(t_camera *c, double x, double y, double z)
 		z);
 }
 
-void	t_camera_init_vectors(t_camera *c, double hfov, double vfov)
+void		t_camera_init_vectors(t_camera *c, double hfov, double vfov)
 {
 	hfov /= 2;
 	vfov /= 2;
@@ -39,7 +39,7 @@ void	t_camera_init_vectors(t_camera *c, double hfov, double vfov)
 	c->pz = v3new(0, 0, -tan(vfov * (M_PI / 180)));
 }
 
-void	t_camera_rot(t_camera *c, double x, double y, double z)
+void		t_camera_rot(t_camera *c, double x, double y, double z)
 {
 	v3rotate3(&(c->px), x, y, z);
 	v3rotate3(&(c->py), x, y, z);

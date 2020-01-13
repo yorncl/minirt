@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 19:09:47 by marvin            #+#    #+#             */
-/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:46:58 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@ t_vec3	v3new(double x, double y, double z)
 t_vec3	v3cpy(t_vec3 v)
 {
 	return (v);
-}
-
-void	v3set(t_vec3 *v, double x, double y, double z)
-{
-	v->x = x;
-	v->y = y;
-	v->z = z;
 }
 
 double	v3magnitude(t_vec3 v)

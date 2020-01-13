@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 14:35:11 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:43:16 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int				add_square(t_world *w, t_objargs args, double side)
 {
 	t_obj3d		*ptr;
 	t_square	*p;
-	t_vec3		normal;
 	t_vec3		i;
 	t_vec3		j;
 
@@ -75,15 +74,14 @@ int				add_square(t_world *w, t_objargs args, double side)
 		return (ERROR);
 	}
 	p->pos = args.pos;
-	normal = v3new(0, 0, 1);
+	p->n = v3new(0, 0, 1);
 	i = v3new(side / 2, 0, 0);
 	j = v3new(0, side / 2, 0);
-	v3rotate3(&normal, args.rot.x, args.rot.y, args.rot.z);
+	v3rotate3(&p->n, args.rot.x, args.rot.y, args.rot.z);
 	p->p1 = v3add(args.pos, v3add(j, v3scale(i, -1)));
 	p->p2 = v3add(args.pos, v3add(j, i));
 	p->p3 = v3add(args.pos, v3add(v3scale(j, -1), i));
 	p->p4 = v3add(args.pos, v3add(v3scale(j, -1), v3scale(i, -1)));
-	p->n = normal;
 	ptr->obj = p;
 	ptr->normal = &square_normal;
 	ptr->material = create_material(args.color, 1, 0);

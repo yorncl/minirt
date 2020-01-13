@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 19:19:28 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/14 15:03:45 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:46:35 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	v3rotatey(t_vec3 *v, double o)
 	s = sin(o);
 	tmp = v->x;
 	v->x = c * v->x + s * v->z;
-	v->z = - s * tmp + c * v->z;
+	v->z = -s * tmp + c * v->z;
 }
 
 void	v3rotatez(t_vec3 *v, double o)

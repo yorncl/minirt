@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 16:42:05 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/08 17:24:48 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:44:19 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int		key_events(int keycode, t_minirt *raytracer)
 int		quit_window(t_minirt *rt)
 {
 	mlx_destroy_window(rt->mlx, rt->win);
-    write(1, "ESC\nExiting\n", 12);
-    exit(0);
-    return (0);
+	write(1, "Exiting\n", 12);
+	exit(0);
+	return (0);
 }
 
 void	t_camera_render(t_camera *c, unsigned int *img,

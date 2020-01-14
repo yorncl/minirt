@@ -12,11 +12,11 @@
 
 #include <raytracer.h>
 
-int		change_camera(int keycode, t_minirt *raytracer)
+int		change_camera(int keycode, t_minirt *rt)
 {
 	t_world *w;
 
-	w = raytracer->world;
+	w = rt->world;
 	if (keycode == 124)
 	{
 		if (w->camindex + 1 == w->nbcameras)
@@ -32,10 +32,7 @@ int		change_camera(int keycode, t_minirt *raytracer)
 			w->camindex--;
 	}
 	w->currentcamera = get_camera(w->cameras, w->camindex);
-	t_camera_render(w->currentcamera,
-		raytracer->img->imgdata, raytracer->world, raytracer);
-	mlx_put_image_to_window(raytracer->mlx, raytracer->win,
-		raytracer->img->img, 0, 0);
+	render_static(rt);
 	return (0);
 }
 
@@ -48,26 +45,28 @@ int		quit_window(t_minirt *rt, int code)
 	return (code);
 }
 
-void	t_camera_render(t_camera *c, unsigned int *img,
-							t_world *w, t_minirt *rt)
+void	*t_camera_render(void *arg)
 {
 	int		i;
 	int		j;
 	t_vec3	r;
+	t_threadargs *args;
 
-	j = -1;
-	while (++j < rt->resy)
+	args = arg;
+	j = args->threadstart - 1;
+	while (++j < args->threadend)
 	{
 		i = -1;
-		while (++i < rt->resx)
+		while (++i < args->rt->resx)
 		{
-			r.x = c->px.x - c->py.x - c->pz.x +
-				(2 * i * c->py.x / rt->resx) + (2 * j * c->pz.x / rt->resy);
-			r.y = c->px.y - c->py.y - c->pz.y +
-				(2 * i * c->py.y / rt->resx) + (2 * j * c->pz.y / rt->resy);
-			r.z = c->px.z - c->py.z - c->pz.z +
-				(2 * i * c->py.z / rt->resx) + (2 * j * c->pz.z / rt->resy);
-			img[j * rt->resx + i] = ray_trace(w, c->pos, r, 3);
+			r.x = args->c->px.x - args->c->py.x - args->c->pz.x +
+				(2 * i * args->c->py.x / args->rt->resx) + (2 * j * args->c->pz.x / args->rt->resy);
+			r.y = args->c->px.y - args->c->py.y - args->c->pz.y +
+				(2 * i * args->c->py.y / args->rt->resx) + (2 * j * args->c->pz.y / args->rt->resy);
+			r.z = args->c->px.z - args->c->py.z - args->c->pz.z +
+				(2 * i * args->c->py.z / args->rt->resx) + (2 * j * args->c->pz.z / args->rt->resy);
+			args->img[j * args->rt->resx + i] = ray_trace(args->w, args->c->pos, r, 3);
 		}
 	}
+	return (0);
 }

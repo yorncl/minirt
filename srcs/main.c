@@ -45,9 +45,60 @@ void	free_everything(t_minirt *rt)
 	{
 		if (rt->img->img)
 			mlx_destroy_image(rt->mlx, rt->img->img);
-			free(rt->img);
+		free(rt->img);
 		mlx_destroy_window(rt->mlx, rt->win);
 	}
+}
+
+void	t_camera_render_lowres(t_camera *c, unsigned int *img,
+							t_world *w, t_minirt *rt)
+{
+	int		i;
+	int		j;
+	int		dx;
+	int		dy;
+	unsigned int color;
+	(void) color;
+	t_vec3	r;
+
+	rt->resx = 160;
+	rt->resy = 90;
+	dx = rt->sizex / rt->resx;
+	dy = rt->sizey / rt->resy;
+	j = -1;
+	while (++j < rt->resy)
+	{
+		i = -1;
+		while (++i < rt->resx)
+		{
+			r.x = c->px.x - c->py.x - c->pz.x +
+				(2 * i * c->py.x / rt->resx) + (2 * j * c->pz.x / rt->resy);
+			r.y = c->px.y - c->py.y - c->pz.y +
+				(2 * i * c->py.y / rt->resx) + (2 * j * c->pz.y / rt->resy);
+			r.z = c->px.z - c->py.z - c->pz.z +
+				(2 * i * c->py.z / rt->resx) + (2 * j * c->pz.z / rt->resy);
+			color = ray_trace(w, c->pos, r, 3);
+			for (int a = 0; a < dy; a++)
+			{
+				for (int b = 0; b < dx; b++)
+				{
+					img[(j * dy + a) * rt->sizex +
+						 i * dx + b] = color; 
+				}
+			}
+		}
+	}
+}
+
+
+int		rt_loop(t_minirt *rt)
+{
+	if (rt->realtime)
+	{
+		t_camera_render_lowres(rt->world->currentcamera, rt->img->imgdata, rt->world, rt);
+		mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
+	}
+	return (0);
 }
 
 int		main(int ac, char **av)
@@ -79,9 +130,7 @@ int		main(int ac, char **av)
 		write(1, "\e[1;31mALLOCAION ERROR\n\e[0m", 18);
 		quit_window(&rt, -1);
 	}
-
 	rt.mlx = mlx_init();
-	rt.frame = 0;
 	if ((rt.img = malloc(sizeof(t_image))) == NULL ||
 		(rt.img->img = mlx_new_image(rt.mlx, rt.resx, rt.resy)) == NULL)
 	{
@@ -89,17 +138,24 @@ int		main(int ac, char **av)
 		write(1, "\e[1;31mALLOCAION ERROR\n\e[0m", 18);
 		return (-1);
 	}
+
+	rt.sizex = rt.resx;
+	rt.sizey = rt.resy;
+	rt.realtime = 0;
+
 	rt.img->imgdata = (unsigned int *)mlx_get_data_addr(
 		rt.img->img, &rt.img->depth, &rt.img->linesize,	&rt.img->edian);
-	rt.win = mlx_new_window(rt.mlx, rt.resx, rt.resy, "minirt");
-
-
+	rt.win = mlx_new_window(rt.mlx, rt.sizex, rt.sizey, "minirt");
 	w->nbcameras = ft_lstsize(w->cameras);
 	w->camindex = 0;
-	t_camera_render(get_camera(w->cameras, w->camindex), rt.img->imgdata, rt.world, &rt);
+	w->currentcamera = get_camera(w->cameras, w->camindex);
+	t_camera_render(w->currentcamera, rt.img->imgdata, rt.world, &rt);
 	mlx_put_image_to_window(rt.mlx, rt.win, rt.img->img, 0, 0);
 	mlx_key_hook(rt.win, &key_events, (void*)&rt);
 	mlx_hook(rt.win, 17, 131072, quit_window, &rt);
+
+	mlx_loop_hook(rt.mlx, rt_loop, &rt);
+	
 	mlx_loop(rt.mlx);
 	quit_window(&rt, 0);
 	return (0);

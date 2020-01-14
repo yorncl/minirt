@@ -31,19 +31,60 @@ int		change_camera(int keycode, t_minirt *raytracer)
 		else
 			w->camindex--;
 	}
-	t_camera_render(get_camera(w->cameras, w->camindex),
+	w->currentcamera = get_camera(w->cameras, w->camindex);
+	t_camera_render(w->currentcamera,
 		raytracer->img->imgdata, raytracer->world, raytracer);
 	mlx_put_image_to_window(raytracer->mlx, raytracer->win,
 		raytracer->img->img, 0, 0);
 	return (0);
 }
 
-int		key_events(int keycode, t_minirt *raytracer)
+int		key_events(int keycode, t_minirt *rt)
 {
 	if (keycode == 124 || keycode == 123)
-		change_camera(keycode, raytracer);
+		change_camera(keycode, rt);
 	if (keycode == 53)
-		quit_window(raytracer, 0);
+		quit_window(rt, 0);
+	//Z
+	if (keycode == 122)
+		rt->world->currentcamera->pos = v3add(
+			rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, 0.2));
+	//S
+	if (keycode == 115)
+		rt->world->currentcamera->pos = v3add(
+			rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, -0.2));
+	//Q
+	if (keycode == 113)
+		rt->world->currentcamera->pos = v3add(
+			rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, 0.2));
+	//D
+	if (keycode == 100)
+		rt->world->currentcamera->pos = v3add(
+			rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, -0.2));
+	//gauche
+	if (keycode == 65361)
+		t_camera_rot(rt->world->currentcamera, 0, 0, -0.05);
+	//haut
+	if (keycode == 65362)
+		t_camera_rot(rt->world->currentcamera, 0.05, 0, 0);
+	//droite
+	if (keycode == 65363)
+		t_camera_rot(rt->world->currentcamera, 0, 0, 0.05);
+	//bas
+	if (keycode == 65364)
+		t_camera_rot(rt->world->currentcamera, -0.05, 0, 0);
+	if (keycode == 114)
+	{
+		rt->realtime = !rt->realtime;
+		if (!rt->realtime)
+		{
+			rt->resx = rt->sizex;
+			rt->resy = rt->sizey;
+			t_camera_render(rt->world->currentcamera, rt->img->imgdata, rt->world, rt);
+			mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
+		}
+	}
+	printf("keycode : %d\n", keycode);
 	return (0);
 }
 

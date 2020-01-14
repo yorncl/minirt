@@ -12,6 +12,9 @@
 
 #include <parser.h>
 
+
+#include <stdio.h>
+
 int		parse_world(t_minirt *rt, char *path)
 {
 	int		fd;
@@ -31,6 +34,7 @@ int		parse_world(t_minirt *rt, char *path)
 		r = get_next_line(fd, &line);
 		if (!line || r == -1 || parse_line(rt, line, n, &flags) == -1)
 		{
+			printf("'%s'\n", line);
 			free(line);
 			return (ERROR);
 		}

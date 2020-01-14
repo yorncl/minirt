@@ -16,6 +16,20 @@
 # include <vec3.h>
 # include <libft.h>
 
+# define MVCAMSPEED	0.4
+# define RTCAMSPEED	0.1
+
+# define FORWARD	1
+# define BACKWARD	2
+# define LEFT		4
+# define RIGHT		8
+# define RFORWARD	16
+# define RBACKWARD	32
+# define RLEFT		64
+# define RRIGHT		128
+# define RROLL		256
+# define LROLL		512
+
 typedef struct	s_camera
 {
 	t_vec3	pos;
@@ -28,5 +42,6 @@ t_camera		*t_camera_create();
 void			t_camera_init_pos(t_camera *c, double x, double y, double z);
 void			t_camera_init_vectors(t_camera *c, double hfov, double vfov);
 void			t_camera_rot(t_camera *c, double x, double y, double z);
+void			t_camera_rot_itself(t_camera *c, double x, double y, double z);
 t_camera		*get_camera(t_list *cam, int i);
 #endif

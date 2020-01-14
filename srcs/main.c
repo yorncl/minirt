@@ -91,12 +91,130 @@ void	t_camera_render_lowres(t_camera *c, unsigned int *img,
 }
 
 
+int		key_pressed(int keycode, t_minirt *rt)
+{
+	//Z
+	if (keycode == 122)
+		rt->keys |= FORWARD;
+	//S
+	if (keycode == 115)
+		rt->keys |= BACKWARD;
+	//Q
+	if (keycode == 113)
+		rt->keys |= LEFT;
+	//D
+	if (keycode == 100)
+		rt->keys |= RIGHT;
+	//LEFT
+	if (keycode == 65361)
+		rt->keys |= RLEFT;
+	//UP
+	if (keycode == 65362)
+		rt->keys |= RFORWARD;
+	//RIGHT
+	if (keycode == 65363)
+		rt->keys |= RRIGHT;
+	//DOWN
+	if (keycode == 65364)
+		rt->keys |= RBACKWARD;
+	//A
+	if (keycode == 97)
+		rt->keys |= RROLL;
+	//E
+	if (keycode == 101)
+		rt->keys |= LROLL;
+	return (0);
+}
+
+int		key_released(int keycode, t_minirt *rt)
+{
+	//Z
+	if (keycode == 122)
+		rt->keys ^= FORWARD;
+	//S
+	if (keycode == 115)
+		rt->keys ^= BACKWARD;
+	//Q
+	if (keycode == 113)
+		rt->keys ^= LEFT;
+	//D
+	if (keycode == 100)
+		rt->keys ^= RIGHT;
+	//LEFT
+	if (keycode == 65361)
+		rt->keys ^= RLEFT;
+	//UP
+	if (keycode == 65362)
+		rt->keys ^= RFORWARD;
+	//RIGHT
+	if (keycode == 65363)
+		rt->keys ^= RRIGHT;
+	//DOWN
+	if (keycode == 65364)
+		rt->keys ^= RBACKWARD;
+	//A
+	if (keycode == 97)
+		rt->keys ^= RROLL;
+	//E
+	if (keycode == 101)
+		rt->keys ^= LROLL;
+	if (keycode == 114)
+	{
+		rt->realtime = !rt->realtime;
+		if (!rt->realtime)
+		{
+			rt->resx = rt->sizex;
+			rt->resy = rt->sizey;
+			t_camera_render(rt->world->currentcamera, rt->img->imgdata, rt->world, rt);
+			mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
+		}
+	}
+	if (keycode == 124 || keycode == 123)
+		change_camera(keycode, rt);
+	if (keycode == 53)
+		quit_window(rt, 0);
+	return (0);
+}
+
 int		rt_loop(t_minirt *rt)
 {
 	if (rt->realtime)
 	{
 		t_camera_render_lowres(rt->world->currentcamera, rt->img->imgdata, rt->world, rt);
 		mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
+		//Z
+		if (rt->keys & FORWARD)
+			rt->world->currentcamera->pos = v3add(
+				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, MVCAMSPEED));
+		//S
+		if (rt->keys & BACKWARD)
+			rt->world->currentcamera->pos = v3add(
+				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, -MVCAMSPEED));
+		//Q
+		if (rt->keys & LEFT)
+			rt->world->currentcamera->pos = v3add(
+				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, -MVCAMSPEED));
+		//D
+		if (rt->keys & RIGHT)
+			rt->world->currentcamera->pos = v3add(
+				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, MVCAMSPEED));
+		//gauche
+		if (rt->keys & RLEFT)
+			t_camera_rot_itself(rt->world->currentcamera, 0, 0, RTCAMSPEED);
+		//haut
+		if (rt->keys & RFORWARD)
+			t_camera_rot_itself(rt->world->currentcamera, 0, -RTCAMSPEED, 0);
+		//droite
+		if (rt->keys & RRIGHT)
+			t_camera_rot_itself(rt->world->currentcamera, 0, 0, -RTCAMSPEED);
+		//roule
+		if (rt->keys & RBACKWARD)
+			t_camera_rot_itself(rt->world->currentcamera, 0, RTCAMSPEED, 0);
+		if (rt->keys & RROLL)
+			t_camera_rot_itself(rt->world->currentcamera, RTCAMSPEED, 0, 0);
+		//ma poule
+		if (rt->keys & LROLL)
+			t_camera_rot_itself(rt->world->currentcamera, -RTCAMSPEED, 0, 0);
 	}
 	return (0);
 }
@@ -151,9 +269,11 @@ int		main(int ac, char **av)
 	w->currentcamera = get_camera(w->cameras, w->camindex);
 	t_camera_render(w->currentcamera, rt.img->imgdata, rt.world, &rt);
 	mlx_put_image_to_window(rt.mlx, rt.win, rt.img->img, 0, 0);
-	mlx_key_hook(rt.win, &key_events, (void*)&rt);
-	mlx_hook(rt.win, 17, 131072, quit_window, &rt);
 
+	mlx_hook(rt.win, 2, 1L<<0, key_pressed, &rt);
+	mlx_hook(rt.win, 3, 1L<<1, key_released, &rt);
+	
+	mlx_hook(rt.win, 17, 131072, quit_window, &rt);
 	mlx_loop_hook(rt.mlx, rt_loop, &rt);
 	
 	mlx_loop(rt.mlx);

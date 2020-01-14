@@ -24,6 +24,7 @@ typedef struct s_minirt
 	int		resy;
 	int		sizex;
 	int		sizey;
+	int		keys;
 	int 	realtime;
 	t_world *world;
 }				t_minirt;

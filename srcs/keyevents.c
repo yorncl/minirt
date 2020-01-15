@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 10:53:14 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/15 15:28:21 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/15 16:43:14 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int		key_released(int keycode, t_minirt *rt)
 		rt->realtime = !rt->realtime;
 		if (!rt->realtime)
 		{
+			render_realtime(rt);
 			kill_threads(rt);
 			rt->resx = rt->sizex;
 			rt->resy = rt->sizey;

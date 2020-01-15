@@ -25,6 +25,7 @@ typedef struct 	s_world
 	t_list		*lights;
 	t_list		*cameras;
 	t_light		*ambient;
+	t_camera	*currentcamera;
 	int			nbcameras;
 	int			camindex;
 }				t_world;

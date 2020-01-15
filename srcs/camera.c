@@ -46,6 +46,18 @@ void		t_camera_rot(t_camera *c, double x, double y, double z)
 	v3rotate3(&(c->pz), x, y, z);
 }
 
+#include <stdio.h>
+
+void		t_camera_rot_itself(t_camera *c, double x, double y, double z)
+{
+	v3rotateaxis(&c->py, c->px, x);
+	v3rotateaxis(&c->pz, c->px, x);
+	v3rotateaxis(&c->px, c->py, y);
+	v3rotateaxis(&c->pz, c->py, y);
+	v3rotateaxis(&c->px, c->pz, z);
+	v3rotateaxis(&c->py, c->pz, z);
+}
+
 t_camera	*get_camera(t_list *cam, int i)
 {
 	t_camera	*c;

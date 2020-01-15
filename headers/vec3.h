@@ -50,6 +50,7 @@ void			v3rotate3(t_vec3 *v, double x, double y, double z);
 void			v3rotatex(t_vec3 *v, double o);
 void			v3rotatey(t_vec3 *v, double o);
 void			v3rotatez(t_vec3 *v, double o);
+void			v3rotateaxis(t_vec3 *a, t_vec3 u, double ro);
 /*
 **	Misc
 */

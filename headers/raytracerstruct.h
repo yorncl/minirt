@@ -22,7 +22,10 @@ typedef struct s_minirt
 	t_image *img;
 	int		resx;
 	int		resy;
-	int		frame;
+	int		sizex;
+	int		sizey;
+	int		keys;
+	int 	realtime;
 	t_world *world;
 }				t_minirt;
 

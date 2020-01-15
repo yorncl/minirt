@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:22 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/15 11:10:01 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/15 15:26:59 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 
+#include <stdatomic.h>
 #include <parser.h>
 #include <math.h>
 #include <stdlib.h>
@@ -43,16 +44,7 @@
 # define KEY_X		7
 # define KEY_ESCAPE	53
 
-typedef struct s_threadargs
-{
-	t_camera		*c;
-	unsigned int	*img;
-	t_world			*w;
-	t_minirt		*rt;
-	int				threadstart;
-	int				threadend;
-	int				id;
-}				t_threadargs;
+
 
 void	render_static(t_minirt *rt);
 void	*t_camera_render(void *arg);
@@ -67,13 +59,16 @@ int		key_released(int keycode, t_minirt *rt);
 
 
 /*
-**	mmultithread
+**	multithread
 */
-void	t_camera_render_lowres(t_threadargs *args);
-void	init_realtime_threads(t_minirt *rt);
+void	t_camera_render_lowres(t_minirt *rt, t_camera *c, int start, int end, unsigned int *img);
+void	init_threads(t_minirt *rt);
+void	kill_threads(t_minirt *rt);
 void 	render_realtime(t_minirt *rt);
+void	*thread_realtime(void *arg);
+
 /*
 **	mutex
 */
-pthread_mutex_t var_lock;
+
 #endif

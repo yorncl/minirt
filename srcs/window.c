@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 16:42:05 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/15 10:25:52 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/15 15:31:29 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,26 @@ void	*t_camera_render(void *arg)
 	int		j;
 	t_vec3	r;
 	t_threadargs *args;
+	t_minirt	*rt;
+
 
 	args = arg;
+	rt = (t_minirt*)args->rt;
 	j = args->threadstart - 1;
 	while (++j < args->threadend)
 	{
 		i = -1;
-		while (++i < args->rt->resx)
+		while (++i < rt->resx)
 		{
 			r.x = args->c->px.x - args->c->py.x - args->c->pz.x +
-				(2 * i * args->c->py.x / args->rt->resx) + (2 * j * args->c->pz.x / args->rt->resy);
+				(2 * i * args->c->py.x / rt->resx) + (2 * j * args->c->pz.x / rt->resy);
 			r.y = args->c->px.y - args->c->py.y - args->c->pz.y +
-				(2 * i * args->c->py.y / args->rt->resx) + (2 * j * args->c->pz.y / args->rt->resy);
+				(2 * i * args->c->py.y / rt->resx) + (2 * j * args->c->pz.y / rt->resy);
 			r.z = args->c->px.z - args->c->py.z - args->c->pz.z +
-				(2 * i * args->c->py.z / args->rt->resx) + (2 * j * args->c->pz.z / args->rt->resy);
-			args->img[j * args->rt->resx + i] = ray_trace(args->w, args->c->pos, r, 3);
+				(2 * i * args->c->py.z / rt->resx) + (2 * j * args->c->pz.z / rt->resy);
+			args->img[j * rt->resx + i] = ray_trace(args->w, args->c->pos, r, 3);
 		}
 	}
+	printf("STOP\n");
 	return (0);
 }

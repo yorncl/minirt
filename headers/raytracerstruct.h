@@ -6,6 +6,9 @@
 #include <mlx.h>
 #include <world.h>
 #include <macro.h>
+#include <stdatomic.h>
+
+typedef struct s_threadargs t_threadargs;
 
 typedef struct	s_image
 {
@@ -15,6 +18,16 @@ typedef struct	s_image
 	int				linesize;
 	int				edian;
 }				t_image;
+typedef struct s_threadargs
+{
+	t_camera		*c;
+	unsigned int	*img;
+	t_world			*w;
+	void			*rt;
+	int				threadstart;
+	int				threadend;
+	int				id;
+}				t_threadargs;
 
 typedef struct s_minirt
 {
@@ -30,7 +43,11 @@ typedef struct s_minirt
 	pthread_t		threads[NB_CORES];
 	int				returned[NB_CORES];
 	t_threadargs	threadargs[NB_CORES];
-	t_world *world;
+	atomic_int		acnt;
+	pthread_cond_t	taskstart;
+	pthread_cond_t	taskdone;
+	t_world 		*world;
 }				t_minirt;
+
 
 #endif

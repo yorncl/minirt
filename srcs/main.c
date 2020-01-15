@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/15 11:47:36 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/15 15:54:16 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,42 @@ void	free_everything(t_minirt *rt)
 
 
 
-// void render_realtime(t_minirt *rt)
-// {
-	
-// }
+void render_realtime(t_minirt *rt)
+{
+	pthread_mutex_t lock;
 
-// void	render_slice(void *arg)
-// {
-// 	while (1)
-// 	{
-		
-// 	}
-	
-// }
+	rt->acnt = 0;
+	pthread_cond_broadcast(&rt->taskstart);
+	pthread_mutex_init(&lock, NULL);
+	pthread_cond_wait(&rt->taskdone, &lock);
+	pthread_mutex_unlock(&lock);
+	mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
+}
+
+
+
+void		*thread_realtime(void *arg)
+{
+	pthread_mutex_t lock;
+	t_threadargs	*args;
+	t_minirt		*rt;
+
+	args = (t_threadargs*)arg;
+	rt = (t_minirt*)args->rt;
+	pthread_mutex_init(&lock, NULL);
+	while (1)
+	{
+		pthread_mutex_lock(&lock);
+		pthread_cond_wait(&rt->taskstart, &lock);
+		pthread_mutex_unlock(&lock);
+		t_camera_render_lowres(rt, rt->world->currentcamera,
+								args->threadstart, args->threadend, args->img);
+		rt->acnt++;
+		if (rt->acnt == NB_CORES)
+			pthread_cond_broadcast(&rt->taskdone);
+	}
+	return (0);
+}
 
 void	init_threads(t_minirt *rt)
 {
@@ -97,6 +120,8 @@ void	init_threads(t_minirt *rt)
 	threads = rt->threads;
 	returned = rt->returned;
 	args = rt->threadargs;
+	pthread_cond_init(&rt->taskstart, NULL);
+	pthread_cond_init(&rt->taskdone, NULL);
 	while (++i < NB_CORES)
 	{
 		args[i].c = rt->world->currentcamera;
@@ -104,44 +129,56 @@ void	init_threads(t_minirt *rt)
 		args[i].rt = rt;
 		args[i].w = rt->world;
 		args[i].id = i;
-		args[i].threadstart = rt->resy * i / NB_CORES ;
+		args[i].threadstart = rt->resy * i / NB_CORES;
 		args[i].threadend = rt->resy * (i + 1) / NB_CORES;
 		returned[i] = pthread_create(
-					&threads[i], NULL, render_slice, (void*)&args[i]);
+					&threads[i], NULL, thread_realtime, (void*)&args[i]);
 	}
 }
 
-void	t_camera_render_lowres(t_threadargs *args)
+void	kill_threads(t_minirt *rt)
+{
+	int				i;
+	pthread_t		*threads;
+
+	i = -1;
+	threads = rt->threads;
+	while (++i < NB_CORES)
+	{
+		pthread_cancel(threads[i]);
+	}
+}
+
+void	t_camera_render_lowres(t_minirt *rt, t_camera *c, int start, int end, unsigned int *img)
 {
 	int		i;
 	int		j;
 	int		dx;
 	int		dy;
 	unsigned int color;
-	(void) color;
 	t_vec3	r;
 
-	dx = args->rt->sizex / args->rt->resx;
-	dy = args->rt->sizey / args->rt->resy;
-	j = args->rt->resy * args->threadstart - 1;
-	while (++j < args->rt->resy * args->threadend)
+	dx = rt->sizex / rt->resx;
+	dy = rt->sizey / rt->resy;
+	j = start - 1;
+	while (++j < end)
 	{
 		i = -1;
-		while (++i < args->rt->resx)
+		while (++i < rt->resx)
 		{
-			r.x = args->c->px.x - args->c->py.x - args->c->pz.x +
-				(2 * i * args->c->py.x / args->rt->resx) + (2 * j * args->c->pz.x / args->rt->resy);
-			r.y = args->c->px.y - args->c->py.y - args->c->pz.y +
-				(2 * i * args->c->py.y / args->rt->resx) + (2 * j * args->c->pz.y / args->rt->resy);
-			r.z = args->c->px.z - args->c->py.z - args->c->pz.z +
-				(2 * i * args->c->py.z / args->rt->resx) + (2 * j * args->c->pz.z / args->rt->resy);
-			color = ray_trace(args->w, args->c->pos, r, 3);
+			r.x = c->px.x - c->py.x - c->pz.x +
+				(2 * i * c->py.x / rt->resx) + (2 * j * c->pz.x / rt->resy);
+			r.y = c->px.y - c->py.y - c->pz.y +
+				(2 * i * c->py.y / rt->resx) + (2 * j * c->pz.y / rt->resy);
+			r.z = c->px.z - c->py.z - c->pz.z +
+				(2 * i * c->py.z / rt->resx) + (2 * j * c->pz.z / rt->resy);
+			color = ray_trace(rt->world, c->pos, r, 3);
 			for (int a = 0; a < dy; a++)
 			{
-				for (int b = 0; b < dx; b++)
+				for (int b = 0; b < dx && j + b < end; b++)
 				{
-					args->img[(j * dy + a) * args->rt->sizex +
-						 i * dx + b] = color; 
+					img[(j * dy + a) * rt->sizex +
+						 i * dx + b] = color;
 				}
 			}
 		}
@@ -171,8 +208,11 @@ void render_static(t_minirt *rt)
 	i = -1;
 	while (++i < NB_CORES)
 		pthread_join(threads[i], NULL);
+	i = -1;
+	while (++i < NB_CORES)
+		pthread_cancel(threads[i]);
 	mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
-	// printf("Rendered !\n");
+	printf("Rendered !\n");
 }
 
 
@@ -231,8 +271,6 @@ int		rt_loop(t_minirt *rt)
 		//ma poule
 		if (rt->keys & LROLL)
 			t_camera_rot_itself(rt->world->currentcamera, -RTCAMSPEED, 0, 0);
-		// t_camera_render_lowres(rt->world->currentcamera, rt->img->imgdata, rt->world, rt);
-		// mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
 		render_realtime(rt);
 	}
 	return (0);
@@ -243,30 +281,30 @@ int		main(int ac, char **av)
 	t_minirt	rt;
 	t_world		*w;
 
-	write(1, "\e[1;36mSTARTING\n\e[0m", 20);
+	// write(1, "\e[1;36mSTARTING\n\e[0m", 20);
 	ft_bzero(&rt, sizeof(t_minirt));
 	w = world_init();
 	rt.world = w;
-	if (ac != 2)
-	{
-		write(1, "\e[1;31mMissing an argument\n\e[0m", 31);
-		quit_window(&rt, -1);
-	}
-	if (parse_filename(av[1]) == ERROR)
-	{
-		write(1, "\e[1;31mWrong filename\n\e[0m", 26);
-		quit_window(&rt, -1);
-	}
-	if (parse_world(&rt, av[1]) == ERROR)
-	{
-		write(1, "\e[1;31mERROR while parsing\n\e[0m", 31);
-		quit_window(&rt, -1);
-	}
-	if (!rt.world->ambient && add_ambient(w, 0, 0xfffffff) == ERROR)
-	{
-		write(1, "\e[1;31mALLOCAION ERROR\n\e[0m", 18);
-		quit_window(&rt, -1);
-	}
+	// if (ac != 2)
+	// {
+	// 	write(1, "\e[1;31mMissing an argument\n\e[0m", 31);
+	// 	quit_window(&rt, -1);
+	// }
+	// if (parse_filename(av[1]) == ERROR)
+	// {
+	// 	write(1, "\e[1;31mWrong filename\n\e[0m", 26);
+	// 	quit_window(&rt, -1);
+	// }
+	// if (parse_world(&rt, av[1]) == ERROR)
+	// {
+	// 	write(1, "\e[1;31mERROR while parsing\n\e[0m", 31);
+	// 	quit_window(&rt, -1);
+	// }
+	// if (!rt.world->ambient && add_ambient(w, 0, 0xfffffff) == ERROR)
+	// {
+	// 	write(1, "\e[1;31mALLOCAION ERROR\n\e[0m", 18);
+	// 	quit_window(&rt, -1);
+	// }
 	rt.mlx = mlx_init();
 	rt.sizex = rt.resx;
 	rt.sizey = rt.resy;
@@ -289,14 +327,13 @@ int		main(int ac, char **av)
 	mlx_hook(rt.win, 2, 1L<<0, key_pressed, &rt);
 	mlx_hook(rt.win, 3, 1L<<1, key_released, &rt);
 	mlx_hook(rt.win, 17, 131072, quit_window, &rt);
-	mlx_loop_hook(rt.mlx, rt_loop, &rt);
+	// mlx_loop_hook(rt.mlx, rt_loop, &rt);
 	
 	
 	rt.realtime = 0;
-	printf("1 img addr: %p\n", rt.img->img);
-
-	render_static(&rt);
-	printf("3 img addr: %p\n", rt.img->img);
+	(void)ac;
+	(void)av;
+	// render_static(&rt);
 	mlx_loop(rt.mlx);
 	quit_window(&rt, 0);
 	return (0);

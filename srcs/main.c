@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/15 15:54:16 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/15 15:55:01 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,9 +320,9 @@ int		main(int ac, char **av)
 	rt.img->imgdata = (unsigned int *)mlx_get_data_addr(
 		rt.img->img, &rt.img->depth, &rt.img->linesize,	&rt.img->edian);
 	rt.win = mlx_new_window(rt.mlx, rt.sizex, rt.sizey, "minirt");
-	w->nbcameras = ft_lstsize(w->cameras);
-	w->camindex = 0;
-	w->currentcamera = get_camera(w->cameras, w->camindex);
+	// w->nbcameras = ft_lstsize(w->cameras);
+	// w->camindex = 0;
+	// w->currentcamera = get_camera(w->cameras, w->camindex);
 
 	mlx_hook(rt.win, 2, 1L<<0, key_pressed, &rt);
 	mlx_hook(rt.win, 3, 1L<<1, key_released, &rt);

@@ -5,6 +5,7 @@
 
 #include <mlx.h>
 #include <world.h>
+#include <macro.h>
 
 typedef struct	s_image
 {
@@ -17,15 +18,18 @@ typedef struct	s_image
 
 typedef struct s_minirt
 {
-	void	*mlx;
-	void	*win;
-	t_image *img;
-	int		resx;
-	int		resy;
-	int		sizex;
-	int		sizey;
-	int		keys;
-	int 	realtime;
+	void			*mlx;
+	void			*win;
+	t_image 		*img;
+	int				resx;
+	int				resy;
+	int				sizex;
+	int				sizey;
+	int				keys;
+	int 			realtime;
+	pthread_t		threads[NB_CORES];
+	int				returned[NB_CORES];
+	t_threadargs	threadargs[NB_CORES];
 	t_world *world;
 }				t_minirt;
 

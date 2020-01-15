@@ -68,6 +68,7 @@ GET_NEXT_LINE_SRCS = 	get_next_line/get_next_line.c \
 
 
 SRCS = $(VEC3_SRCS) \
+		srcs/keyevents.c \
 		srcs/collision.c \
 		srcs/material.c \
 		srcs/color.c \

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 16:42:05 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 17:12:57 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/15 10:25:52 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int		change_camera(int keycode, t_minirt *rt)
 	t_world *w;
 
 	w = rt->world;
-	if (keycode == 124)
+	if (keycode == KEY_X)
 	{
 		if (w->camindex + 1 == w->nbcameras)
 			w->camindex = 0;
 		else
 			w->camindex++;
 	}
-	if (keycode == 123)
+	if (keycode == KEY_Z)
 	{
 		if (w->camindex == 0)
 			w->camindex = w->nbcameras - 1;

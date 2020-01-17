@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 16:42:05 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/17 13:17:18 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/17 14:42:33 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int		quit_window(t_minirt *rt, int code)
 {
 	if (rt->realtime)
 		kill_threads(rt);
+	mlx_string_put(rt->mlx, rt->win,
+		rt->sizex / 2, rt->sizey / 2, 0xffffff, "Quitting");
 	free_everything(rt);
 	write(1, "Exiting\n", 8);
 	system("MallocStackLoggingNoCompact=1 leaks run_tests");

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:22 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/15 15:26:59 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/17 13:20:29 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	free_everything(t_minirt *rt);
 
 int		key_pressed(int keycode, t_minirt *rt);
 int		key_released(int keycode, t_minirt *rt);
-
+void	toggle_realtime(t_minirt *rt);
 
 /*
 **	multithread

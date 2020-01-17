@@ -6,20 +6,17 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/15 17:08:51 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/17 13:27:20 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <raytracer.h>
 
-
-#include <string.h>
-
 int		parse_filename(char *path)
 {
 	char *extension;
 
-	extension = strrchr(path, '.');
+	extension = ft_strrchr(path, '.');
 	if (!extension ||
 		ft_strncmp(".rt", extension, ft_max(ft_strlen(extension), 3)) != 0)
 		return (ERROR);
@@ -36,7 +33,10 @@ void	free_everything(t_minirt *rt)
 		ft_lstclear(&w->lights, free);
 		ft_lstclear(&w->cameras, free);
 		if (w->ambient)
+		{
 			ft_bzero(w->ambient, sizeof(t_light));
+			free(w->ambient);
+		}
 		if (w->obj)
 			free_allobj3d(w->obj);
 		free(w);

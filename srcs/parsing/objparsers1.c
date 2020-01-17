@@ -6,11 +6,13 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:36 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/10 14:51:12 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/17 14:36:10 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <parser.h>
+
+#include <stdio.h>
 
 int		parse_camera(t_minirt *rt, char *line)
 {
@@ -30,9 +32,10 @@ int		parse_camera(t_minirt *rt, char *line)
 	line += rd;
 	if (!v3drange(rot, -1, 1) || fovx < 0 || fovx > 180)
 		return (ERROR);
-	//FOV TO FIX
 	if (add_t_camera(rt->world, pos, v3scale(rot, 2 * M_PI),
-		v3new(120, 90, 0)) == ERROR)
+		v3new(fovx, 2 * atan((tan((fovx * M_PI / 180) / 2) *
+		(double)rt->resy) / (double)rt->resx) * 180 / M_PI, 0))
+			== ERROR)
 		return (ERROR);
 	while (*line)
 		if (!ft_isspace(*line++))

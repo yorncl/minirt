@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/17 15:38:37 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/17 18:31:26 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ void		render_realtime(t_minirt *rt)
 	pthread_mutex_t lock;
 
 	rt->acnt = 0;
+	printf("START FRAME\n");
 	pthread_cond_broadcast(&rt->taskstart);
 	pthread_mutex_init(&lock, NULL);
+	pthread_mutex_lock(&lock);
 	pthread_cond_wait(&rt->taskdone, &lock);
 	pthread_mutex_unlock(&lock);
 	mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
-	// sleep(1);
+	printf("FRAME DONE\n");
 }
 
 void		*thread_realtime(void *arg)
@@ -79,14 +81,12 @@ void		*thread_realtime(void *arg)
 		pthread_mutex_unlock(&lock);
 		t_camera_render_lowres(rt, rt->world->currentcamera,
 								args->threadstart, args->threadend);
-		rt->acnt++;
-		// printf("%d\n", rt->acnt);
-		// usleep(500000);
 		if (rt->acnt == NB_CORES)
-		{
-			rt->acnt = 0;
 			pthread_cond_broadcast(&rt->taskdone);
-		}
+		else
+			rt->acnt++;
+			sleep(1);
+		printf("Thread %d CAM val %lf\n", args->id,v3dot(rt->world->currentcamera->px, rt->world->currentcamera->py) * v3dot(rt->world->currentcamera->px, rt->world->currentcamera->pz));
 	}
 	return (0);
 }
@@ -149,7 +149,8 @@ void		write_block(unsigned int *img, unsigned int color, int i, int j,int dx, in
 	}
 }
 
-void		t_camera_render_lowres(t_minirt *rt, t_camera *c, int start, int end)
+void		t_camera_render_lowres(t_minirt *rt, t_camera *c,
+									int start, int end)
 {
 	int		i;
 	int		j;
@@ -171,7 +172,7 @@ void		t_camera_render_lowres(t_minirt *rt, t_camera *c, int start, int end)
 				(2 * i * c->py.y / rt->resx) + (2 * j * c->pz.y / rt->resy);
 			r.z = c->px.z - c->py.z - c->pz.z +
 				(2 * i * c->py.z / rt->resx) + (2 * j * c->pz.z / rt->resy);
-			write_block(rt->img->imgdata, ray_trace(rt->world, c->pos, r, 3),
+			write_block(rt->img->imgdata, j == start ? 0xffffff : ray_trace(rt->world, c->pos, r, 3),
 						i, j, dx, dy, rt->sizex);
 		}
 	}
@@ -210,30 +211,30 @@ int		rt_loop(t_minirt *rt)
 {
 	if (rt->realtime)
 	{
-		if (rt->keys & FORWARD)
-			rt->world->currentcamera->pos = v3add(
-				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, MVCAMSPEED));
-		if (rt->keys & BACKWARD)
-			rt->world->currentcamera->pos = v3add(
-				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, -MVCAMSPEED));
-		if (rt->keys & LEFT)
-			rt->world->currentcamera->pos = v3add(
-				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, -MVCAMSPEED));
-		if (rt->keys & RIGHT)
-			rt->world->currentcamera->pos = v3add(
-				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, MVCAMSPEED));
-		if (rt->keys & RLEFT)
-			t_camera_rot_itself(rt->world->currentcamera, 0, 0, RTCAMSPEED);
-		if (rt->keys & RFORWARD)
-			t_camera_rot_itself(rt->world->currentcamera, 0, -RTCAMSPEED, 0);
-		if (rt->keys & RRIGHT)
+		// if (rt->keys & FORWARD)
+		// 	rt->world->currentcamera->pos = v3add(
+		// 		rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, MVCAMSPEED));
+		// if (rt->keys & BACKWARD)
+		// 	rt->world->currentcamera->pos = v3add(
+		// 		rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, -MVCAMSPEED));
+		// if (rt->keys & LEFT)
+		// 	rt->world->currentcamera->pos = v3add(
+		// 		rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, -MVCAMSPEED));
+		// if (rt->keys & RIGHT)
+		// 	rt->world->currentcamera->pos = v3add(
+		// 		rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, MVCAMSPEED));
+		// if (rt->keys & RLEFT)
+		// 	t_camera_rot_itself(rt->world->currentcamera, 0, 0, RTCAMSPEED);
+		// if (rt->keys & RFORWARD)
+		// 	t_camera_rot_itself(rt->world->currentcamera, 0, -RTCAMSPEED, 0);
+		// if (rt->keys & RRIGHT)
 			t_camera_rot_itself(rt->world->currentcamera, 0, 0, -RTCAMSPEED);
-		if (rt->keys & RBACKWARD)
-			t_camera_rot_itself(rt->world->currentcamera, 0, RTCAMSPEED, 0);
-		if (rt->keys & RROLL)
-			t_camera_rot_itself(rt->world->currentcamera, RTCAMSPEED, 0, 0);
-		if (rt->keys & LROLL)
-			t_camera_rot_itself(rt->world->currentcamera, -RTCAMSPEED, 0, 0);
+		// if (rt->keys & RBACKWARD)
+		// 	t_camera_rot_itself(rt->world->currentcamera, 0, RTCAMSPEED, 0);
+		// if (rt->keys & RROLL)
+		// 	t_camera_rot_itself(rt->world->currentcamera, RTCAMSPEED, 0, 0);
+		// if (rt->keys & LROLL)
+		// 	t_camera_rot_itself(rt->world->currentcamera, -RTCAMSPEED, 0, 0);
 		render_realtime(rt);
 	}
 	return (0);
@@ -287,17 +288,15 @@ int			main(int ac, char **av)
 	w->camindex = 0;
 	w->currentcamera = get_camera(w->cameras, w->camindex);
 
-	mlx_hook(rt.win, 2, 1L<<0, key_pressed, &rt);
-	mlx_hook(rt.win, 3, 1L<<1, key_released, &rt);
+	mlx_hook(rt.win, 2, 1L << 0, key_pressed, &rt);
+	mlx_hook(rt.win, 3, 1L << 1, key_released, &rt);
 	mlx_hook(rt.win, 17, 131072, quit_window, &rt);
 	mlx_loop_hook(rt.mlx, rt_loop, &rt);
 	
 	
 	rt.realtime = 0;
-	printf("1 img addr: %p\n", rt.img->img);
 
 	render_static(&rt);
-	printf("3 img addr: %p\n", rt.img->img);
 	mlx_loop(rt.mlx);
 	quit_window(&rt, 0);
 	return (0);

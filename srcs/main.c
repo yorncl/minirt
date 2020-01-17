@@ -6,13 +6,13 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/17 13:27:20 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/17 15:38:37 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <raytracer.h>
 
-int		parse_filename(char *path)
+int			parse_filename(char *path)
 {
 	char *extension;
 
@@ -23,7 +23,7 @@ int		parse_filename(char *path)
 	return (SUCCESS);
 }
 
-void	free_everything(t_minirt *rt)
+void		free_everything(t_minirt *rt)
 {
 	t_world *w;
 
@@ -50,29 +50,7 @@ void	free_everything(t_minirt *rt)
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void render_realtime(t_minirt *rt)
+void		render_realtime(t_minirt *rt)
 {
 	pthread_mutex_t lock;
 
@@ -82,9 +60,8 @@ void render_realtime(t_minirt *rt)
 	pthread_cond_wait(&rt->taskdone, &lock);
 	pthread_mutex_unlock(&lock);
 	mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
+	// sleep(1);
 }
-
-
 
 void		*thread_realtime(void *arg)
 {
@@ -101,15 +78,20 @@ void		*thread_realtime(void *arg)
 		pthread_cond_wait(&rt->taskstart, &lock);
 		pthread_mutex_unlock(&lock);
 		t_camera_render_lowres(rt, rt->world->currentcamera,
-								args->threadstart, args->threadend, args->img);
+								args->threadstart, args->threadend);
 		rt->acnt++;
+		// printf("%d\n", rt->acnt);
+		// usleep(500000);
 		if (rt->acnt == NB_CORES)
+		{
+			rt->acnt = 0;
 			pthread_cond_broadcast(&rt->taskdone);
+		}
 	}
 	return (0);
 }
 
-void	init_threads(t_minirt *rt)
+void		init_threads(t_minirt *rt)
 {
 	int				i;
 	pthread_t		*threads;
@@ -136,7 +118,7 @@ void	init_threads(t_minirt *rt)
 	}
 }
 
-void	kill_threads(t_minirt *rt)
+void		kill_threads(t_minirt *rt)
 {
 	int				i;
 	pthread_t		*threads;
@@ -150,7 +132,7 @@ void	kill_threads(t_minirt *rt)
 	}
 }
 
-void	write_block(unsigned int *img, unsigned int color, int i, int j,int dx, int dy, int sizex)
+void		write_block(unsigned int *img, unsigned int color, int i, int j,int dx, int dy, int sizex)
 {
 	int a;
 	int b;
@@ -161,19 +143,18 @@ void	write_block(unsigned int *img, unsigned int color, int i, int j,int dx, int
 		b = -1;
 		while (++b < dy)
 		{
-				img[(j * dy + a) * sizex +
+			img[(j * dy + a) * sizex +
 					i * dx + b] = color;
 		}
 	}
 }
 
-void	t_camera_render_lowres(t_minirt *rt, t_camera *c, int start, int end, unsigned int *img)
+void		t_camera_render_lowres(t_minirt *rt, t_camera *c, int start, int end)
 {
 	int		i;
 	int		j;
 	int		dx;
 	int		dy;
-	unsigned int color;
 	t_vec3	r;
 
 	dx = rt->sizex / rt->resx;
@@ -190,19 +171,18 @@ void	t_camera_render_lowres(t_minirt *rt, t_camera *c, int start, int end, unsig
 				(2 * i * c->py.y / rt->resx) + (2 * j * c->pz.y / rt->resy);
 			r.z = c->px.z - c->py.z - c->pz.z +
 				(2 * i * c->py.z / rt->resx) + (2 * j * c->pz.z / rt->resy);
-			color = ray_trace(rt->world, c->pos, r, 3);
-			write_block(img, color, i, j, dx, dy, rt->sizex);
+			write_block(rt->img->imgdata, ray_trace(rt->world, c->pos, r, 3),
+						i, j, dx, dy, rt->sizex);
 		}
 	}
 }
 
-void render_static(t_minirt *rt)
+void		render_static(t_minirt *rt)
 {
 	int				i;
 	pthread_t		threads[NB_CORES];
 	int				returned[NB_CORES];
 	t_threadargs	args[NB_CORES];
-	(void) returned;
 
 	i = -1;
 	while (++i < NB_CORES)
@@ -212,9 +192,10 @@ void render_static(t_minirt *rt)
 		args[i].rt = rt;
 		args[i].w = rt->world;
 		args[i].id = i;
-		args[i].threadstart = rt->resy * i / NB_CORES ;
+		args[i].threadstart = rt->resy * i / NB_CORES;
 		args[i].threadend = rt->resy * (i + 1) / NB_CORES;
-		returned[i] = pthread_create(&threads[i], NULL, t_camera_render, (void*) &args[i]);
+		returned[i] = pthread_create(&threads[i],
+			NULL, t_camera_render, (void*)&args[i]);
 	}
 	i = -1;
 	while (++i < NB_CORES)
@@ -223,63 +204,34 @@ void render_static(t_minirt *rt)
 	while (++i < NB_CORES)
 		pthread_cancel(threads[i]);
 	mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
-	printf("Rendered !\n");
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int		rt_loop(t_minirt *rt)
 {
 	if (rt->realtime)
 	{
-		//Z
 		if (rt->keys & FORWARD)
 			rt->world->currentcamera->pos = v3add(
 				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, MVCAMSPEED));
-		//S
 		if (rt->keys & BACKWARD)
 			rt->world->currentcamera->pos = v3add(
 				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, -MVCAMSPEED));
-		//Q
 		if (rt->keys & LEFT)
 			rt->world->currentcamera->pos = v3add(
 				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, -MVCAMSPEED));
-		//D
 		if (rt->keys & RIGHT)
 			rt->world->currentcamera->pos = v3add(
 				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, MVCAMSPEED));
-		//gauche
 		if (rt->keys & RLEFT)
 			t_camera_rot_itself(rt->world->currentcamera, 0, 0, RTCAMSPEED);
-		//haut
 		if (rt->keys & RFORWARD)
 			t_camera_rot_itself(rt->world->currentcamera, 0, -RTCAMSPEED, 0);
-		//droite
 		if (rt->keys & RRIGHT)
 			t_camera_rot_itself(rt->world->currentcamera, 0, 0, -RTCAMSPEED);
-		//roule
 		if (rt->keys & RBACKWARD)
 			t_camera_rot_itself(rt->world->currentcamera, 0, RTCAMSPEED, 0);
 		if (rt->keys & RROLL)
 			t_camera_rot_itself(rt->world->currentcamera, RTCAMSPEED, 0, 0);
-		//ma poule
 		if (rt->keys & LROLL)
 			t_camera_rot_itself(rt->world->currentcamera, -RTCAMSPEED, 0, 0);
 		render_realtime(rt);
@@ -287,7 +239,7 @@ int		rt_loop(t_minirt *rt)
 	return (0);
 }
 
-int		main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	t_minirt	rt;
 	t_world		*w;

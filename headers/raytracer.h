@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:22 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/17 13:20:29 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/17 15:02:05 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	toggle_realtime(t_minirt *rt);
 /*
 **	multithread
 */
-void	t_camera_render_lowres(t_minirt *rt, t_camera *c, int start, int end, unsigned int *img);
+void	t_camera_render_lowres(t_minirt *rt, t_camera *c, int start, int end);
 void	init_threads(t_minirt *rt);
 void	kill_threads(t_minirt *rt);
 void 	render_realtime(t_minirt *rt);

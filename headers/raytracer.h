@@ -29,19 +29,34 @@
 #include <ray.h>
 
 
-# define KEY_A 		0
-# define KEY_W 		13
-# define KEY_D 		2
-# define KEY_S 		1
-# define KEY_LEFT 	123
-# define KEY_UP 	126
-# define KEY_RIGHT 	124
-# define KEY_DOWN	125
-# define KEY_Q		12
-# define KEY_E		14
-# define KEY_R		15
-# define KEY_Z		6
-# define KEY_X		7
+// # define KEY_A 		0
+// # define KEY_W 		13
+// # define KEY_D 		2
+// # define KEY_S 		1
+// # define KEY_LEFT 	123
+// # define KEY_UP 	126
+// # define KEY_RIGHT 	124
+// # define KEY_DOWN	125
+// # define KEY_Q		12
+// # define KEY_E		14
+// # define KEY_R		15
+// # define KEY_Z		6
+// # define KEY_X		7
+// # define KEY_ESCAPE	53
+
+# define KEY_A 		113
+# define KEY_W 		122
+# define KEY_D 		100
+# define KEY_S 		115
+# define KEY_LEFT 	65361
+# define KEY_UP 	65362
+# define KEY_RIGHT 	65363
+# define KEY_DOWN	65364
+# define KEY_Q		97
+# define KEY_E		101
+# define KEY_R		114
+# define KEY_Z		119
+# define KEY_X		120
 # define KEY_ESCAPE	53
 
 

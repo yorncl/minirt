@@ -68,13 +68,14 @@ void		render_realtime(t_minirt *rt)
 
 	//TOP DEPART
 	rt->acnt = 0;
+	pthread_mutex_init(&lock, NULL);
 	pthread_cond_broadcast(&rt->taskstart);
 
 	//ON ATTEND LA FIN
 	pthread_mutex_lock(&lock);
 	pthread_cond_wait(&rt->taskdone, &lock);
 	pthread_mutex_unlock(&lock);
-	
+
 	//ON PUSH L'IMAGE A L'ECRAN
 	mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
 }
@@ -200,6 +201,7 @@ void		render_static(t_minirt *rt)
 	int				i;
 	pthread_t		threads[NB_CORES];
 	int				returned[NB_CORES];
+	(void) returned;
 	t_threadargs	args[NB_CORES];
 
 	i = -1;

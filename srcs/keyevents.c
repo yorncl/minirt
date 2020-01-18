@@ -63,6 +63,7 @@ int		key_released(int keycode, t_minirt *rt)
 		rt->keys ^= LROLL;
 	if (keycode == KEY_R)
 		toggle_realtime(rt);
+	printf("%d\n", keycode);
 	if (keycode == 53)
 		quit_window(rt, 0);
 	return (0);

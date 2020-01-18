@@ -46,6 +46,7 @@ typedef struct s_minirt
 	atomic_int		acnt;
 	pthread_cond_t	taskstart;
 	pthread_cond_t	taskdone;
+	pthread_mutex_t lock;
 	t_world 		*world;
 }				t_minirt;
 

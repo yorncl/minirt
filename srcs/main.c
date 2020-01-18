@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/17 18:31:26 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/18 17:41:24 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,33 @@ void		free_everything(t_minirt *rt)
 	}
 }
 
+int	update_acnt(t_minirt *rt)
+{
+	rt->acnt++;
+	// printf("Called %d\n", rt->acnt);
+	if (rt->acnt == NB_CORES)
+	{
+		rt->acnt = 0;
+		return (1);
+	}
+	return (0);
+}
+
 void		render_realtime(t_minirt *rt)
 {
 	pthread_mutex_t lock;
 
+	//TOP DEPART
 	rt->acnt = 0;
-	printf("START FRAME\n");
 	pthread_cond_broadcast(&rt->taskstart);
-	pthread_mutex_init(&lock, NULL);
+
+	//ON ATTEND LA FIN
 	pthread_mutex_lock(&lock);
 	pthread_cond_wait(&rt->taskdone, &lock);
 	pthread_mutex_unlock(&lock);
+	
+	//ON PUSH L'IMAGE A L'ECRAN
 	mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
-	printf("FRAME DONE\n");
 }
 
 void		*thread_realtime(void *arg)
@@ -76,17 +90,19 @@ void		*thread_realtime(void *arg)
 	pthread_mutex_init(&lock, NULL);
 	while (1)
 	{
+		//ON ATTEND LE DEPART
 		pthread_mutex_lock(&lock);
 		pthread_cond_wait(&rt->taskstart, &lock);
 		pthread_mutex_unlock(&lock);
-		t_camera_render_lowres(rt, rt->world->currentcamera,
+
+		t_camera_render_lowres(rt, args->c,
 								args->threadstart, args->threadend);
-		if (rt->acnt == NB_CORES)
+		
+		//ON DIT QU'ON A FINI
+		pthread_mutex_lock(&rt->lock);
+		if (update_acnt(rt)) //SI C'EST LA FIN ON LE DIT AU MAIN
 			pthread_cond_broadcast(&rt->taskdone);
-		else
-			rt->acnt++;
-			sleep(1);
-		printf("Thread %d CAM val %lf\n", args->id,v3dot(rt->world->currentcamera->px, rt->world->currentcamera->py) * v3dot(rt->world->currentcamera->px, rt->world->currentcamera->pz));
+		pthread_mutex_unlock(&rt->lock);
 	}
 	return (0);
 }
@@ -104,6 +120,7 @@ void		init_threads(t_minirt *rt)
 	args = rt->threadargs;
 	pthread_cond_init(&rt->taskstart, NULL);
 	pthread_cond_init(&rt->taskdone, NULL);
+	pthread_mutex_init(&rt->lock, NULL);
 	while (++i < NB_CORES)
 	{
 		args[i].c = rt->world->currentcamera;
@@ -172,7 +189,7 @@ void		t_camera_render_lowres(t_minirt *rt, t_camera *c,
 				(2 * i * c->py.y / rt->resx) + (2 * j * c->pz.y / rt->resy);
 			r.z = c->px.z - c->py.z - c->pz.z +
 				(2 * i * c->py.z / rt->resx) + (2 * j * c->pz.z / rt->resy);
-			write_block(rt->img->imgdata, j == start ? 0xffffff : ray_trace(rt->world, c->pos, r, 3),
+			write_block(rt->img->imgdata, ray_trace(rt->world, c->pos, r, 3),
 						i, j, dx, dy, rt->sizex);
 		}
 	}
@@ -211,30 +228,30 @@ int		rt_loop(t_minirt *rt)
 {
 	if (rt->realtime)
 	{
-		// if (rt->keys & FORWARD)
-		// 	rt->world->currentcamera->pos = v3add(
-		// 		rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, MVCAMSPEED));
-		// if (rt->keys & BACKWARD)
-		// 	rt->world->currentcamera->pos = v3add(
-		// 		rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, -MVCAMSPEED));
-		// if (rt->keys & LEFT)
-		// 	rt->world->currentcamera->pos = v3add(
-		// 		rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, -MVCAMSPEED));
-		// if (rt->keys & RIGHT)
-		// 	rt->world->currentcamera->pos = v3add(
-		// 		rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, MVCAMSPEED));
-		// if (rt->keys & RLEFT)
-		// 	t_camera_rot_itself(rt->world->currentcamera, 0, 0, RTCAMSPEED);
-		// if (rt->keys & RFORWARD)
-		// 	t_camera_rot_itself(rt->world->currentcamera, 0, -RTCAMSPEED, 0);
-		// if (rt->keys & RRIGHT)
+		if (rt->keys & FORWARD)
+			rt->world->currentcamera->pos = v3add(
+				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, MVCAMSPEED));
+		if (rt->keys & BACKWARD)
+			rt->world->currentcamera->pos = v3add(
+				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->px, -MVCAMSPEED));
+		if (rt->keys & LEFT)
+			rt->world->currentcamera->pos = v3add(
+				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, -MVCAMSPEED));
+		if (rt->keys & RIGHT)
+			rt->world->currentcamera->pos = v3add(
+				rt->world->currentcamera->pos, v3scale(rt->world->currentcamera->py, MVCAMSPEED));
+		if (rt->keys & RLEFT)
+			t_camera_rot_itself(rt->world->currentcamera, 0, 0, RTCAMSPEED);
+		if (rt->keys & RFORWARD)
+			t_camera_rot_itself(rt->world->currentcamera, 0, -RTCAMSPEED, 0);
+		if (rt->keys & RRIGHT)
 			t_camera_rot_itself(rt->world->currentcamera, 0, 0, -RTCAMSPEED);
-		// if (rt->keys & RBACKWARD)
-		// 	t_camera_rot_itself(rt->world->currentcamera, 0, RTCAMSPEED, 0);
-		// if (rt->keys & RROLL)
-		// 	t_camera_rot_itself(rt->world->currentcamera, RTCAMSPEED, 0, 0);
-		// if (rt->keys & LROLL)
-		// 	t_camera_rot_itself(rt->world->currentcamera, -RTCAMSPEED, 0, 0);
+		if (rt->keys & RBACKWARD)
+			t_camera_rot_itself(rt->world->currentcamera, 0, RTCAMSPEED, 0);
+		if (rt->keys & RROLL)
+			t_camera_rot_itself(rt->world->currentcamera, RTCAMSPEED, 0, 0);
+		if (rt->keys & LROLL)
+			t_camera_rot_itself(rt->world->currentcamera, -RTCAMSPEED, 0, 0);
 		render_realtime(rt);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 20:41:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/17 18:12:30 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/18 16:55:25 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <libft.h>
 
 # define MVCAMSPEED	0.4
-# define RTCAMSPEED	0.01
+# define RTCAMSPEED	0.05
 
 # define FORWARD	1
 # define BACKWARD	2

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/18 17:41:24 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/20 20:56:05 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,28 @@ void		free_everything(t_minirt *rt)
 int	update_acnt(t_minirt *rt)
 {
 	rt->acnt++;
-	// printf("Called %d\n", rt->acnt);
+	//compare and update ?
 	if (rt->acnt == NB_CORES)
-	{
-		rt->acnt = 0;
 		return (1);
-	}
 	return (0);
 }
 
 void		render_realtime(t_minirt *rt)
 {
 	pthread_mutex_t lock;
-
-	//TOP DEPART
 	rt->acnt = 0;
 	pthread_mutex_init(&lock, NULL);
+
+	//TOP DEPART
+	// printf("LETS GO\n");
+	// usleep(100000);
 	pthread_cond_broadcast(&rt->taskstart);
 
 	//ON ATTEND LA FIN
 	pthread_mutex_lock(&lock);
 	pthread_cond_wait(&rt->taskdone, &lock);
 	pthread_mutex_unlock(&lock);
-
+	// printf("STOP BICHE\n");
 	//ON PUSH L'IMAGE A L'ECRAN
 	mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
 }
@@ -95,15 +94,18 @@ void		*thread_realtime(void *arg)
 		pthread_mutex_lock(&lock);
 		pthread_cond_wait(&rt->taskstart, &lock);
 		pthread_mutex_unlock(&lock);
+		// printf("le joueur %d rentre dans la course!\n", args->id);
 
-		t_camera_render_lowres(rt, args->c,
+		t_camera_render_lowres(rt, rt->world->currentcamera,
 								args->threadstart, args->threadend);
 		
 		//ON DIT QU'ON A FINI
+		// printf("LE JOUEUR FRANCAIS %d TERMINE TOP1!\n", args->id);
 		pthread_mutex_lock(&rt->lock);
 		if (update_acnt(rt)) //SI C'EST LA FIN ON LE DIT AU MAIN
 			pthread_cond_broadcast(&rt->taskdone);
 		pthread_mutex_unlock(&rt->lock);
+		// printf("le joueur a fini %d\n", args->id);
 	}
 	return (0);
 }
@@ -124,7 +126,6 @@ void		init_threads(t_minirt *rt)
 	pthread_mutex_init(&rt->lock, NULL);
 	while (++i < NB_CORES)
 	{
-		args[i].c = rt->world->currentcamera;
 		args[i].img = rt->img->imgdata;
 		args[i].rt = rt;
 		args[i].w = rt->world;
@@ -132,7 +133,7 @@ void		init_threads(t_minirt *rt)
 		args[i].threadstart = rt->resy * i / NB_CORES;
 		args[i].threadend = (rt->resy * (i + 1) / NB_CORES);
 		returned[i] = pthread_create(
-					&threads[i], NULL, thread_realtime, (void*)&args[i]);
+					&threads[i], NULL, &thread_realtime, (void*)&args[i]);
 	}
 }
 

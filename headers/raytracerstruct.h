@@ -49,6 +49,4 @@ typedef struct s_minirt
 	pthread_mutex_t lock;
 	t_world 		*world;
 }				t_minirt;
-
-
 #endif

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:48:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/18 17:37:26 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/20 20:46:21 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@
 # define BLUE 0x000000FF
 # define WHITE 0x00FFFFFF
 
-# define NB_CORES 4
+# define NB_CORES 2
 #endif

@@ -6,10 +6,9 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 14:48:44 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 15:06:32 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:33:50 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef THREADS_H
 # define THREADS_H

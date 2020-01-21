@@ -1,14 +1,22 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raytracerstruct.h                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/21 15:37:04 by mclaudel          #+#    #+#             */
+/*   Updated: 2020/01/21 15:38:54 by mclaudel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef RAYTRACERSTRUCT_H
 # define RAYTRACERSTRUCT_H
 
-#include <mlx.h>
-#include <world.h>
-#include <macro.h>
-#include <pthread.h>
-
-typedef struct s_threadargs t_threadargs;
+# include <mlx.h>
+# include <world.h>
+# include <macro.h>
+# include <pthread.h>
 
 typedef struct	s_image
 {
@@ -18,7 +26,7 @@ typedef struct	s_image
 	int				linesize;
 	int				edian;
 }				t_image;
-typedef struct s_threadargs
+typedef struct	s_threadargs
 {
 	t_camera		*c;
 	unsigned int	*img;
@@ -45,22 +53,22 @@ typedef struct	s_barrier
 	int				total;
 }				t_barrier;
 
-typedef struct s_minirt
+typedef struct	s_minirt
 {
 	void			*mlx;
 	void			*win;
-	t_image 		*img;
+	t_image			*img;
 	int				resx;
 	int				resy;
 	int				sizex;
 	int				sizey;
 	int				keys;
-	int 			realtime;
+	int				realtime;
 	pthread_t		threads[NB_CORES];
 	int				returned[NB_CORES];
 	t_threadargs	threadargs[NB_CORES];
 	t_barrier		ready;
 	t_barrier		done;
-	t_world 		*world;
+	t_world			*world;
 }				t_minirt;
 #endif

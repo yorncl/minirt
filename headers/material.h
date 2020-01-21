@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 15:21:04 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/12/16 14:35:36 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:30:20 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 # include <stdlib.h>
 # include <vec3.h>
 # include <color.h>
+
 /*
 **	A material structure
 **
 **	Items refers to physical properties
 **	albedo - refers to the amount of light absorbed
-**	refractive - refers to the amount of light refracted [0;1] 
+**	refractive - refers to the amount of light refracted [0;1]
 **	refractiveindex - the refraction index of the material
 **	specular - refers to the amount of light directly reflected [0;1]
 **	diffuse - refers to the amount of light diffused [0;1]
@@ -37,5 +38,6 @@ typedef struct	s_material
 	double diffuse;
 }				t_material;
 
-t_material		*create_material(unsigned int color, double roughness, double metallic);
-# endif
+t_material		*create_material(unsigned int color,
+								double roughness, double metallic);
+#endif

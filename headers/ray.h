@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:56:51 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 14:30:00 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:30:55 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@
 /*
 **	Ray
 */
-unsigned int		ray_trace(t_world *w, t_vec3 origin, t_vec3 r, unsigned int depth);
-double				ray_intersect(t_world *w, t_vec3 p, t_vec3 r, t_obj3d **closestobj);
+unsigned int		ray_trace(t_world *w, t_vec3 origin,
+												t_vec3 r, unsigned int depth);
+double				ray_intersect(t_world *w, t_vec3 p,
+												t_vec3 r, t_obj3d **closestobj);
 unsigned int		ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r);
 double				hit(t_obj3d *obj, t_vec3 r, t_vec3 p);
 

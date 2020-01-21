@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 18:56:38 by marvin            #+#    #+#             */
-/*   Updated: 2019/12/14 15:04:06 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:33:17 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void			v3rotateaxis(t_vec3 *a, t_vec3 u, double ro);
 /*
 **	Misc
 */
-int		v3intrange(t_vec3 v, int min, int max);
-int		v3drange(t_vec3 v, double min, double max);
+int				v3intrange(t_vec3 v, int min, int max);
+int				v3drange(t_vec3 v, double min, double max);
 #endif

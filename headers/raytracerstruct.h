@@ -29,6 +29,19 @@ typedef struct s_threadargs
 	int				id;
 }				t_threadargs;
 
+typedef struct	s_barrier
+{
+	pthread_cond_t	cond;
+	pthread_mutex_t	lock;
+	int				count;
+	int				total;
+}				t_barrier;
+
+int		barrier_init(t_barrier *b, int num);
+int		barrier_wait(t_barrier *b);
+int		barrier_destroy(t_barrier *b);
+
+
 typedef struct s_minirt
 {
 	void			*mlx;
@@ -44,9 +57,8 @@ typedef struct s_minirt
 	int				returned[NB_CORES];
 	t_threadargs	threadargs[NB_CORES];
 	atomic_int		acnt;
-	pthread_cond_t	taskstart;
-	pthread_cond_t	taskdone;
-	pthread_mutex_t lock;
+	t_barrier		ready;
+	t_barrier		done;
 	t_world 		*world;
 }				t_minirt;
 #endif

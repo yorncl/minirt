@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 11:09:18 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 12:06:59 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,53 +59,75 @@ int	update_acnt(t_minirt *rt)
 	return (0);
 }
 
+int		barrier_init(t_barrier *b, int num)
+{
+	if(num == 0)
+        return (-1);
+    if(pthread_mutex_init(&b->lock, 0) < 0)
+        return (-1);
+    if(pthread_cond_init(&b->cond, 0) < 0)
+	{
+		pthread_mutex_init(&b->lock, 0);
+        return (-1);
+	}
+    b->total = 0;
+    b->count = 0;
+    return (0);
+}
+
+int		barrier_destroy(t_barrier *b)
+{
+	pthread_cond_destroy(&b->cond);
+	pthread_mutex_destroy(&b->lock);
+    return (0);
+}
+
+int		barrier_wait(t_barrier *b)
+{
+
+	pthread_mutex_lock(&b->lock);
+	b->count++;
+	if (b->count >= b->total)
+	{
+		b->count = 0;
+		pthread_cond_broadcast(&b->cond);
+		pthread_mutex_unlock(&b->lock);
+		return (0);
+	}
+	pthread_cond_wait(&b->cond, &b->lock);
+	pthread_mutex_unlock(&b->lock);
+	return (0);
+}
+
+
+
 void		render_realtime(t_minirt *rt)
 {
-	pthread_mutex_t lock;
 	rt->acnt = 0;
-	pthread_mutex_init(&lock, NULL);
-
+	
 	//TOP DEPART
-	// printf("LETS GO\n");
-	usleep(1000);
-	pthread_cond_broadcast(&rt->taskstart);
+	barrier_wait(&rt->ready);
 
 	//ON ATTEND LA FIN
-	pthread_mutex_lock(&lock);
-	pthread_cond_wait(&rt->taskdone, &lock);
-	pthread_mutex_unlock(&lock);
-	// printf("STOP BICHE\n");
+	barrier_wait(&rt->done);
+	
 	//ON PUSH L'IMAGE A L'ECRAN
 	mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
 }
 
 void		*thread_realtime(void *arg)
 {
-	pthread_mutex_t lock;
 	t_threadargs	*args;
 	t_minirt		*rt;
 
 	args = (t_threadargs*)arg;
 	rt = (t_minirt*)args->rt;
-	pthread_mutex_init(&lock, NULL);
 	while (1)
 	{
-		//ON ATTEND LE DEPART
-		pthread_mutex_lock(&lock);
-		pthread_cond_wait(&rt->taskstart, &lock);
-		pthread_mutex_unlock(&lock);
-		// printf("le joueur %d rentre dans la course!\n", args->id);
-
+		barrier_wait(&rt->ready);
 		t_camera_render_lowres(rt, rt->world->currentcamera,
 								args->threadstart, args->threadend);
-		
-		//ON DIT QU'ON A FINI
-		// printf("LE JOUEUR FRANCAIS %d TERMINE TOP1!\n", args->id);
-		pthread_mutex_lock(&rt->lock);
-		if (update_acnt(rt)) //SI C'EST LA FIN ON LE DIT AU MAIN
-			pthread_cond_broadcast(&rt->taskdone);
-		pthread_mutex_unlock(&rt->lock);
-		// printf("le joueur a fini %d\n", args->id);
+		barrier_wait(&rt->done);
 	}
 	return (0);
 }
@@ -121,9 +143,9 @@ void		init_threads(t_minirt *rt)
 	threads = rt->threads;
 	returned = rt->returned;
 	args = rt->threadargs;
-	pthread_cond_init(&rt->taskstart, NULL);
-	pthread_cond_init(&rt->taskdone, NULL);
-	pthread_mutex_init(&rt->lock, NULL);
+	barrier_init(&rt->ready, NB_CORES + 1);
+	barrier_init(&rt->done, NB_CORES + 1);
+	//DON T FORGET TO DESTROY
 	while (++i < NB_CORES)
 	{
 		args[i].img = rt->img->imgdata;
@@ -269,6 +291,12 @@ int			main(int ac, char **av)
 	ft_bzero(&rt, sizeof(t_minirt));
 	w = world_init();
 	rt.world = w;
+
+	if (NB_CORES <= 0)
+	{
+		write(1, "\e[1;31mWrong core number\n\e[0m", 20);
+		quit_window(&rt, -1);
+	}
 	if (ac != 2)
 	{
 		write(1, "\e[1;31mMissing an argument\n\e[0m", 31);

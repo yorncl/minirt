@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 14:53:36 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 15:02:50 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:22:42 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,24 @@ void		render_realtime(t_minirt *rt)
 	mlx_put_image_to_window(rt->mlx, rt->win, rt->img->img, 0, 0);
 }
 
-void		write_block(unsigned int *img, unsigned int color, int i, int j,int dx, int dy, int sizex)
+void		write_block(unsigned int *img,
+						unsigned int color,
+						t_blockargs *args,
+						int sizex)
 {
 	int a;
 	int b;
+	int index;
 
 	a = -1;
-	while (++a < dy)
+	while (++a < args->dy)
 	{
 		b = -1;
-		while (++b < dy)
+		while (++b < args->dy)
 		{
-			img[(j * dy + a) * sizex +
-					i * dx + b] = color;
+			index = (args->j * args->dy + a) * sizex +
+					args->i * args->dx + b;
+			img[index] = color;
 		}
 	}
 }
@@ -39,28 +44,25 @@ void		write_block(unsigned int *img, unsigned int color, int i, int j,int dx, in
 void		t_camera_render_lowres(t_minirt *rt, t_camera *c,
 									int start, int end)
 {
-	int		i;
-	int		j;
-	int		dx;
-	int		dy;
-	t_vec3	r;
+	t_blockargs	a;
+	t_vec3		r;
 
-	dx = rt->sizex / rt->resx;
-	dy = rt->sizey / rt->resy;
-	j = start - 1;
-	while (++j < end)
+	a.dx = rt->sizex / rt->resx;
+	a.dy = rt->sizey / rt->resy;
+	a.j = start - 1;
+	while (++a.j < end)
 	{
-		i = -1;
-		while (++i < rt->resx)
+		a.i = -1;
+		while (++a.i < rt->resx)
 		{
 			r.x = c->px.x - c->py.x - c->pz.x +
-				(2 * i * c->py.x / rt->resx) + (2 * j * c->pz.x / rt->resy);
+				(2 * a.i * c->py.x / rt->resx) + (2 * a.j * c->pz.x / rt->resy);
 			r.y = c->px.y - c->py.y - c->pz.y +
-				(2 * i * c->py.y / rt->resx) + (2 * j * c->pz.y / rt->resy);
+				(2 * a.i * c->py.y / rt->resx) + (2 * a.j * c->pz.y / rt->resy);
 			r.z = c->px.z - c->py.z - c->pz.z +
-				(2 * i * c->py.z / rt->resx) + (2 * j * c->pz.z / rt->resy);
+				(2 * a.i * c->py.z / rt->resx) + (2 * a.j * c->pz.z / rt->resy);
 			write_block(rt->img->imgdata, ray_trace(rt->world, c->pos, r, 3),
-						i, j, dx, dy, rt->sizex);
+						&a, rt->sizex);
 		}
 	}
 }

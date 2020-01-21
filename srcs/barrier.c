@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 14:51:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 14:52:18 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:09:20 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int		barrier_destroy(t_barrier *b)
 
 int		barrier_wait(t_barrier *b)
 {
-
 	pthread_mutex_lock(&b->lock);
 	b->count++;
 	if (b->count >= b->total)

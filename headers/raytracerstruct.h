@@ -29,6 +29,14 @@ typedef struct s_threadargs
 	int				id;
 }				t_threadargs;
 
+typedef struct	s_blockargs
+{
+	int		j;
+	int		i;
+	double	dx;
+	double	dy;
+}				t_blockargs;
+
 typedef struct	s_barrier
 {
 	pthread_cond_t	cond;

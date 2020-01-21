@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 12:06:59 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 12:09:08 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		barrier_init(t_barrier *b, int num)
 		pthread_mutex_init(&b->lock, 0);
         return (-1);
 	}
-    b->total = 0;
+    b->total = num;
     b->count = 0;
     return (0);
 }

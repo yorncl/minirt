@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 14:06:26 by mclaudel          #+#    #+#             */
-/*   Updated: 2019/11/14 19:22:04 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:44:58 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,6 @@ typedef struct	s_list
 	void			*content;
 	struct s_list	*next;
 }				t_list;
-
-typedef union	u_float
-{
-	float				f;
-	struct
-	{
-		unsigned int	sign : 1;
-		unsigned int	exponent : 8;
-		unsigned int	mantissa : 23;
-	}					parts;
-}				t_float;
 
 void			*ft_memset(void *b, int c, size_t len);
 void			ft_bzero(void *s, size_t n);
@@ -71,7 +60,6 @@ void			ft_putnbr_fd(int n, int fd);
 int				ft_intlen(int n);
 int				ft_max(int a, int b);
 int				ft_min(int a, int b);
-float			ft_atof(const char *s);
 int				ft_isspace(char c);
 
 t_list			*ft_lstnew(void *content);

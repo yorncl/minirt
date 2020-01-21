@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 17:53:07 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:59:56 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ double			ray_intersect(t_world *w, t_vec3 p, t_vec3 r, t_obj3d **cobj)
 	closest = -1;
 	while (ptr)
 	{
-		if ((t = hit(ptr, r, p)) > 0)
+		if ((t = hit(ptr, r, p)) >= 0)
 		{
 			if (closest == -1 || (t < closest))
 			{

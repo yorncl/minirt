@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 10:53:14 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/17 13:14:17 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 12:32:20 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	toggle_realtime(t_minirt *rt)
 	}
 	else
 	{
-		rt->resx /= 7;
-		rt->resy /= 7;
+		rt->resx /= 10;
+		rt->resy /= 10;
 		init_threads(rt);
 	}
 }

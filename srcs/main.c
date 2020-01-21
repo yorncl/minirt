@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 12:13:29 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 12:21:36 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		barrier_init(t_barrier *b, int num)
 		pthread_mutex_init(&b->lock, 0);
         return (-1);
 	}
-    b->total = 0;
+    b->total = num;
     b->count = 0;
     return (0);
 }
@@ -84,19 +84,18 @@ int		barrier_destroy(t_barrier *b)
 
 int		barrier_wait(t_barrier *b)
 {
-	pthread_mutex_t	lock;
 
+	pthread_mutex_lock(&b->lock);
 	b->count++;
 	if (b->count >= b->total)
 	{
 		b->count = 0;
 		pthread_cond_broadcast(&b->cond);
-		// pthread_mutex_unlock(lock);
+		pthread_mutex_unlock(&b->lock);
 		return (0);
 	}
-	pthread_mutex_lock(&lock);
-	pthread_cond_wait(&b->cond, &lock);
-	pthread_mutex_unlock(&lock);
+	pthread_cond_wait(&b->cond, &b->lock);
+	pthread_mutex_unlock(&b->lock);
 	return (0);
 }
 
@@ -167,6 +166,8 @@ void		kill_threads(t_minirt *rt)
 
 	threads = rt->threads;
 	i = -1;
+	barrier_destroy(&rt->ready);
+	barrier_destroy(&rt->done);
 	while (++i < NB_CORES)
 	{
 		pthread_cancel(threads[i]);

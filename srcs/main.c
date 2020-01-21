@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/20 20:56:05 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 11:09:18 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void		render_realtime(t_minirt *rt)
 
 	//TOP DEPART
 	// printf("LETS GO\n");
-	// usleep(100000);
+	usleep(1000);
 	pthread_cond_broadcast(&rt->taskstart);
 
 	//ON ATTEND LA FIN

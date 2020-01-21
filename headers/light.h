@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 15:04:24 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 15:25:56 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:54:14 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <vec3.h>
 # include <color.h>
 
-# define MAX_LIGHT_INTENSITY 5000
+# define MAX_LIGHT_INTENSITY 20000
 
 typedef struct	s_light
 {

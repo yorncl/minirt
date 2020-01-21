@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:15:36 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 15:08:17 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:51:47 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int		parse_color(unsigned int *c, char *line)
 
 	if ((r = parse_vec3(&v, line)) == ERROR || !v3drange(v, 0, 255))
 		return (ERROR);
-	color.color.r = v.x;
-	color.color.g = v.y;
-	color.color.b = v.z;
+	color.color.r = (int)v.x;
+	color.color.g = (int)v.y;
+	color.color.b = (int)v.z;
 	*c = color.v;
 	return (r);
 }

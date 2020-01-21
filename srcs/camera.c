@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 14:30:17 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 14:30:43 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 14:22:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void		t_camera_rot(t_camera *c, double x, double y, double z)
 	v3rotate3(&(c->py), x, y, z);
 	v3rotate3(&(c->pz), x, y, z);
 }
-
-#include <stdio.h>
 
 void		t_camera_rot_itself(t_camera *c, double x, double y, double z)
 {

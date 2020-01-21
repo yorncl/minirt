@@ -9,7 +9,8 @@ INCLUDES_MAC = -lmlx -framework OpenGL -framework AppKit
 VEC3_SRCS = srcs/vec3/misc.c \
 			srcs/vec3/addsub.c \
 			srcs/vec3/multiply.c \
-			srcs/vec3/rotate.c \
+			srcs/vec3/rotate1.c \
+			srcs/vec3/rotate2.c \
 			srcs/vec3/vec3.c \
 
 #libft srcs, need tp fix this oneday

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 10:53:14 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 12:32:20 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 14:22:14 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int		key_released(int keycode, t_minirt *rt)
 		rt->keys ^= LROLL;
 	if (keycode == KEY_R)
 		toggle_realtime(rt);
-	printf("%d\n", keycode);
 	if (keycode == 53)
 		quit_window(rt, 0);
 	return (0);

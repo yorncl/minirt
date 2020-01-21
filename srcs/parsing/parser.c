@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/17 14:39:48 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 14:35:21 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,23 @@ int		parse_world(t_minirt *rt, char *path)
 	int		flags;
 
 	n = 1;
-	fd = open(path, O_RDONLY);
 	line = 0;
 	flags = 0;
-	if (fd == -1)
-		return (ERROR);
+	if ((fd = open(path, O_RDONLY)) == -1)
+		return (parsing_error("Can't open file !", -1));
 	while (1)
 	{
 		r = get_next_line(fd, &line);
-		if (!line || r == -1 || parse_line(rt, line, n, &flags) == ERROR)
+		if (!line || r == -1 || parse_line(rt, line, n++, &flags) == ERROR)
 		{
 			free(line);
 			return (ERROR);
 		}
 		free(line);
-		n++;
 		if (r == 0)
 			break ;
 	}
-	if (!(flags & FLAG_CAMERA))
-		return (parsing_error("Missing a camera !", -1));
-	if (!(flags & FLAG_RES))
-		return (parsing_error("Missing resolution !", -1));
-	return (SUCCESS);
+	return (check_essentials(flags));
 }
 
 int		parse_line(t_minirt *rt, char *line, int n, int *flags)
@@ -62,16 +56,13 @@ int		parse_line(t_minirt *rt, char *line, int n, int *flags)
 	{
 		if (*flags & FLAG_RES)
 			return (parsing_error("You can only put one resolution", n));
-		else
-			*flags |= FLAG_RES;
+		*flags |= FLAG_RES;
 	}
 	if (parser == &parse_ambient)
 	{
 		if (*flags & FLAG_AMBIENT)
-			return (parsing_error(
-				"You can only put one ambient lights you dummie", n));
-		else
-			*flags |= FLAG_AMBIENT;
+			return (parsing_error("You can only put one ambient light", n));
+		*flags |= FLAG_AMBIENT;
 	}
 	if (parser == &parse_camera)
 		*flags |= FLAG_CAMERA;

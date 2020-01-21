@@ -20,25 +20,53 @@
 # define FLAG_AMBIENT	2
 # define FLAG_CAMERA	4
 
+/*
+**	Main
+*/
 int		parse_world(t_minirt *rt, char *path);
 int		parse_line(t_minirt *rt, char *line, int n, int *flags);
+
+/*
+**	Identifier
+*/
 int		parse_identifier(
 			char *line,
 			int	(**parser)(t_minirt *rt, char *str),
 			int *offset);
 int		is_identifier_known(char *line);
+
+/*
+**	Utils
+*/
 int		parse_vec3(t_vec3 *v, char *line);
 int		parse_color(unsigned int *c, char *line);
 int		parse_double(double *v, char *line);
+int		check_essentials(int flags);
 
+/*
+**	Error message
+*/
 int		parsing_error(char *msg, int n);
 
+/*
+**	Reslution
+*/
 int		parse_resolution(t_minirt *rt, char *line);
 
+/*
+**	Camera
+*/
 int		parse_camera(t_minirt *rt, char *line);
+
+/*
+**	Lights and cameras
+*/
 int		parse_light(t_minirt *rt, char *line);
 int		parse_ambient(t_minirt *rt, char *line);
 
+/*
+**	Meshes
+*/
 int		parse_sphere(t_minirt *rt, char *line);
 int		parse_plane(t_minirt *rt, char *line);
 int		parse_square(t_minirt *rt, char *line);

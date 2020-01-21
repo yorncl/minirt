@@ -6,7 +6,6 @@
 #include <mlx.h>
 #include <world.h>
 #include <macro.h>
-#include <stdatomic.h>
 
 typedef struct s_threadargs t_threadargs;
 
@@ -56,7 +55,6 @@ typedef struct s_minirt
 	pthread_t		threads[NB_CORES];
 	int				returned[NB_CORES];
 	t_threadargs	threadargs[NB_CORES];
-	atomic_int		acnt;
 	t_barrier		ready;
 	t_barrier		done;
 	t_world 		*world;

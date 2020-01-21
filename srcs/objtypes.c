@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 14:43:16 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 14:36:41 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int				add_triangle(t_world *w, t_objargs args, t_vec3 p2, t_vec3 p3)
 	return (SUCCESS);
 }
 
-int			add_cylinder(t_world *w, t_objargs args,
+int				add_cylinder(t_world *w, t_objargs args,
 					double height, double radius)
 {
 	t_obj3d		*ptr;

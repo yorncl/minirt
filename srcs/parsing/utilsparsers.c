@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:15:36 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/13 14:50:42 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 14:32:10 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,13 @@ int		parse_double(double *v, char *line)
 		}
 	*v = a * sign;
 	return (read);
+}
+
+int		check_essentials(int flags)
+{
+	if (!(flags & FLAG_CAMERA))
+		return (parsing_error("Missing a camera !", -1));
+	if (!(flags & FLAG_RES))
+		return (parsing_error("Missing resolution !", -1));
+	return (SUCCESS);
 }

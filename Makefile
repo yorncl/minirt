@@ -14,8 +14,7 @@ VEC3_SRCS = srcs/vec3/misc.c \
 			srcs/vec3/vec3.c \
 
 #libft srcs, need tp fix this oneday
-LIBFT_SRCS = libft/ft_atof.c \
-			libft/ft_atoi.c \
+LIBFT_SRCS = libft/ft_atoi.c \
 			libft/ft_bzero.c \
 			libft/ft_calloc.c \
 			libft/ft_intlen.c \

@@ -75,6 +75,11 @@ SRCS = $(VEC3_SRCS) \
 		srcs/color.c \
 		srcs/normals.c \
 		srcs/camera.c \
+		srcs/cameramov.c \
+		srcs/mainutils.c \
+		srcs/barrier.c \
+		srcs/render.c \
+		srcs/threads.c \
 		srcs/main.c \
 		srcs/ray.c \
 		srcs/objtypes.c \

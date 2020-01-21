@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:22 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/20 19:40:03 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:06:37 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 
 #include <mlx.h>
 
-#include <stdio.h>
-
-#include <stdatomic.h>
+#include <threads.h>
+#include <render.h>
 #include <parser.h>
 #include <math.h>
 #include <stdlib.h>
-#include <pthread.h>
 #include <limits.h>
 #include <camera.h>
 #include <raytracerstruct.h>
@@ -61,29 +59,23 @@
 
 
 
-void	render_static(t_minirt *rt);
-void	*t_camera_render(void *arg);
-int		change_camera(int keycode, t_minirt *raytracer);
-int		quit_window(t_minirt *rt, int code);
+
+/*
+**	events
+*/
 int		key_events(int keycode, t_minirt *raytracer);
-void	free_everything(t_minirt *rt);
-
-
 int		key_pressed(int keycode, t_minirt *rt);
 int		key_released(int keycode, t_minirt *rt);
 void	toggle_realtime(t_minirt *rt);
+int		quit_window(t_minirt *rt, int code);
+int		change_camera(int keycode, t_minirt *raytracer);
 
 /*
-**	multithread
+**	utils
 */
-void	t_camera_render_lowres(t_minirt *rt, t_camera *c, int start, int end);
-void	init_threads(t_minirt *rt);
-void	kill_threads(t_minirt *rt);
-void 	render_realtime(t_minirt *rt);
-void	*thread_realtime(void *arg);
-
-/*
-**	mutex
-*/
+void	check_and_parse(t_minirt *rt, int ac, char **av);
+void	init_mlx(t_minirt *rt);
+int		parse_filename(char *path);
+void	free_everything(t_minirt *rt);
 
 #endif

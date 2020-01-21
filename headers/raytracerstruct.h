@@ -6,6 +6,7 @@
 #include <mlx.h>
 #include <world.h>
 #include <macro.h>
+#include <pthread.h>
 
 typedef struct s_threadargs t_threadargs;
 
@@ -35,11 +36,6 @@ typedef struct	s_barrier
 	int				count;
 	int				total;
 }				t_barrier;
-
-int		barrier_init(t_barrier *b, int num);
-int		barrier_wait(t_barrier *b);
-int		barrier_destroy(t_barrier *b);
-
 
 typedef struct s_minirt
 {

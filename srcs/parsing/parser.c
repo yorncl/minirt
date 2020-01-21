@@ -6,14 +6,11 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 14:35:21 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:08:48 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <parser.h>
-
-
-#include <stdio.h>
 
 int		parse_world(t_minirt *rt, char *path)
 {

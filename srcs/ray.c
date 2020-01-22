@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/22 17:08:36 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/22 18:36:06 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ unsigned int	ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r)
 		{
 
 			t_vec3 new;
-			if (v3dot(obj->normal(obj, p, r, v), v) * v3dot(obj->normal(obj, p, r, v), r) > 0)
+			if (v3dot(obj->normal(obj, p, r, v), v) * v3dot(obj->normal(obj, p, r, v), r) >= 0)
 				new = obj->normal(obj, p, r, v);
 			else
 				new = v3minus(obj->normal(obj, p, r, v));

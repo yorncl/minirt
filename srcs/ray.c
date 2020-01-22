@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/22 11:42:00 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:35:43 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ unsigned int	ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r)
 				v3dot(obj->normal(obj), r) > 0 ? obj->normal(obj, p, r, v) :
 					v3minus(obj->normal(obj, p, r, v)), v3normalize(v))));
 			if (v.x > 0)
-				c = coloradd(c, dir_l(light, p, obj->material->albedo, v.x));
+				c = lightadd(c,
+					dir_l(light, p, obj->material->albedo, v.x), obj);
 		}
 		l = l->next;
 	}
-	c = coloradd(c, colormultiplyf(colormultiplyv3(w->ambient->color,
-		obj->material->albedo), w->ambient->intensity));
+	c = lightadd(c, colormultiplyf(colormultiplyv3(w->ambient->color,
+					obj->material->albedo), w->ambient->intensity), obj);
 	return (c.v);
 }
 
@@ -49,7 +50,8 @@ t_color			dir_l(t_light *l, t_vec3 p,
 
 	r = v3magnitude(v3sub(l->pos, p));
 	coeff = l->intensity * ratio / (4 * M_PI * r * r);
-	return (colormultiplyf(colormultiplyv3(l->color, albedo), coeff));
+	return (colormultiplyf(colormultiplyv3(l->color, albedo),
+										coeff > 1 ? 1 : coeff));
 }
 
 double			ray_intersect(t_world *w, t_vec3 p, t_vec3 r, t_obj3d **cobj)

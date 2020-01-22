@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 16:42:05 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/17 14:45:23 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:08:22 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		quit_window(t_minirt *rt, int code)
 		kill_threads(rt);
 	free_everything(rt);
 	write(1, "Exiting\n", 8);
-	system("MallocStackLoggingNoCompact=1 leaks run_tests");
+	system("MallocStackLoggingNoCompact=1 leaks minirt");
 	exit(code);
 	return (code);
 }

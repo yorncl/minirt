@@ -83,8 +83,6 @@ LIBFT_SRCS = libft/ft_atoi.c \
 GET_NEXT_LINE_SRCS = 	get_next_line/get_next_line.c \
 						get_next_line/get_next_line_utils.c
 
-
-
 SRCS = $(VEC3_SRCS) \
 		srcs/keyevents.c \
 		srcs/collision.c \
@@ -99,6 +97,7 @@ SRCS = $(VEC3_SRCS) \
 		srcs/threads.c \
 		srcs/main.c \
 		srcs/ray.c \
+		srcs/ray2.c \
 		srcs/objtypes.c \
 		srcs/obj3d.c \
 		srcs/world.c \

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 14:27:46 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 17:53:57 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:32:56 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ t_color			colormultiplyf(t_color c, double coef)
 {
 	unsigned int	tmp;
 
-	tmp = (unsigned int)(c.color.r * coef);
+	tmp = (c.color.r * coef);
 	c.color.r = tmp > 255 ? 255 : tmp;
-	tmp = (unsigned int)(c.color.g * coef);
+	tmp = (c.color.g * coef);
 	c.color.g = tmp > 255 ? 255 : tmp;
-	tmp = (unsigned int)(c.color.b * coef);
+	tmp = (c.color.b * coef);
 	c.color.b = tmp > 255 ? 255 : tmp;
 	return (c);
 }

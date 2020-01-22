@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:56:51 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 15:30:55 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:35:03 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ double				ray_intersect(t_world *w, t_vec3 p,
 												t_vec3 r, t_obj3d **closestobj);
 unsigned int		ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r);
 double				hit(t_obj3d *obj, t_vec3 r, t_vec3 p);
+t_color				lightadd(t_color light1, t_color light2, t_obj3d *obj);
 
 /*
 **	Collisions

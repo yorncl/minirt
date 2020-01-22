@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/22 14:35:43 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/22 17:08:36 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,16 @@ unsigned int	ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r)
 		v = v3sub(p, light->pos);
 		if (ray_intersect(w, light->pos, v, &ptr) > 0.999)
 		{
-			v.x = (fabs(v3dot(v3dot(obj->normal(obj), v) *
-				v3dot(obj->normal(obj), r) > 0 ? obj->normal(obj, p, r, v) :
-					v3minus(obj->normal(obj, p, r, v)), v3normalize(v))));
+
+			t_vec3 new;
+			if (v3dot(obj->normal(obj, p, r, v), v) * v3dot(obj->normal(obj, p, r, v), r) > 0)
+				new = obj->normal(obj, p, r, v);
+			else
+				new = v3minus(obj->normal(obj, p, r, v));
+			if (v3dot(new, v) < 0 && v3dot(v3minus(new), v) > 0)
+				v.x = v3dot(new, v3normalize(v3minus(v)));
+			else
+				v.x = 0;
 			if (v.x > 0)
 				c = lightadd(c,
 					dir_l(light, p, obj->material->albedo, v.x), obj);

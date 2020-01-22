@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 14:36:41 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/22 17:28:51 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int				add_square(t_world *w, t_objargs args, double side)
 	i = v3new(side / 2, 0, 0);
 	j = v3new(0, side / 2, 0);
 	v3rotate3(&p->n, args.rot.x, args.rot.y, args.rot.z);
+	v3rotate3(&i, args.rot.x, args.rot.y, args.rot.z);
+	v3rotate3(&j, args.rot.x, args.rot.y, args.rot.z);
 	p->p1 = v3add(args.pos, v3add(j, v3scale(i, -1)));
 	p->p2 = v3add(args.pos, v3add(j, i));
 	p->p3 = v3add(args.pos, v3add(v3scale(j, -1), i));

@@ -4,6 +4,24 @@ CFLAGS = -Wall -Werror -Wextra
 #includes windows WSL
 INCLUDES_WIN_WSL = -L/usr/local/lib -lmlx -lm -lXext -lX11 -lpthread -lxcb -lXau -lXdmcp -lbsd
 INCLUDES_MAC = -lmlx -framework OpenGL -framework AppKit
+INCLUDES = -I./headers -I./libft -I./get_next_line
+
+
+#minirt headers
+HEADERS = headers/camera.h \
+		headers/color.h \
+		headers/light.h \
+		headers/macro.h \
+		headers/material.h \
+		headers/objs.h \
+		headers/parser.h \
+		headers/ray.h \
+		headers/raytracer.h \
+		headers/raytracerstruct.h \
+		headers/render.h \
+		headers/threads.h \
+		headers/vec3.h \
+		headers/world.h \
 
 #minirt sources
 VEC3_SRCS = srcs/vec3/misc.c \
@@ -92,9 +110,32 @@ SRCS = $(VEC3_SRCS) \
 		$(LIBFT_SRCS) \
 		$(GET_NEXT_LINE_SRCS)
 
+OBJS = $(SRCS:%.c=objs/%.o)
+
+NAME = minirt
+
+objs/%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
+
+all: $(NAME)
+
+$(NAME): $(OBJS) $(HEADERS)
+	$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(INCLUDES_MAC) -o $(NAME)
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm $(NAME)
+
+re: fclean all
+	
+test: $(NAME)
+	./minirt ./test/map.rt
+
 test_wsl:
 	$(CC) $(CFLAGS) $(SRCS) -g -fsanitize=address -I./headers -I./libft -I./get_next_line -o ./test/run_tests $(INCLUDES_WIN_WSL)
-test_mac:
+test_mac: $(OBJS)
 	$(CC) $(CFLAGS) $(SRCS) -g -I./headers -I./libft -I./get_next_line -o ./test/run_tests $(INCLUDES_MAC)
 test_vec3:
 	$(CC) $(CFLAGS) -g3 test/vec3_test.c $(VEC3_SRCS) -I headers -o ./test/run_tests -lm

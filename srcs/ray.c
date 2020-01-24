@@ -12,6 +12,8 @@
 
 #include <ray.h>
 
+#include <stdio.h>
+
 unsigned int	ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r)
 {
 	t_obj3d	*ptr;
@@ -30,19 +32,16 @@ unsigned int	ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r)
 		{
 
 			t_vec3 new;
-			if (v3dot(obj->normal(obj, p, r, v), v) * v3dot(obj->normal(obj, p, r, v), r) >= 0)
+			if (v3dot(obj->normal(obj, p, r, v), v) * v3dot(obj->normal(obj, p, r, v), r) > 0)
 			{
-				if (v3dot(obj->normal(obj, p, r, v), r) >= 0)
+				if (v3dot(obj->normal(obj, p, r, v), r) > 0)
 					new = v3minus(obj->normal(obj, p, r, v));
 				else
 					new = obj->normal(obj, p, r, v);
-			// if (v3dot(new, v) < 0 && v3dot(v3minus(new), v) > 0)
 				v.x = v3dot(new, v3normalize(v3minus(v)));
-			// else
-				// v.x = 0;
-			if (v.x > 0)
-				c = lightadd(c,
-					dir_l(light, p, obj->material->albedo, v.x), obj);
+				if (v.x > 0)
+					c = lightadd(c,
+						dir_l(light, p, obj->material->albedo, v.x), obj);
 			}	
 		}
 		l = l->next;

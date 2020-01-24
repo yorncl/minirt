@@ -23,7 +23,7 @@ void		check_and_parse(t_minirt *rt, int ac, char **av)
 		write(1, "\e[1;31mWrong core number\n\e[0m", 20);
 		quit_window(rt, -1);
 	}
-	if (ac != 2)
+	if (ac < 2)
 	{
 		write(1, "\e[1;31mMissing an argument\n\e[0m", 31);
 		quit_window(rt, -1);

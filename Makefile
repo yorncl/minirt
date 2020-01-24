@@ -10,6 +10,7 @@ INCLUDES = -I./headers -I./libft -I./get_next_line
 #minirt headers
 HEADERS = headers/camera.h \
 		headers/color.h \
+		headers/bmpsave.h \
 		headers/light.h \
 		headers/macro.h \
 		headers/material.h \
@@ -85,6 +86,7 @@ GET_NEXT_LINE_SRCS = 	get_next_line/get_next_line.c \
 
 SRCS = $(VEC3_SRCS) \
 		srcs/keyevents.c \
+		srcs/bmpsave.c \
 		srcs/collision.c \
 		srcs/material.c \
 		srcs/color.c \
@@ -119,7 +121,7 @@ objs/%.o: %.c
 all: $(NAME)
 
 $(NAME): $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(INCLUDES_WIN_WSL) -o $(NAME)
+	$(CC) $(CFLAGS) -fsanitize=address $(OBJS) $(INCLUDES) $(INCLUDES_WIN_WSL) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

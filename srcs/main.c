@@ -77,6 +77,12 @@ int			main(int ac, char **av)
 	mlx_loop_hook(rt.mlx, rt_loop, &rt);
 	rt.realtime = 0;
 	render_static(&rt);
+	if (ac == 3 && ft_strncmp("-save", av[2],ft_strlen(av[2])) == 0)
+	{
+		write_bmp(&rt, "save1.bmp");
+		save_first_frame(&rt, "save2.bmp");
+		quit_window(&rt, 0);
+	}
 	mlx_loop(rt.mlx);
 	quit_window(&rt, 0);
 	return (0);

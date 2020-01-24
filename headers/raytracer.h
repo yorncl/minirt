@@ -24,6 +24,7 @@
 # include <raytracerstruct.h>
 # include <world.h>
 # include <ray.h>
+# include <bmpsave.h>
 
 // # define KEY_A 		0
 // # define KEY_W 		13

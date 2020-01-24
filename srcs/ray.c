@@ -42,7 +42,7 @@ unsigned int	ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r)
 				if (v.x > 0)
 					c = lightadd(c,
 						dir_l(light, p, obj->material->albedo, v.x), obj);
-			}	
+			}
 		}
 		l = l->next;
 	}

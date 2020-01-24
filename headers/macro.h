@@ -21,5 +21,5 @@
 # define BLUE 0x000000FF
 # define WHITE 0x00FFFFFF
 
-# define NB_CORES 1
+# define NB_CORES 4
 #endif

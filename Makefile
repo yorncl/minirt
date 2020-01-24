@@ -119,7 +119,7 @@ objs/%.o: %.c
 all: $(NAME)
 
 $(NAME): $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(INCLUDES_MAC) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(INCLUDES_WIN_WSL) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

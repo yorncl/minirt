@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/25 16:37:09 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/25 18:11:27 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,6 @@ int				add_cylinder(t_world *w, t_objargs args,
 	s->dir = dir;
 	ptr->obj = s;
 	ptr->normal = &cylinder_normal;
-	ptr->material = create_material(args.color, 0.9, 0.1);
+	ptr->material = create_material(args.color, 1, 0);
 	return (SUCCESS);
 }

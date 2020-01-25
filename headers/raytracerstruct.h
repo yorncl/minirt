@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 15:37:04 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/25 14:16:45 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/25 18:36:22 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ typedef struct	s_minirt
 	void			*mlx;
 	void			*win;
 	t_image			*img;
-	unsigned int	resx;
-	unsigned int	resy;
+	int				resx;
+	int				resy;
 	unsigned int	sizex;
 	unsigned int	sizey;
 	int				keys;

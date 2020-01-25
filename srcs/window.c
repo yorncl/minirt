@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 16:42:05 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/25 16:55:30 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/25 18:36:57 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		quit_window(t_minirt *rt, int code)
 
 void	*t_camera_render(void *arg)
 {
-	unsigned int	i;
+	int				i;
 	int				j;
 	t_vec3			r;
 	t_threadargs	*args;

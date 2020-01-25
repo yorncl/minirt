@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 08:57:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/24 13:42:37 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/25 16:28:01 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,8 @@ double			hit_cylinder(t_cylinder *obj, t_vec3 r, t_vec3 p)
 		return (NOHIT);
 	delta.y = (-abc.y - sqrt(delta.x)) / (2 * abc.x);
 	delta.z = (-abc.y + sqrt(delta.x)) / (2 * abc.x);
-	
 	tmp = v3add(p, v3scale(r, delta.y));
 	p = v3add(p, v3scale(r, delta.z));
-	
-	//Why ?
 	if (delta.y > 0.00001 && v3dot(obj->dir, v3sub(tmp, obj->pos)) > 0 &&
 		v3dot(v3minus(obj->dir), v3sub(tmp, obj->pos2)) > 0)
 		return (delta.y);

@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:58 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 14:59:38 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/25 16:18:47 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,25 @@ int			rt_loop(t_minirt *rt)
 	return (0);
 }
 
+void		save_and_exit(t_minirt *rt)
+{
+	if (write_bmp(rt, "save.bmp") == ERROR)
+	{
+		write(1, "\e[1;31mError while trying to save image\n\e[0m", 44);
+		quit_window(rt, -1);
+	}
+	quit_window(rt, 0);
+}
+
 int			main(int ac, char **av)
 {
 	t_minirt	rt;
 
-	write(1, "\e[1;36mSTARTING\n\e[0m", 20);
 	ft_bzero(&rt, sizeof(t_minirt));
 	check_and_parse(&rt, ac, av);
 	if (!rt.world->ambient && add_ambient(rt.world, 0, 0xfffffff) == ERROR)
 	{
-		write(1, "\e[1;31mALLOCAION ERROR\n\e[0m", 18);
+		write(1, "\e[1;31mALLOCAION ERROR\n\e[0m", 27);
 		quit_window(&rt, -1);
 	}
 	rt.world->nbcameras = ft_lstsize(rt.world->cameras);
@@ -77,12 +86,8 @@ int			main(int ac, char **av)
 	mlx_loop_hook(rt.mlx, rt_loop, &rt);
 	rt.realtime = 0;
 	render_static(&rt);
-	if (ac == 3 && ft_strncmp("-save", av[2],ft_strlen(av[2])) == 0)
-	{
-		write_bmp(&rt, "save1.bmp");
-		save_first_frame(&rt, "save2.bmp");
-		quit_window(&rt, 0);
-	}
+	if (ac == 3 && ft_strncmp("-save", av[2], ft_strlen(av[2])) == 0)
+		save_and_exit(&rt);
 	mlx_loop(rt.mlx);
 	quit_window(&rt, 0);
 	return (0);

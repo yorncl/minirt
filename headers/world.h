@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:27:41 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 15:36:41 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/25 16:36:59 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_obj3d			*t_obj3dadd(t_obj3d **ptr, t_obj_type type);
 */
 int				add_sphere(t_world *w, t_objargs args, double radius);
 int				add_plane(t_world *w, t_objargs args);
+void			add_square_sub(t_square *p, t_vec3 pos, t_vec3 i, t_vec3 j);
 int				add_square(t_world *w, t_objargs args, double side);
 int				add_triangle(t_world *w, t_objargs args, t_vec3 p2, t_vec3 p3);
 int				add_cylinder(t_world *w, t_objargs args,

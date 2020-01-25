@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 14:55:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 14:58:01 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/25 16:22:58 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		init_mlx(t_minirt *rt)
 	if ((rt->img = malloc(sizeof(t_image))) == NULL ||
 		(rt->img->img = mlx_new_image(rt->mlx, rt->sizex, rt->sizey)) == NULL)
 	{
-		write(1, "\e[1;31mALLOCAION ERROR\n\e[0m", 18);
+		write(1, "\e[1;31mALLOCAION ERROR\n\e[0m", 27);
 		quit_window(rt, -1);
 	}
 	rt->img->imgdata = (unsigned int *)mlx_get_data_addr(

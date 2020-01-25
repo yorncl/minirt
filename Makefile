@@ -101,6 +101,7 @@ SRCS = $(VEC3_SRCS) \
 		srcs/ray.c \
 		srcs/ray2.c \
 		srcs/objtypes.c \
+		srcs/objtypes2.c \
 		srcs/obj3d.c \
 		srcs/world.c \
 		srcs/window.c \
@@ -121,7 +122,7 @@ objs/%.o: %.c
 all: $(NAME)
 
 $(NAME): $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) -fsanitize=address $(OBJS) $(INCLUDES) $(INCLUDES_WIN_WSL) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(INCLUDES_MAC) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)
@@ -132,7 +133,7 @@ fclean: clean
 re: fclean all
 	
 test: $(NAME)
-	./minirt ./test/map.rt
+	./minirt ./test/map.rt -save
 
 test_wsl:
 	$(CC) $(CFLAGS) $(SRCS) -g -fsanitize=address -I./headers -I./libft -I./get_next_line -o ./test/run_tests $(INCLUDES_WIN_WSL)

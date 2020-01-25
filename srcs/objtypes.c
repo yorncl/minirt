@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:01:01 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/22 17:28:51 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/25 16:37:09 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,7 @@ int				add_square(t_world *w, t_objargs args, double side)
 	v3rotate3(&p->n, args.rot.x, args.rot.y, args.rot.z);
 	v3rotate3(&i, args.rot.x, args.rot.y, args.rot.z);
 	v3rotate3(&j, args.rot.x, args.rot.y, args.rot.z);
-	p->p1 = v3add(args.pos, v3add(j, v3scale(i, -1)));
-	p->p2 = v3add(args.pos, v3add(j, i));
-	p->p3 = v3add(args.pos, v3add(v3scale(j, -1), i));
-	p->p4 = v3add(args.pos, v3add(v3scale(j, -1), v3scale(i, -1)));
+	add_square_sub(p, args.pos, i, j);
 	ptr->obj = p;
 	ptr->normal = &square_normal;
 	ptr->material = create_material(args.color, 1, 0);

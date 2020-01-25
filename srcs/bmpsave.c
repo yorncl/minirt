@@ -1,167 +1,97 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bmpsave.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/25 15:03:27 by mclaudel          #+#    #+#             */
+/*   Updated: 2020/01/25 16:36:05 by mclaudel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <bmpsave.h>
 
-#include <stdio.h>
-void	init_fileheader(t_fileheader *fh, t_minirt *rt)
+int		write_fileheader(int fd, t_minirt *rt)
 {
-	fh->id[0] = 'B';
-	fh->id[1] = 'M';
-	fh->size = sizeof(t_fileheader) + sizeof(t_dibheader) +
-		rt->sizex * rt->sizey *sizeof(unsigned int);
-	printf("MINE %u\n", fh->size);
-	fh->size = (fh->size >> 8) | (fh->size << 8);
-	printf("MINE %x\n", fh->size);
-	fh->reserved = 0;
-	fh->offset = sizeof(t_fileheader) + sizeof(t_dibheader);
-}
-
-void	init_dibheader(t_dibheader *dib, t_minirt *rt)
-{
-	dib->headersize = sizeof(t_dibheader);
-	dib->width = rt->sizex;
-	dib->height = rt->sizey;
-	dib->pane = 1;
-	dib->bytesperpixel = sizeof(unsigned int) * 8;
-}
-
-int	write_bmp(t_minirt *rt, char *filename)
-{
-	int				fd;
 	t_fileheader	fh;
+
+	ft_bzero(&fh, sizeof(t_fileheader));
+	fh.id = 19778;
+	fh.size = 54 + rt->sizex * rt->sizey * 3;
+	fh.reserved = 0;
+	fh.offset = 54;
+	if (
+		write(fd, &fh.id, 2) == ERROR ||
+		write(fd, &fh.size, 4) == ERROR ||
+		write(fd, &fh.reserved, 4) == ERROR ||
+		write(fd, &fh.offset, 4) == ERROR)
+		return (ERROR);
+	return (SUCCESS);
+}
+
+int		write_dibheader(int fd, t_minirt *rt)
+{
 	t_dibheader		dib;
 
-	fh = (t_fileheader) {0};
-	dib = (t_dibheader) {0};
-	fd = open(filename, O_WRONLY | O_CREAT);
-	// if (fd == -1)
-	// {
-	// 	//CHOKE
-	// }
-
-	init_fileheader(&fh, rt);
-	init_dibheader(&dib, rt);
-	write(fd, &fh, sizeof(t_fileheader));
-	write(fd, &dib, sizeof(t_dibheader));
-	// write(fd, rt->img->imgdata, rt->sizex * rt->sizey *sizeof(unsigned int));
-	return (0);
+	ft_bzero(&dib, sizeof(t_dibheader));
+	dib.headersize = sizeof(t_dibheader);
+	dib.width = rt->sizex;
+	dib.height = rt->sizey;
+	dib.pane = 1;
+	dib.bitcount = 24;
+	if (
+		write(fd, &dib.headersize, 4) == ERROR ||
+		write(fd, &dib.width, 4) == ERROR ||
+		write(fd, &dib.height, 4) == ERROR ||
+		write(fd, &dib.pane, 2) == ERROR ||
+		write(fd, &dib.bitcount, 2) == ERROR ||
+		write(fd, &dib.offset, 24) == ERROR)
+		return (ERROR);
+	return (SUCCESS);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-static void	iwrite(t_frame_saver *sv, unsigned int val)
+int		write_pixeldata(int fd, t_minirt *rt)
 {
-	sv->buffer[sv->index++] = val >> 0;
-	sv->buffer[sv->index++] = val >> 8;
-	sv->buffer[sv->index++] = val >> 16;
-	sv->buffer[sv->index++] = val >> 24;
-}
+	unsigned int	i;
+	unsigned int	x;
+	unsigned int	y;
+	unsigned char	*tab;
 
-/*
-** file header
-**
-** "BM" (2o)
-** file size (4o)
-** null (2o)
-** null (2o)
-** 54,0,0,0 (4o)
-*/
-
-static void	write_file_header(t_frame_saver *sv)
-{
-	sv->buffer[sv->index++] = 'B';
-	sv->buffer[sv->index++] = 'M';
-	iwrite(sv, sv->size);
-	printf("PLZ %ld\n", sv->size);
-	iwrite(sv, 0x00000000);
-	sv->buffer[sv->index++] = 54;
-	sv->buffer[sv->index++] = 0;
-	sv->buffer[sv->index++] = 0;
-	sv->buffer[sv->index++] = 0;
-}
-
-/*
-** file info
-**
-** 40,0,0,0 (4o)
-** width (4o)
-** height (4o)
-** 1,0 (2o)
-** 24,0 (2o)
-** null (24o)
-*/
-
-static void	write_file_info(t_minirt *mlx, t_frame_saver *sv)
-{
-	int i;
-
-	sv->buffer[sv->index++] = 40;
-	sv->buffer[sv->index++] = 0;
-	sv->buffer[sv->index++] = 0;
-	sv->buffer[sv->index++] = 0;
-	iwrite(sv, mlx->sizex);
-	iwrite(sv, mlx->sizey);
-	sv->buffer[sv->index++] = 1;
-	sv->buffer[sv->index++] = 0;
-	sv->buffer[sv->index++] = 24;
-	sv->buffer[sv->index++] = 0;
+	if (!(tab = malloc(3 * rt->sizex * rt->sizey)))
+		return (ERROR);
 	i = 0;
-	while (i < 24)
+	y = rt->sizey;
+	while (--y > 0)
 	{
-		sv->buffer[sv->index++] = 0;
-		i++;
+		x = 0;
+		while (x < rt->sizex)
+		{
+			tab[i * 3] = rt->img->imgdata[x + y * rt->sizex] >> 0;
+			tab[i * 3 + 1] = rt->img->imgdata[x + y * rt->sizex] >> 8;
+			tab[i * 3 + 2] = rt->img->imgdata[x + y * rt->sizex] >> 16;
+			i++;
+			x++;
+		}
 	}
+	if (write(fd, tab, 3 * rt->sizex * rt->sizey) == ERROR)
+		return (ERROR);
+	free(tab);
+	return (SUCCESS);
 }
 
-// static void	write_body(t_minirt *mlx, t_frame_saver *sv)
-// {
-// 	int x;
-// 	int y;
-
-// 	y = mlx->sizey;
-// 	while (y >= 0)
-// 	{
-// 		x = 0;
-// 		while (x < mlx->sizex)
-// 		{
-// 			sv->buffer[sv->index++] = mlx->img->imgdata[y * mlx->sizex + x] >> 0;
-// 			sv->buffer[sv->index++] = mlx->img->imgdata[y * mlx->sizex + x] >> 8;
-// 			sv->buffer[sv->index++] = mlx->img->imgdata[y * mlx->sizex + x] >> 16;
-// 			x++;
-// 		}
-// 		x = 0;
-// 		while (x < (4 - (mlx->sizex * 3) % 4) % 4)
-// 		{
-// 			sv->buffer[sv->index++] = 0;
-// 			x++;
-// 		}
-// 		y--;
-// 	}
-// }
-
-int			save_first_frame(t_minirt *mlx, char *filename)
+int		write_bmp(t_minirt *rt, char *filename)
 {
 	int				fd;
-	t_frame_saver	sv;
 
-	sv = (t_frame_saver) { 0 };
-	sv.size = 54 + 3 * mlx->sizex * mlx->sizey +
-		((4 - (mlx->sizex * 3) % 4) % 4) * mlx->sizey;
-	printf("HIS %lu\n", sv.size);
-	sv.buffer = malloc(sv.size);
-	if ((fd = open(filename, O_WRONLY | O_CREAT)) < 0)
-		return (-1);
-	write_file_header(&sv);
-	write_file_info(mlx, &sv);
-	// write(fd, mlx->img->imgdata, mlx->sizex * mlx->sizey * 4);
-	write(fd, sv.buffer, sv.size);
-	close(fd);
-	return (0);
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fd == -1)
+		return (ERROR);
+	if (write_fileheader(fd, rt) == ERROR)
+		return (ERROR);
+	if (write_dibheader(fd, rt) == ERROR)
+		return (ERROR);
+	if (write_pixeldata(fd, rt) == ERROR)
+		return (ERROR);
+	return (SUCCESS);
 }

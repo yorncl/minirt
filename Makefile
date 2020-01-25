@@ -129,6 +129,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
+	$(RM) save.bmp
 
 re: fclean all
 	

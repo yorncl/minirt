@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/25 17:12:31 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/25 17:19:01 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,10 @@ int		parse_resolution(t_minirt *rt, char *line)
 	while (*line)
 		if (!ft_isspace(*line++))
 			return (ERROR);
-	if (rt->resx <= 0 || rt->resy <= 0 ||
-		rt->resx > RES_X_MAX || rt->resy > RES_Y_MAX)
+	if (rt->resx <= 0 || rt->resy <= 0)
 		return (ERROR);
+	rt->resx = rt->resx > RES_X_MAX ? RES_X_MAX : rt->resx;
+	rt->resy = rt->resy > RES_Y_MAX ? RES_Y_MAX : rt->resy;
 	return (SUCCESS);
 }
 

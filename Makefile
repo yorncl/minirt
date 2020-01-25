@@ -125,10 +125,10 @@ $(NAME): $(OBJS) $(HEADERS)
 	$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(INCLUDES_MAC) -o $(NAME)
 
 clean:
-	rm -f $(OBJS)
+	$(RM) -f $(OBJS)
 
 fclean: clean
-	rm $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 	

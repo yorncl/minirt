@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 16:42:05 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/25 16:55:30 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:08:22 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,14 @@ int		quit_window(t_minirt *rt, int code)
 		kill_threads(rt);
 	free_everything(rt);
 	write(1, "Exiting\n", 8);
+	system("MallocStackLoggingNoCompact=1 leaks minirt");
 	exit(code);
 	return (code);
 }
 
 void	*t_camera_render(void *arg)
 {
-	unsigned int	i;
+	int				i;
 	int				j;
 	t_vec3			r;
 	t_threadargs	*args;
@@ -57,8 +58,10 @@ void	*t_camera_render(void *arg)
 	args = arg;
 	rt = (t_minirt*)args->rt;
 	j = args->threadstart - 1;
-	while (++j < args->threadend && !(i = 0))
-		while (i < rt->resx)
+	while (++j < args->threadend)
+	{
+		i = -1;
+		while (++i < rt->resx)
 		{
 			r.x = args->c->px.x - args->c->py.x - args->c->pz.x + (2 * i *
 				args->c->py.x / rt->resx) + (2 * j * args->c->pz.x / rt->resy);
@@ -68,7 +71,7 @@ void	*t_camera_render(void *arg)
 				args->c->py.z / rt->resx) + (2 * j * args->c->pz.z / rt->resy);
 			args->img[j * rt->resx + i] =
 					ray_trace(args->w, args->c->pos, r, 3);
-			i++;
 		}
+	}
 	return (0);
 }

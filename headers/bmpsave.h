@@ -6,10 +6,9 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 15:03:22 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/25 15:55:19 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/25 16:56:20 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef BMPSAVE_H
 # define BMPSAVE_H

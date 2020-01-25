@@ -1,27 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   macro.h                                            :+:      :+:    :+:   */
+/*   multiply.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 10:48:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/25 17:13:10 by mclaudel         ###   ########.fr       */
+/*   Created: 2019/11/23 19:20:26 by mclaudel          #+#    #+#             */
+/*   Updated: 2019/12/14 14:36:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MACRO_H
-# define MACRO_H
+#include <vec3.h>
 
-# define SUCCESS 0
-# define ERROR -1
+t_vec3	v3scale(t_vec3 v, double s)
+{
+	return (
+		v3new(
+			v.x * s,
+			v.y * s,
+			v.z * s));
+}
 
-# define RED 0x00FF0000
-# define GREEN 0x0000FF00
-# define BLUE 0x000000FF
-# define WHITE 0x00FFFFFF
+t_vec3	v3cross(t_vec3 a, t_vec3 b)
+{
+	return (
+		v3new(
+			a.y * b.z - a.z * b.y,
+			a.z * b.x - a.x * b.z,
+			a.x * b.y - a.y * b.x));
+}
 
-# define NB_CORES 4
-# define RES_X_MAX 2560
-# define RES_Y_MAX 1440
-#endif
+double	v3dot(t_vec3 a, t_vec3 b)
+{
+	return (a.x * b.x +
+			a.y * b.y +
+			a.z * b.z);
+}

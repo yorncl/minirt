@@ -122,7 +122,7 @@ objs/%.o: %.c
 all: $(NAME)
 
 $(NAME): $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) $(OBJS) $(INCLUDES) $(INCLUDES_MAC) -o $(NAME)
+	$(CC) $(CFLAGS) -O3 $(OBJS) $(INCLUDES) $(INCLUDES_MAC) -o $(NAME)
 
 clean:
 	$(RM) -f $(OBJS)

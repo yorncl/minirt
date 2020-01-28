@@ -6,13 +6,11 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:59:37 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/25 16:45:32 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/28 13:21:06 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ray.h>
-
-#include <stdio.h>
 
 unsigned int	ray_shade(t_obj3d *obj, t_world *w, t_vec3 p, t_vec3 r)
 {

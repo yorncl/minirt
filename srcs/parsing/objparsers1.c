@@ -6,13 +6,11 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:36 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/21 17:37:58 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/28 13:21:16 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <parser.h>
-
-#include <stdio.h>
 
 int		parse_camera(t_minirt *rt, char *line)
 {

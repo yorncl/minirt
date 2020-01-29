@@ -4,34 +4,37 @@ CFLAGS = -Wall -Werror -Wextra
 #includes windows WSL
 INCLUDES_WIN_WSL = -L/usr/local/lib -lmlx -lm -lXext -lX11 -lpthread -lxcb -lXau -lXdmcp -lbsd
 INCLUDES_MAC = -lmlx -framework OpenGL -framework AppKit
-INCLUDES = -I./headers -I./libft -I./get_next_line
 
+INCLUDES_COMMON = -I./headers/common -I./libft -I./get_next_line
+INCLUDES_VANILLA = $(INCLUDES_COMMON) -I./headers/vanilla
+INCLUDES_BONUS = $(INCLUDES_COMMON) -I./headers/bonus
 
 #minirt headers
-HEADERS = headers/camera.h \
-		headers/color.h \
-		headers/bmpsave.h \
-		headers/light.h \
-		headers/macro.h \
-		headers/material.h \
-		headers/objs.h \
-		headers/parser.h \
-		headers/ray.h \
-		headers/raytracer.h \
-		headers/raytracerstruct.h \
-		headers/render.h \
-		headers/vec3.h \
-		headers/world.h \
+# HEADERS = headers/camera.h \
+# 		headers/color.h \
+# 		headers/bmpsave.h \
+# 		headers/light.h \
+# 		headers/macro.h \
+# 		headers/material.h \
+# 		headers/objs.h \
+# 		headers/parser.h \
+# 		headers/ray.h \
+# 		headers/raytracer.h \
+# 		headers/raytracerstruct.h \
+# 		headers/render.h \
+# 		headers/vec3.h \
+# 		headers/world.h \
 
-HEADERS_BONUS = headers/threads.h \
+# HEADERS_BONUS = headers/threads.h \
+# HEADERS_VANILLA = headers/threads.h \
 
 #minirt sources
-VEC3_SRCS = srcs/vec3/misc.c \
-			srcs/vec3/addsub.c \
-			srcs/vec3/multiply.c \
-			srcs/vec3/rotate1.c \
-			srcs/vec3/rotate2.c \
-			srcs/vec3/vec3.c \
+VEC3_SRCS = srcs/common/vec3/misc.c \
+			srcs/common/vec3/addsub.c \
+			srcs/common/vec3/multiply.c \
+			srcs/common/vec3/rotate1.c \
+			srcs/common/vec3/rotate2.c \
+			srcs/common/vec3/vec3.c \
 
 #libft srcs, need tp fix this oneday
 LIBFT_SRCS = libft/ft_atoi.c \
@@ -85,61 +88,74 @@ LIBFT_SRCS = libft/ft_atoi.c \
 GET_NEXT_LINE_SRCS = 	get_next_line/get_next_line.c \
 						get_next_line/get_next_line_utils.c
 
-SRCS = $(VEC3_SRCS) \
-		srcs/keyevents.c \
-		srcs/bmpsave.c \
-		srcs/collision.c \
-		srcs/material.c \
-		srcs/color.c \
-		srcs/normals.c \
-		srcs/camera.c \
-		srcs/cameramov.c \
-		srcs/mainutils.c \
-		srcs/render.c \
-		srcs/main.c \
-		srcs/ray.c \
-		srcs/ray2.c \
-		srcs/objtypes.c \
-		srcs/objtypes2.c \
-		srcs/obj3d.c \
-		srcs/world.c \
-		srcs/window.c \
-		srcs/parsing/utilsparsers.c \
-		srcs/parsing/objparsers1.c \
-		srcs/parsing/objparsers2.c \
-		srcs/parsing/parser.c \
-		$(LIBFT_SRCS) \
-		$(GET_NEXT_LINE_SRCS)
 
+SRCS_COMMON = 	$(VEC3_SRCS) \
+				srcs/common/bmpsave.c \
+				srcs/common/collision.c \
+				srcs/common/material.c \
+				srcs/common/color.c \
+				srcs/common/normals.c \
+				srcs/common/camera.c \
+				srcs/common/cameramov.c \
+				srcs/common/ray.c \
+				srcs/common/ray2.c \
+				srcs/common/objtypes.c \
+				srcs/common/objtypes2.c \
+				srcs/common/obj3d.c \
+				srcs/common/world.c \
+				srcs/common/parsing/utilsparsers.c \
+				srcs/common/parsing/objparsers1.c \
+				srcs/common/parsing/objparsers2.c \
+				srcs/common/parsing/parser.c \
+				$(LIBFT_SRCS) \
+				$(GET_NEXT_LINE_SRCS)
+
+SRCS_VANILLA =	srcs/vanilla/keyevents.c \
+				srcs/vanilla/render.c \
+				srcs/vanilla/main.c \
+				srcs/vanilla/window.c \
+				srcs/vanilla/mainutils.c \
 		
-BONUS_SRCS =	srcs/render_bonus.c \
-				srcs/threads_bonus.c \
+SRCS_BONUS =	srcs/bonus/barrier_bonus.c \
+				srcs/bonus/keyevents_bonus.c \
+				srcs/bonus/main_bonus.c \
+				srcs/bonus/render_bonus.c \
+				srcs/bonus/threads_bonus.c \
+				srcs/bonus/window_bonus.c \
+				srcs/bonus/mainutils_bonus.c \
 
-
-OBJS = $(SRCS:%.c=objs/%.o)
+OBJS_COMMON = $(SRCS_COMMON:%.c=objs/%.o)
+OBJS_VANILLA = $(OBJS_COMMON) $(SRCS_VANILLA:%.c=objs/%.o)
+OBJS_BONUS = $(OBJS_COMMON) $(SRCS_BONUS:%.c=objs/%.o)
 
 NAME = miniRT
 
-objs/%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
+$(OBJS_VANILLA) : INCLUDES_COMP=$(INCLUDES_VANILLA) 
+$(OBJS_BONUS) : INCLUDES_COMP=$(INCLUDES_BONUS) 
 
-all: $(NAME)
+all: $(NAME)  
 
-$(NAME): $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) -O3 $(OBJS) $(INCLUDES) $(INCLUDES_MAC) -o $(NAME)
+$(NAME): $(OBJS_VANILLA) 
+	$(CC) $(CFLAGS) -O3 $(OBJS_VANILLA) $(INCLUDES_VANILLA) $(INCLUDES_MAC) -o $(NAME)
+
+bonus: $(OBJS_BONUS)
+	$(CC) $(CFLAGS) -O3 $(OBJS_BONUS) $(INCLUDES_BONUS) $(INCLUDES_MAC) -o $(NAME)
 
 clean:
-	$(RM) -f $(OBJS)
+	$(RM) -f $(OBJS_BONUS)
+	$(RM) -f $(OBJS_VANILLA)
 
 fclean: clean
 	$(RM) $(NAME)
 	$(RM) save.bmp
 
 re: fclean all
-	
+
+objs/%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES_COMP)
+
 test: $(NAME)
 	./minirt ./test/map.rt -save
-
 test_wsl:
 	$(CC) $(CFLAGS) $(SRCS) -g -fsanitize=address -I./headers -I./libft -I./get_next_line -o ./test/run_tests $(INCLUDES_WIN_WSL)
 test_mac: $(OBJS)

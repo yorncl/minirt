@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raytracerstruct.h                                  :+:      :+:    :+:   */
+/*   raytracerstruct_bonus.h                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 15:37:04 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/25 18:36:22 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/29 15:15:35 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAYTRACERSTRUCT_H
-# define RAYTRACERSTRUCT_H
+#ifndef RAYTRACERSTRUCT_BONUS_H
+# define RAYTRACERSTRUCT_BONUS_H
 
 # include <mlx.h>
 # include <world.h>
 # include <macro.h>
 # include <pthread.h>
+
+# ifndef RAYTRACERSTRUCT
+#  define RAYTRACERSTRUCT
 
 typedef struct	s_image
 {
@@ -71,4 +74,5 @@ typedef struct	s_minirt
 	t_barrier		done;
 	t_world			*world;
 }				t_minirt;
+# endif
 #endif

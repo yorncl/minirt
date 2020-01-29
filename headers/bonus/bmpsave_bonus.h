@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bmpsave.h                                          :+:      :+:    :+:   */
+/*   bmpsave_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 15:03:22 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/25 16:56:20 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/29 15:43:43 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BMPSAVE_H
-# define BMPSAVE_H
+#ifndef BMPSAVE_BONUS_H
+# define BMPSAVE_BONUS_H
 
-# include <raytracerstruct.h>
+# include <raytracerstruct_bonus.h>
 # include <macro.h>
 # include <unistd.h>
 # include <sys/types.h>

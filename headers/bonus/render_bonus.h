@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads_bonus.h                                    :+:      :+:    :+:   */
+/*   render_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/21 14:48:44 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/29 15:43:35 by mclaudel         ###   ########.fr       */
+/*   Created: 2020/01/21 15:04:47 by mclaudel          #+#    #+#             */
+/*   Updated: 2020/01/29 15:42:37 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef THREADS_BONUS_H
-# define THREADS_BONUS_H
+#ifndef RENDER_BONUS_H
+# define RENDER_BONUS_H
 
 # include <raytracerstruct_bonus.h>
-# include <render_bonus.h>
-# include <pthread.h>
 
-void		init_threads(t_minirt *rt);
-void		kill_threads(t_minirt *rt);
-void		*thread_realtime(void *arg);
-
-int			barrier_init(t_barrier *b, int num);
-int			barrier_destroy(t_barrier *b);
-int			barrier_wait(t_barrier *b);
+void	render_static(t_minirt *rt);
+void	*t_camera_render(void *arg);
+void	render_realtime(t_minirt *rt);
+void	t_camera_render_lowres(t_minirt *rt, t_camera *c, int start, int end);
+void	write_block(unsigned int *img, unsigned int color,
+								t_blockargs *args, int sizex);
 #endif

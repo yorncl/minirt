@@ -90,7 +90,6 @@ GET_NEXT_LINE_SRCS = 	get_next_line/get_next_line.c \
 
 
 SRCS_COMMON = 	$(VEC3_SRCS) \
-				srcs/common/bmpsave.c \
 				srcs/common/collision.c \
 				srcs/common/material.c \
 				srcs/common/color.c \
@@ -103,10 +102,6 @@ SRCS_COMMON = 	$(VEC3_SRCS) \
 				srcs/common/objtypes2.c \
 				srcs/common/obj3d.c \
 				srcs/common/world.c \
-				srcs/common/parsing/utilsparsers.c \
-				srcs/common/parsing/objparsers1.c \
-				srcs/common/parsing/objparsers2.c \
-				srcs/common/parsing/parser.c \
 				$(LIBFT_SRCS) \
 				$(GET_NEXT_LINE_SRCS)
 
@@ -115,6 +110,11 @@ SRCS_VANILLA =	srcs/vanilla/keyevents.c \
 				srcs/vanilla/main.c \
 				srcs/vanilla/window.c \
 				srcs/vanilla/mainutils.c \
+				srcs/vanilla/bmpsave.c \
+				srcs/vanilla/parsing/utilsparsers.c \
+				srcs/vanilla/parsing/objparsers1.c \
+				srcs/vanilla/parsing/objparsers2.c \
+				srcs/vanilla/parsing/parser.c \
 		
 SRCS_BONUS =	srcs/bonus/barrier_bonus.c \
 				srcs/bonus/keyevents_bonus.c \
@@ -123,6 +123,11 @@ SRCS_BONUS =	srcs/bonus/barrier_bonus.c \
 				srcs/bonus/threads_bonus.c \
 				srcs/bonus/window_bonus.c \
 				srcs/bonus/mainutils_bonus.c \
+				srcs/bonus/bmpsave_bonus.c \
+				srcs/bonus/parsing/utilsparsers_bonus.c \
+				srcs/bonus/parsing/objparsers1_bonus.c \
+				srcs/bonus/parsing/objparsers2_bonus.c \
+				srcs/bonus/parsing/parser_bonus.c \
 
 OBJS_COMMON = $(SRCS_COMMON:%.c=objs/%.o)
 OBJS_VANILLA = $(OBJS_COMMON) $(SRCS_VANILLA:%.c=objs/%.o)
@@ -130,14 +135,16 @@ OBJS_BONUS = $(OBJS_COMMON) $(SRCS_BONUS:%.c=objs/%.o)
 
 NAME = miniRT
 
-$(OBJS_VANILLA) : INCLUDES_COMP=$(INCLUDES_VANILLA) 
-$(OBJS_BONUS) : INCLUDES_COMP=$(INCLUDES_BONUS) 
+# $(OBJS_VANILLA) : 
+# $(OBJS_BONUS) : 
 
 all: $(NAME)  
 
+$(NAME): INCLUDES_COMP=$(INCLUDES_VANILLA)
 $(NAME): $(OBJS_VANILLA) 
 	$(CC) $(CFLAGS) -O3 $(OBJS_VANILLA) $(INCLUDES_VANILLA) $(INCLUDES_MAC) -o $(NAME)
 
+bonus: INCLUDES_COMP=$(INCLUDES_BONUS)
 bonus: $(OBJS_BONUS)
 	$(CC) $(CFLAGS) -O3 $(OBJS_BONUS) $(INCLUDES_BONUS) $(INCLUDES_MAC) -o $(NAME)
 

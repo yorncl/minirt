@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:22 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/29 14:57:37 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/29 15:42:42 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 # define RAYTRACER_BONUS_H
 
 # include <mlx.h>
-# include <render.h>
+# include <render_bonus.h>
 # include <threads_bonus.h>
-# include <parser.h>
+# include <parser_bonus.h>
 # include <math.h>
 # include <stdlib.h>
 # include <limits.h>
 # include <camera.h>
-# include <raytracerstruct.h>
+# include <raytracerstruct_bonus.h>
 # include <world.h>
 # include <ray.h>
-# include <bmpsave.h>
+# include <bmpsave_bonus.h>
 
 # define KEY_A 		0
 # define KEY_W 		13

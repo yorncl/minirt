@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads_bonus.h                                    :+:      :+:    :+:   */
+/*   raytracerstruct.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/21 14:48:44 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/29 15:43:35 by mclaudel         ###   ########.fr       */
+/*   Created: 2020/01/21 15:37:04 by mclaudel          #+#    #+#             */
+/*   Updated: 2020/01/29 15:27:36 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef THREADS_BONUS_H
-# define THREADS_BONUS_H
+#ifndef RAYTRACERSTRUCT_H
+# define RAYTRACERSTRUCT_H
 
-# include <raytracerstruct_bonus.h>
-# include <render_bonus.h>
-# include <pthread.h>
+# include <mlx.h>
+# include <world.h>
+# include <macro.h>
+# include <commonstruct.h>
 
-void		init_threads(t_minirt *rt);
-void		kill_threads(t_minirt *rt);
-void		*thread_realtime(void *arg);
-
-int			barrier_init(t_barrier *b, int num);
-int			barrier_destroy(t_barrier *b);
-int			barrier_wait(t_barrier *b);
+typedef struct	s_minirt
+{
+	void			*mlx;
+	void			*win;
+	t_image			*img;
+	int				resx;
+	int				resy;
+	unsigned int	sizex;
+	unsigned int	sizey;
+	int				keys;
+	int				realtime;
+	t_world			*world;
+}				t_minirt;
 #endif

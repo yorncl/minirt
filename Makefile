@@ -114,7 +114,7 @@ SRCS = $(VEC3_SRCS) \
 
 OBJS = $(SRCS:%.c=objs/%.o)
 
-NAME = minirt
+NAME = miniRT
 
 objs/%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)

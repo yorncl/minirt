@@ -135,9 +135,6 @@ OBJS_BONUS = $(OBJS_COMMON) $(SRCS_BONUS:%.c=objs/%.o)
 
 NAME = miniRT
 
-# $(OBJS_VANILLA) : 
-# $(OBJS_BONUS) : 
-
 all: $(NAME)  
 
 $(NAME): INCLUDES_COMP=$(INCLUDES_VANILLA)

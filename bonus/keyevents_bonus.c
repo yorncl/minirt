@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 10:53:14 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/29 13:41:44 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/21 16:11:42 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,30 @@ int		key_released(int keycode, t_minirt *rt)
 		rt->keys ^= RROLL;
 	if (keycode == KEY_E)
 		rt->keys ^= LROLL;
+	if (keycode == KEY_R)
+		toggle_realtime(rt);
 	if (keycode == 53)
 		quit_window(rt, 0);
 	return (0);
+}
+
+void	toggle_realtime(t_minirt *rt)
+{
+	rt->realtime = !rt->realtime;
+	if (!rt->realtime)
+	{
+		kill_threads(rt);
+		rt->resx = rt->sizex;
+		rt->resy = rt->sizey;
+		render_static(rt);
+	}
+	else
+	{
+		if (rt->resx * rt->resy > 150 * 150)
+		{
+			rt->resx /= 10;
+			rt->resy /= 10;
+		}
+		init_threads(rt);
+	}
 }

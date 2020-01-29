@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 23:20:22 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/25 16:55:59 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/29 13:39:56 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define RAYTRACER_H
 
 # include <mlx.h>
-# include <threads.h>
+// # include <threads.h>
 # include <render.h>
 # include <parser.h>
 # include <math.h>

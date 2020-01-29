@@ -20,9 +20,10 @@ HEADERS = headers/camera.h \
 		headers/raytracer.h \
 		headers/raytracerstruct.h \
 		headers/render.h \
-		headers/threads.h \
 		headers/vec3.h \
 		headers/world.h \
+
+HEADERS_BONUS = headers/threads.h \
 
 #minirt sources
 VEC3_SRCS = srcs/vec3/misc.c \
@@ -94,9 +95,7 @@ SRCS = $(VEC3_SRCS) \
 		srcs/camera.c \
 		srcs/cameramov.c \
 		srcs/mainutils.c \
-		srcs/barrier.c \
 		srcs/render.c \
-		srcs/threads.c \
 		srcs/main.c \
 		srcs/ray.c \
 		srcs/ray2.c \
@@ -111,6 +110,11 @@ SRCS = $(VEC3_SRCS) \
 		srcs/parsing/parser.c \
 		$(LIBFT_SRCS) \
 		$(GET_NEXT_LINE_SRCS)
+
+		
+BONUS_SRCS =	srcs/render_bonus.c \
+				srcs/threads_bonus.c \
+
 
 OBJS = $(SRCS:%.c=objs/%.o)
 

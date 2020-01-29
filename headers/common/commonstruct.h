@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commonstruc.h                                      :+:      :+:    :+:   */
+/*   commonstruct.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 15:25:10 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/29 15:26:59 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/29 17:24:14 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef RAYTRACERSTRUCT
-#  define RAYTRACERSTRUCT
+# ifndef COMMONSTRUCT_H
+#  define COMMONSTRUCT_H
 
 # include <mlx.h>
 # include <world.h>

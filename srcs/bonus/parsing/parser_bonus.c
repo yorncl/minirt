@@ -6,7 +6,7 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 13:09:56 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/29 16:20:09 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/30 13:42:50 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int		parsing_error(char *msg, int n)
 	char *str;
 
 	str = ft_itoa(n);
+	write(1, "Error\n", 6);
 	write(1, "\e[1;31m", 7);
 	write(1, msg, ft_strlen(msg));
 	if (str && n != -1)

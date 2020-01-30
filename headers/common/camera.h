@@ -6,12 +6,12 @@
 /*   By: mclaudel <mclaudel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 20:41:52 by mclaudel          #+#    #+#             */
-/*   Updated: 2020/01/18 16:55:25 by mclaudel         ###   ########.fr       */
+/*   Updated: 2020/01/30 13:32:38 by mclaudel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CAMERA_H
-# define CAMERA_H
+# define CAMERA_H 
 
 # include <vec3.h>
 # include <libft.h>

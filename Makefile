@@ -5,28 +5,36 @@ CFLAGS = -Wall -Werror -Wextra
 INCLUDES_WIN_WSL = -L/usr/local/lib -lmlx -lm -lXext -lX11 -lpthread -lxcb -lXau -lXdmcp -lbsd
 INCLUDES_MAC = -lmlx -framework OpenGL -framework AppKit
 
+
+#minirt headers
+HEADERS_COMMON =	headers/common/camera.h \
+					headers/common/color.h \
+					headers/common/commonstruct.h \
+					headers/common/light.h \
+					headers/common/macro.h \
+					headers/common/material.h \
+					headers/common/objs.h \
+					headers/common/ray.h \
+					headers/common/vec3.h \
+					headers/common/world.h
+HEADERS_BONUS =		$(HEADERS_COMMON) \
+					headers/bonus/bmpsave_bonus.h \
+					headers/bonus/parser_bonus.h \
+					headers/bonus/raytracer_bonus.h \
+					headers/bonus/raytracerstruct_bonus.h \
+					headers/bonus/render_bonus.h \
+					headers/bonus/threads_bonus.h
+HEADERS_VANILLA =	$(HEADERS_COMMON) \
+					headers/vanilla/bmpsave.h \
+					headers/vanilla/parser.h \
+					headers/vanilla/raytracer.h \
+					headers/vanilla/raytracerstruct.h \
+					headers/vanilla/render.h
+
 INCLUDES_COMMON = -I./headers/common -I./libft -I./get_next_line
 INCLUDES_VANILLA = $(INCLUDES_COMMON) -I./headers/vanilla
 INCLUDES_BONUS = $(INCLUDES_COMMON) -I./headers/bonus
 
-#minirt headers
-# HEADERS = headers/camera.h \
-# 		headers/color.h \
-# 		headers/bmpsave.h \
-# 		headers/light.h \
-# 		headers/macro.h \
-# 		headers/material.h \
-# 		headers/objs.h \
-# 		headers/parser.h \
-# 		headers/ray.h \
-# 		headers/raytracer.h \
-# 		headers/raytracerstruct.h \
-# 		headers/render.h \
-# 		headers/vec3.h \
-# 		headers/world.h \
-
-# HEADERS_BONUS = headers/threads.h \
-# HEADERS_VANILLA = headers/threads.h \
 
 #minirt sources
 VEC3_SRCS = srcs/common/vec3/misc.c \
@@ -138,11 +146,11 @@ NAME = miniRT
 all: $(NAME)  
 
 $(NAME): INCLUDES_COMP=$(INCLUDES_VANILLA)
-$(NAME): $(OBJS_VANILLA) 
+$(NAME): $(OBJS_VANILLA) $(HEADERS_VANILLA) 
 	$(CC) $(CFLAGS) -O3 $(OBJS_VANILLA) $(INCLUDES_VANILLA) $(INCLUDES_MAC) -o $(NAME)
 
 bonus: INCLUDES_COMP=$(INCLUDES_BONUS)
-bonus: $(OBJS_BONUS)
+bonus: $(OBJS_BONUS) $(HEADERS_BONUS)
 	$(CC) $(CFLAGS) -O3 $(OBJS_BONUS) $(INCLUDES_BONUS) $(INCLUDES_MAC) -o $(NAME)
 
 clean:
